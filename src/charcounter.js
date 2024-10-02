@@ -1,8 +1,16 @@
-// evaluar la cadena
-// contar los caracteres y la cantidad de veces que aparecen
-// retorna numero total de caracteres y la tabla de objetos con apariciones
-//
-//
+const stringChecker = (text) => {
+    if (typeof text !== 'string') throw new Error('Input must be a string');
+
+    // evaluar la cadena
+    // contar los caracteres y la cantidad de veces que aparecen
+    // retorna numero total de caracteres y la tabla de objetos con apariciones
+    //
+
+    return true;
+};
+
+export { stringChecker };
+
 // evalua si vale la pena comprimir o simplemente pasar el txt a bytes
 // si log2(caracteresPresentes) + (caracteresPresentes * 8) < (caracteresTotales * 8)
 // retorna true | false

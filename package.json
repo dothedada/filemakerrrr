@@ -1,6 +1,21 @@
 {
-  "devDependencies": {
-    "@biomejs/biome": "1.9.3",
-    "vitest": "^2.1.1"
-  }
+    "type": "module",
+    "name": "filemakerrrr",
+    "version": "1.0.0",
+    "description": "Simple and straight forrward to compress and makes files from string in JS",
+    "main": "index.js",
+    "scripts": {
+        "test": "vitest watch"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.9.3",
+        "vitest": "^2.1.1"
+    },
+    "keywords": [
+        "js",
+        "compress",
+        "file"
+    ],
+    "author": "Miguel Mejía",
+    "license": "MIT"
 }
