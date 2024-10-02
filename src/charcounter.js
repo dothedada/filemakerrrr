@@ -1,12 +1,18 @@
 const stringChecker = (text) => {
     if (typeof text !== 'string') throw new Error('Input must be a string');
 
-    // evaluar la cadena
-    // contar los caracteres y la cantidad de veces que aparecen
-    // retorna numero total de caracteres y la tabla de objetos con apariciones
-    //
+    const stringLength = text.length;
+    const charactersUsed = new Map();
 
-    return true;
+    for (const char of text) {
+        charactersUsed.set(char, (charactersUsed.get(char) || 0) + 1);
+    }
+
+    return {
+        stringLength,
+        charactersUsed,
+        charactersUsedLength: charactersUsed.size,
+    };
 };
 
 export { stringChecker };
@@ -25,7 +31,7 @@ export { stringChecker };
 //      valor 2: toma el siguiente menor valor,
 //      crea valor 3: { valor compuesto: valor 1 + valor 2, izquierda: valor 1, derecha: valor 2 }
 //      ingresa el valor 3 al minHeap
-//    si la tabla solo tiene un valor
+//    si la tabla solo tiene un valo
 //      exporta el árbol
 //
 //
