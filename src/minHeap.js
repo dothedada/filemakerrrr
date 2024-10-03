@@ -18,14 +18,14 @@ class Heap {
         const leaf = { character: key, count: map.get(key) };
 
         this.characters[this.size] = leaf;
+        this.#heapifyUp(this.size);
         this.size++;
-        this.#heapifyUp();
 
         return leaf;
     }
 
     get peek() {
-        if (!this.characters.length) {
+        if (!this.size) {
             return null;
         }
 
@@ -33,14 +33,38 @@ class Heap {
     }
 
     pop() {
-        // return keyValue
+        if (!this.size) {
+            return null;
+        }
+
+        this.size--;
+
+        const topOfTheHeap = this.characters[0];
+        this.characters[0] = this.characters[this.size];
+
+        this.characters.length = this.size;
+
+        return topOfTheHeap;
     }
 
     #heapifyDown(index) {
         //
     }
+
     #heapifyUp(index) {
         //
+    }
+
+    #parent(index) {
+        return Math.ceil((index - 1) / 2);
+    }
+
+    #childLeft(index) {
+        return index * 2 + 1;
+    }
+
+    #childRight(index) {
+        return index * 2 + 2;
     }
 }
 

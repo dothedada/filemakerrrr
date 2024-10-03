@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Heap } from '../minHeap';
 
 let heap;
@@ -115,15 +115,47 @@ describe('Heap methods: pop', () => {
     it('has a method called pop', () => {
         expect('pop' in heap).toBe(true);
     });
-});
-it('removes the top of the heap and return it', () => {
-    heap.push(charactersMap, 'a');
-    heap.push(charactersMap, 'b');
-    heap.push(charactersMap, 'c');
-    heap.push(charactersMap, 'd');
-    expect(heap.pop()).toStrictEqual({
-        character: 'a',
-        count: 1,
+
+    it('returns the top of the heap', () => {
+        heap.push(charactersMap, 'a');
+        heap.push(charactersMap, 'b');
+        heap.push(charactersMap, 'c');
+        heap.push(charactersMap, 'd');
+        expect(heap.pop()).toStrictEqual({
+            character: 'a',
+            count: 1,
+        });
+    });
+
+    it('decrease the size of the heap every time it is invoked', () => {
+        heap.push(charactersMap, 'a');
+        heap.push(charactersMap, 'b');
+
+        expect(heap.size).toBe(2);
+        heap.pop();
+        expect(heap.size).toBe(1);
+        heap.pop();
+        expect(heap.size).toBe(0);
+    });
+
+    it('return null if the heap is empty', () => {
+        expect(heap.pop()).toBeNull();
+    });
+
+    it('removes the top element of the heap', () => {
+        heap.push(charactersMap, 'a');
+        heap.push(charactersMap, 'b');
+        heap.push(charactersMap, 'c');
+        heap.push(charactersMap, 'd');
+
+        let heapTop = heap.pop();
+        expect(heapTop !== heap.characters[0]).toBe(true);
+        heapTop = heap.pop();
+        expect(heapTop !== heap.characters[0]).toBe(true);
+        heapTop = heap.pop();
+        expect(heapTop !== heap.characters[0]).toBe(true);
+        heapTop = heap.pop();
+        expect(heapTop !== heap.characters[0]).toBe(true);
     });
 });
 
