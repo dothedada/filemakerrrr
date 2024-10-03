@@ -1,20 +1,20 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Heap } from '../minHeap';
 
-describe('Data in', () => {
-    let heap;
-    beforeEach(() => {
-        heap = new Heap();
-    });
+let heap;
+const charactersMap = new Map([
+    ['a', 1],
+    ['b', 5],
+    ['c', 3],
+    ['d', 2],
+]);
 
-    const charactersMap = new Map([
-        ['a', 1],
-        ['b', 5],
-        ['c', 3],
-        ['d', 2],
-    ]);
+beforeEach(() => {
+    heap = new Heap();
+});
 
-    it('is instanseable', () => {
+describe('Heap basic structure', () => {
+    it('is an instance of Heap', () => {
         expect(heap instanceof Heap).toBe(true);
     });
 
@@ -23,9 +23,17 @@ describe('Data in', () => {
         expect(Array.isArray(heap.characters)).toBe(true);
     });
 
-    it('starts with a size of 0', () => {});
+    it('starts with a size of 0', () => {
+        expect(heap.size).toBe(0);
+    });
+});
 
-    it('has a method called push that only accepts a map and a key', () => {
+describe('Heap methods: push', () => {
+    it('has a mehod called push', () => {
+        expect('push' in heap).toBe(true);
+    });
+
+    it('only accepts as parameters a map and a key', () => {
         expect(() => heap.push()).toThrowError('Provide all parameters!');
         expect(() => heap.push('not a map', 'a')).toThrowError(
             'The first parameter must be a map!',
@@ -45,7 +53,7 @@ describe('Data in', () => {
         expect(heap.size).toBe(4);
     });
 
-    it('insert in characters array and returns an object {character, count} eachtime push is invoked', () => {
+    it('transforms the parameters to an object, adds it to the end of the heap and returns it', () => {
         expect(heap.size).toBe(0);
         expect(heap.characters.length).toBe(0);
 
@@ -66,10 +74,18 @@ describe('Data in', () => {
             count: 1,
         });
     });
+});
 
-    it('has the method peek, to show what is on the top of the heap', () => {
+describe('Heap methods: peek', () => {
+    it('has a method called peek', () => {
+        expect('peek' in heap).toBe(true);
+    });
+
+    it('returns null if the heap is empty', () => {
         expect(heap.peek).toBeNull();
+    });
 
+    it('returns what is on the top of the heap', () => {
         heap.push(charactersMap, 'a');
         expect(heap.peek).toStrictEqual({
             character: 'a',
@@ -77,11 +93,44 @@ describe('Data in', () => {
         });
     });
 
-    // it('has a method, injectData, that only takes a map and a number', () => {
-    //     expect('injectMap' in heap).toBe(true);
-    //     expect(() => heap.injectMap()).toThrowError('Provide a parameter!');
-    //     expect(() => heap.injectMap({})).toThrowError(
-    //         'The parameter must be a Map',
-    //     );
-    // });
+    it('is a getter that does not alter anithyng on the heap', () => {
+        heap.push(charactersMap, 'a');
+        heap.push(charactersMap, 'b');
+        heap.push(charactersMap, 'c');
+        heap.push(charactersMap, 'd');
+
+        const startingHeapSize = heap.size;
+        const startingCharactes = [...heap.characters];
+
+        heap.peek;
+        heap.peek;
+        heap.peek;
+
+        expect(heap.size).toBe(startingHeapSize);
+        expect(heap.characters).toStrictEqual(startingCharactes);
+    });
 });
+
+describe('Heap methods: pop', () => {
+    it('has a method called pop', () => {
+        expect('pop' in heap).toBe(true);
+    });
+});
+it('removes the top of the heap and return it', () => {
+    heap.push(charactersMap, 'a');
+    heap.push(charactersMap, 'b');
+    heap.push(charactersMap, 'c');
+    heap.push(charactersMap, 'd');
+    expect(heap.pop()).toStrictEqual({
+        character: 'a',
+        count: 1,
+    });
+});
+
+// it('has a method, injectData, that only takes a map and a number', () => {
+//     expect('injectMap' in heap).toBe(true);
+//     expect(() => heap.injectMap()).toThrowError('Provide a parameter!');
+//     expect(() => heap.injectMap({})).toThrowError(
+//         'The parameter must be a Map',
+//     );
+// });
