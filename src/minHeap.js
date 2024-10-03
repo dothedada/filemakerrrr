@@ -48,47 +48,69 @@ class Heap {
 
         this.chars.length = this.size;
 
-        this.#heapifyDown(0);
+        this.#heapifyDown();
 
         return topOfTheHeap;
     }
 
-    #heapifyDown(index) {
-        const leftIndex = this.#childLeftIndex(index);
-        const rightIndex = this.#childRightIndex(index);
-        const thisNode = this.chars[index];
+    #heapifyDown(index = 0) {
+        const leftInd = this.#childLeftIndex(index);
+        const rightInd = this.#childRightIndex(index);
 
-        if (leftIndex >= this.size) {
-            return;
-        }
-
-        if (this.size === 2 && this.chars[1].count < thisNode.count) {
-            [this.chars[0], this.chars[1]] = [this.chars[1], thisNode];
-            return;
-        }
-
-        const nodeLeft = this.chars[leftIndex];
-        const nodeRight = this.chars[rightIndex];
+        let smallInd = index;
 
         if (
-            nodeLeft.count <= nodeRight.count &&
-            nodeLeft.count < thisNode.count
+            this.chars[leftInd] &&
+            this.chars[leftInd].count < this.chars[smallInd].count
         ) {
-            this.chars[index] = nodeLeft;
-            this.chars[leftIndex] = thisNode;
-
-            this.#heapifyDown(leftIndex);
+            smallInd = leftInd;
         }
 
         if (
-            nodeLeft.count > nodeRight.count &&
-            nodeRight.count < thisNode.count
+            this.chars[rightInd] &&
+            this.chars[rightInd].count < this.chars[smallInd].count
         ) {
-            this.chars[index] = nodeRight;
-            this.chars[rightIndex] = thisNode;
-
-            this.#heapifyDown(rightIndex);
+            smallInd = rightInd;
         }
+
+        if (smallInd !== index) {
+            const thisNode = this.chars[index];
+            const smallerNode = this.chars[smallInd];
+
+            [this.chars[index], this.chars[smallInd]] = [smallerNode, thisNode];
+            this.#heapifyDown(smallInd);
+        }
+        // if (leftIndex >= this.size) {
+        //     return;
+        // }
+        //
+        // if (this.size === 2 && this.chars[1].count < thisNode.count) {
+        //     [this.chars[0], this.chars[1]] = [this.chars[1], thisNode];
+        //     return;
+        // }
+        //
+        // const nodeLeft = this.chars[leftIndex];
+        // const nodeRight = this.chars[rightIndex];
+        //
+        // if (
+        //     nodeLeft.count <= nodeRight.count &&
+        //     nodeLeft.count < thisNode.count
+        // ) {
+        //     this.chars[index] = nodeLeft;
+        //     this.chars[leftIndex] = thisNode;
+        //
+        //     this.#heapifyDown(leftIndex);
+        // }
+        //
+        // if (
+        //     nodeLeft.count > nodeRight.count &&
+        //     nodeRight.count < thisNode.count
+        // ) {
+        //     this.chars[index] = nodeRight;
+        //     this.chars[rightIndex] = thisNode;
+        //
+        //     this.#heapifyDown(rightIndex);
+        // }
     }
 
     #heapifyUp(index) {
