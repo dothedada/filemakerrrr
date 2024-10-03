@@ -38,9 +38,13 @@ class Heap {
         }
 
         this.size--;
-
         const topOfTheHeap = this.characters[0];
-        this.characters[0] = this.characters[this.size];
+
+        if (!this.size) {
+            this.characters = [];
+        } else {
+            this.characters[0] = this.characters[this.size];
+        }
 
         this.characters.length = this.size;
 
@@ -48,11 +52,27 @@ class Heap {
     }
 
     #heapifyDown(index) {
-        //
+        const childLeftIndex = this.#childLeft(index);
+        const chilfRightIndex = this.#childLeft(index);
+
+        const thisNode = this.characters[index];
     }
 
     #heapifyUp(index) {
-        //
+        if (index === 0) {
+            return;
+        }
+
+        const thisParentIndex = this.#parent(index);
+        const thisNode = this.characters[index];
+        const thisNodeParent = this.characters[thisParentIndex];
+
+        if (thisNode.count < thisNodeParent.count) {
+            this.characters[thisParentIndex] = thisNode;
+            this.characters[index] = thisNodeParent;
+
+            this.#heapifyUp(thisParentIndex);
+        }
     }
 
     #parent(index) {

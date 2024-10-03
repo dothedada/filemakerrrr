@@ -7,6 +7,10 @@ const charactersMap = new Map([
     ['b', 5],
     ['c', 3],
     ['d', 2],
+    ['e', 4],
+    ['f', 3],
+    ['g', 4],
+    ['h', 3],
 ]);
 
 beforeEach(() => {
@@ -57,7 +61,10 @@ describe('Heap methods: push', () => {
         expect(heap.size).toBe(0);
         expect(heap.characters.length).toBe(0);
 
-        heap.push(charactersMap, 'a');
+        expect(heap.push(charactersMap, 'a')).toStrictEqual({
+            character: 'a',
+            count: 1,
+        });
         expect(heap.size).toBe(1);
         expect(heap.characters.length).toBe(1);
 
@@ -159,10 +166,40 @@ describe('Heap methods: pop', () => {
     });
 });
 
-// it('has a method, injectData, that only takes a map and a number', () => {
-//     expect('injectMap' in heap).toBe(true);
-//     expect(() => heap.injectMap()).toThrowError('Provide a parameter!');
-//     expect(() => heap.injectMap({})).toThrowError(
-//         'The parameter must be a Map',
-//     );
-// });
+describe('Behavior of the heap', () => {
+    it('keeps the object with the lowest count on top when pushing', () => {
+        heap.push(charactersMap, 'b');
+        heap.push(charactersMap, 'c');
+        heap.push(charactersMap, 'h');
+        expect(heap.peek).toStrictEqual({
+            character: 'c',
+            count: 3,
+        });
+
+        heap.push(charactersMap, 'd');
+        heap.push(charactersMap, 'e');
+        heap.push(charactersMap, 'f');
+        expect(heap.peek).toStrictEqual({
+            character: 'd',
+            count: 2,
+        });
+    });
+
+    // ['a', 1],
+    // ['b', 5],
+    // ['c', 3],
+    // ['d', 2],
+    // ['e', 4],
+    // ['f', 3],
+    // ['g', 4],
+    // ['h', 3],
+    it('keeps the object with the lowest count on top when poping', () => {
+        heap.push(charactersMap, 'a');
+        heap.push(charactersMap, 'b');
+        heap.push(charactersMap, 'c');
+        heap.push(charactersMap, 'd');
+        heap.push(charactersMap, 'e');
+        heap.push(charactersMap, 'f');
+        heap.push(charactersMap, 'g');
+    });
+});
