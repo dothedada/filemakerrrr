@@ -23,8 +23,8 @@ describe('Heap basic structure', () => {
     });
 
     it('stores the characters in a Array', () => {
-        expect('characters' in heap).toBe(true);
-        expect(Array.isArray(heap.characters)).toBe(true);
+        expect('chars' in heap).toBe(true);
+        expect(Array.isArray(heap.chars)).toBe(true);
     });
 
     it('starts with a size of 0', () => {
@@ -59,14 +59,14 @@ describe('Heap methods: push', () => {
 
     it('transforms the parameters to an object, adds it to the end of the heap and returns it', () => {
         expect(heap.size).toBe(0);
-        expect(heap.characters.length).toBe(0);
+        expect(heap.chars.length).toBe(0);
 
         expect(heap.push(charactersMap, 'a')).toStrictEqual({
             character: 'a',
             count: 1,
         });
         expect(heap.size).toBe(1);
-        expect(heap.characters.length).toBe(1);
+        expect(heap.chars.length).toBe(1);
 
         expect(heap.push(charactersMap, 'b')).toStrictEqual({
             character: 'b',
@@ -74,9 +74,9 @@ describe('Heap methods: push', () => {
         });
 
         expect(heap.size).toBe(2);
-        expect(heap.characters.length).toBe(2);
+        expect(heap.chars.length).toBe(2);
 
-        expect(heap.characters[0]).toStrictEqual({
+        expect(heap.chars[0]).toStrictEqual({
             character: 'a',
             count: 1,
         });
@@ -107,14 +107,14 @@ describe('Heap methods: peek', () => {
         heap.push(charactersMap, 'd');
 
         const startingHeapSize = heap.size;
-        const startingCharactes = [...heap.characters];
+        const startingCharactes = [...heap.chars];
 
         heap.peek;
         heap.peek;
         heap.peek;
 
         expect(heap.size).toBe(startingHeapSize);
-        expect(heap.characters).toStrictEqual(startingCharactes);
+        expect(heap.chars).toStrictEqual(startingCharactes);
     });
 });
 
@@ -156,13 +156,13 @@ describe('Heap methods: pop', () => {
         heap.push(charactersMap, 'd');
 
         let heapTop = heap.pop();
-        expect(heapTop !== heap.characters[0]).toBe(true);
+        expect(heapTop !== heap.chars[0]).toBe(true);
         heapTop = heap.pop();
-        expect(heapTop !== heap.characters[0]).toBe(true);
+        expect(heapTop !== heap.chars[0]).toBe(true);
         heapTop = heap.pop();
-        expect(heapTop !== heap.characters[0]).toBe(true);
+        expect(heapTop !== heap.chars[0]).toBe(true);
         heapTop = heap.pop();
-        expect(heapTop !== heap.characters[0]).toBe(true);
+        expect(heapTop !== heap.chars[0]).toBe(true);
     });
 });
 
@@ -201,5 +201,26 @@ describe('Behavior of the heap', () => {
         heap.push(charactersMap, 'e');
         heap.push(charactersMap, 'f');
         heap.push(charactersMap, 'g');
+        heap.push(charactersMap, 'h');
+
+        expect(heap.chars[0]).toStrictEqual({ character: 'a', count: 1 });
+        console.log(heap.chars);
+        heap.pop();
+        console.log(heap.chars);
+        expect(heap.chars[0]).toStrictEqual({ character: 'd', count: 2 });
+        heap.pop();
+        console.log(heap.chars);
+        heap.pop();
+        console.log(heap.chars);
+        heap.pop();
+        expect(heap.chars[0].count).toBe(3);
+        console.log(heap.chars);
+        heap.pop();
+        expect(heap.chars[0].count).toBe(4);
+        console.log(heap.chars);
+        heap.pop();
+        console.log(heap.chars, heap.size);
+        expect(heap.chars[0].count).toBe(4);
+        console.log(heap.chars);
     });
 });

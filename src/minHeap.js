@@ -1,6 +1,6 @@
 class Heap {
     constructor() {
-        this.characters = [];
+        this.chars = [];
         this.size = 0;
     }
 
@@ -17,7 +17,7 @@ class Heap {
 
         const leaf = { character: key, count: map.get(key) };
 
-        this.characters[this.size] = leaf;
+        this.chars[this.size] = leaf;
         this.#heapifyUp(this.size);
         this.size++;
 
@@ -29,7 +29,7 @@ class Heap {
             return null;
         }
 
-        return this.characters[0];
+        return this.chars[0];
     }
 
     pop() {
@@ -38,24 +38,57 @@ class Heap {
         }
 
         this.size--;
-        const topOfTheHeap = this.characters[0];
+        const topOfTheHeap = this.chars[0];
 
         if (!this.size) {
-            this.characters = [];
+            this.chars = [];
         } else {
-            this.characters[0] = this.characters[this.size];
+            this.chars[0] = this.chars[this.size];
         }
 
-        this.characters.length = this.size;
+        this.chars.length = this.size;
+
+        this.#heapifyDown(0);
 
         return topOfTheHeap;
     }
 
     #heapifyDown(index) {
-        const childLeftIndex = this.#childLeft(index);
-        const chilfRightIndex = this.#childLeft(index);
+        const leftIndex = this.#childLeftIndex(index);
+        const rightIndex = this.#childRightIndex(index);
+        const thisNode = this.chars[index];
 
-        const thisNode = this.characters[index];
+        if (leftIndex >= this.size) {
+            return;
+        }
+
+        if (this.size === 2 && this.chars[1].count < thisNode.count) {
+            [this.chars[0], this.chars[1]] = [this.chars[1], thisNode];
+            return;
+        }
+
+        const nodeLeft = this.chars[leftIndex];
+        const nodeRight = this.chars[rightIndex];
+
+        if (
+            nodeLeft.count <= nodeRight.count &&
+            nodeLeft.count < thisNode.count
+        ) {
+            this.chars[index] = nodeLeft;
+            this.chars[leftIndex] = thisNode;
+
+            this.#heapifyDown(leftIndex);
+        }
+
+        if (
+            nodeLeft.count > nodeRight.count &&
+            nodeRight.count < thisNode.count
+        ) {
+            this.chars[index] = nodeRight;
+            this.chars[rightIndex] = thisNode;
+
+            this.#heapifyDown(rightIndex);
+        }
     }
 
     #heapifyUp(index) {
@@ -64,12 +97,12 @@ class Heap {
         }
 
         const thisParentIndex = this.#parent(index);
-        const thisNode = this.characters[index];
-        const thisNodeParent = this.characters[thisParentIndex];
+        const thisNode = this.chars[index];
+        const thisNodeParent = this.chars[thisParentIndex];
 
         if (thisNode.count < thisNodeParent.count) {
-            this.characters[thisParentIndex] = thisNode;
-            this.characters[index] = thisNodeParent;
+            this.chars[thisParentIndex] = thisNode;
+            this.chars[index] = thisNodeParent;
 
             this.#heapifyUp(thisParentIndex);
         }
@@ -79,26 +112,13 @@ class Heap {
         return Math.ceil((index - 1) / 2);
     }
 
-    #childLeft(index) {
+    #childLeftIndex(index) {
         return index * 2 + 1;
     }
 
-    #childRight(index) {
+    #childRightIndex(index) {
         return index * 2 + 2;
     }
 }
 
 export { Heap };
-// injectMap(charactersMap = undefined) {
-//     if (!charactersMap) {
-//         throw new Error('Provide a parameter!');
-//     }
-//     if (!(charactersMap instanceof Map)) {
-//         throw new Error('The parameter must be a Map');
-//     }
-//
-//     charactersMap.forEach(this.push);
-//
-//     return this;
-// }
-// crea el minHeap
