@@ -1,24 +1,27 @@
+import { errorLib } from './errorLibrary';
+
 const nodeFactory = (data, key = undefined) => {
     if (!data) {
-        throw new Error('Must provide a parameter!');
-    }
-    if (!(data instanceof Map) && typeof data !== 'object') {
-        throw new Error('the first parameter must be a Map or an object');
+        errorLib.parameterIsMissing();
     }
     if (data instanceof Map) {
-        if (!key) {
-            throw new Error('If data is a Map, the key must be provided');
+        if (!key || !data.has(key)) {
+            errorLib.keyInMapNotFound();
         }
-        if (!data.has(key)) {
-            throw new Error('Key not found in map');
-        }
-
         return { character: key, count: data.get(key) };
     }
     if (typeof data === 'object') {
         if (!('count' in data)) {
-            throw new Error('The object must contain the key "count"');
+            errorLib.keyNotfound('count');
         }
+        if (typeof data.count !== 'number') {
+            errorLib.dataExpected('number', data.count);
+        }
+
+        return data;
+    }
+    if (!(data instanceof Map) && typeof data !== 'object') {
+        errorLib.dataExpected('Map | Object', data);
     }
 };
 

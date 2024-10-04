@@ -7,7 +7,9 @@ describe('stringChecker only accept strings', () => {
     });
 
     it('throws error if something different of string is pass as parameter', () => {
-        expect(() => stringChecker(123)).toThrowError('Input must be a string');
+        expect(() => stringChecker(123)).toThrowError(
+            `Expected <string>, instead received <${typeof 123}>`,
+        );
     });
 });
 

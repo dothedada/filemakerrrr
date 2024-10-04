@@ -1,5 +1,7 @@
+import { errorLib } from './errorLibrary';
+
 const stringChecker = (text) => {
-    if (typeof text !== 'string') throw new Error('Input must be a string');
+    if (typeof text !== 'string') errorLib.dataExpected('string', text);
 
     const stringLength = text.length;
     const charactersUsed = new Map();
@@ -17,6 +19,12 @@ const stringChecker = (text) => {
 
 export { stringChecker };
 
+// evalua si vale la pena comprimir o simplemente pasar el txt a bytes
+// si log2(caracteresPresentes) + (caracteresPresentes * 8) < (caracteresTotales * 8)
+// retorna true | false
+//
+// creacion del minheap
+//
 // crear el árbol de huffman
 // ingresa valores a un minHeap
 // comprueba extensión de la tabla,
