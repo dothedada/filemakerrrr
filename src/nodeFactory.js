@@ -1,14 +1,17 @@
 import { errorLib } from './errorLibrary';
+const pato = new Map();
 
-const nodeFactory = (data, key = undefined) => {
+// TODO: Adaptar configuracion para extraer adecuadamente los elementos del map
+const nodeFactory = (data) => {
     if (!data) {
         errorLib.parameterIsMissing();
     }
-    if (data instanceof Map) {
-        if (!key || !data.has(key)) {
-            errorLib.keyInMapNotFound();
+    if (Array.isArray(data)) {
+        if (data.length < 2) {
+            errorLib.arrayLength(2);
         }
-        return { character: key, count: data.get(key) };
+        const [character, count] = data;
+        return { character, count };
     }
     if (typeof data === 'object') {
         if (!('count' in data)) {
@@ -20,9 +23,8 @@ const nodeFactory = (data, key = undefined) => {
 
         return data;
     }
-    if (!(data instanceof Map) && typeof data !== 'object') {
-        errorLib.dataExpected('Map | Object', data);
-    }
+
+    errorLib.dataExpected('Array [key,value] | Object', data);
 };
 
 export { nodeFactory };

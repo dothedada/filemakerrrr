@@ -5,6 +5,9 @@ const errorLib = {
     keyNotfound: (key) => {
         throw new Error(`The object must contain the key <${key}>`);
     },
+    arrayLength: (arrayLength) => {
+        throw new Error(`The Array must have a length of ${arrayLength}`);
+    },
     keyInMapNotFound: () => {
         throw new Error('the key provided is not in the map');
     },

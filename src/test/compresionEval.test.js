@@ -53,14 +53,9 @@ describe('Funcionality of comrpessionEval', () => {
         const forecast5 = compressionForecast(string5, chars5);
 
         expect(forecast1.should).toBe(true);
-        console.log(forecast1.rate);
         expect(forecast2.should).toBe(true);
-        console.log(forecast2.rate);
         expect(forecast3.should).toBe(false);
-        console.log(forecast3.rate);
         expect(forecast4.should).toBe(false);
-        console.log(forecast4.rate);
-        console.log(forecast5.rate);
         expect(forecast5.should).toBe(true);
     });
 });

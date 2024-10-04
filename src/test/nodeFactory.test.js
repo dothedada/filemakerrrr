@@ -6,16 +6,16 @@ describe('NodeFactory behaviour', () => {
         expect(() => nodeFactory()).toThrowError('A parameter is missing!');
     });
 
-    it('throws errer when data is a map and a the key is not passed or doesnt exist in the map', () => {
-        const newData = new Map([['a', 1]]);
+    it('thorws error when the length of the array is less than two', () => {
+        const newData = ['a'];
         expect(() => nodeFactory(newData)).toThrowError(
-            'the key provided is not in the map',
+            `The Array must have a length of 2`,
         );
     });
 
     it('Throws error when data is neither a Map or an object', () => {
         expect(() => nodeFactory('newData', 'z')).toThrowError(
-            `Expected <Map | Object>, instead received <${typeof 'newData'}>`,
+            `Expected <Array [key,value] | Object>, instead received <${typeof 'newData'}>`,
         );
     });
 

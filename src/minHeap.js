@@ -16,14 +16,6 @@ class Heap {
         return node;
     }
 
-    get peek() {
-        if (!this.size) {
-            return null;
-        }
-
-        return this.chars[0];
-    }
-
     pop() {
         if (!this.size) {
             return null;

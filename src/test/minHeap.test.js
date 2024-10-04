@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Heap } from '../minHeap';
 
 let heap;
+let mapIterator;
 const charactersMap = new Map([
     ['a', 1],
     ['b', 5],
@@ -15,6 +16,7 @@ const charactersMap = new Map([
 
 beforeEach(() => {
     heap = new Heap();
+    mapIterator = charactersMap.entries();
 });
 
 describe('Heap basic structure', () => {
@@ -27,7 +29,6 @@ describe('Heap basic structure', () => {
         expect(heap.size).toBe(0);
     });
 });
-
 describe('Heap methods: push', () => {
     it('has a mehod called push', () => {
         expect('push' in heap).toBe(true);
@@ -35,11 +36,11 @@ describe('Heap methods: push', () => {
 
     it('adds 1 to the size each time push is invoked', () => {
         expect(heap.size).toBe(0);
-        heap.push(charactersMap, 'a');
+        heap.push(mapIterator.next().value);
         expect(heap.size).toBe(1);
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'a');
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
         expect(heap.size).toBe(4);
     });
 
@@ -47,14 +48,14 @@ describe('Heap methods: push', () => {
         expect(heap.size).toBe(0);
         expect(heap.chars.length).toBe(0);
 
-        expect(heap.push(charactersMap, 'a')).toStrictEqual({
+        expect(heap.push(mapIterator.next().value)).toStrictEqual({
             character: 'a',
             count: 1,
         });
         expect(heap.size).toBe(1);
         expect(heap.chars.length).toBe(1);
 
-        expect(heap.push(charactersMap, 'b')).toStrictEqual({
+        expect(heap.push(mapIterator.next().value)).toStrictEqual({
             character: 'b',
             count: 5,
         });
@@ -69,51 +70,16 @@ describe('Heap methods: push', () => {
     });
 });
 
-describe('Heap methods: peek', () => {
-    it('has a method called peek', () => {
-        expect('peek' in heap).toBe(true);
-    });
-
-    it('returns null if the heap is empty', () => {
-        expect(heap.peek).toBeNull();
-    });
-
-    it('returns what is on the top of the heap', () => {
-        heap.push(charactersMap, 'a');
-        expect(heap.peek).toStrictEqual({
-            character: 'a',
-            count: 1,
-        });
-    });
-
-    it('is a getter that does not alter anithyng on the heap', () => {
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'b');
-        heap.push(charactersMap, 'c');
-        heap.push(charactersMap, 'd');
-
-        const startingHeapSize = heap.size;
-        const startingCharactes = [...heap.chars];
-
-        heap.peek;
-        heap.peek;
-        heap.peek;
-
-        expect(heap.size).toBe(startingHeapSize);
-        expect(heap.chars).toStrictEqual(startingCharactes);
-    });
-});
-
 describe('Heap methods: pop', () => {
     it('has a method called pop', () => {
         expect('pop' in heap).toBe(true);
     });
 
     it('returns the top of the heap', () => {
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'b');
-        heap.push(charactersMap, 'c');
-        heap.push(charactersMap, 'd');
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
         expect(heap.pop()).toStrictEqual({
             character: 'a',
             count: 1,
@@ -121,8 +87,8 @@ describe('Heap methods: pop', () => {
     });
 
     it('decrease the size of the heap every time it is invoked', () => {
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'b');
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
 
         expect(heap.size).toBe(2);
         heap.pop();
@@ -136,10 +102,10 @@ describe('Heap methods: pop', () => {
     });
 
     it('removes the top element of the heap', () => {
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'b');
-        heap.push(charactersMap, 'c');
-        heap.push(charactersMap, 'd');
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
 
         let heapTop = heap.pop();
         expect(heapTop !== heap.chars[0]).toBe(true);
@@ -154,20 +120,20 @@ describe('Heap methods: pop', () => {
 
 describe('Behavior of the heap', () => {
     it('keeps the object with the lowest count on top when pushing', () => {
-        heap.push(charactersMap, 'b');
-        heap.push(charactersMap, 'c');
-        heap.push(charactersMap, 'h');
-        expect(heap.peek).toStrictEqual({
-            character: 'c',
-            count: 3,
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        expect(heap.chars[0]).toStrictEqual({
+            character: 'a',
+            count: 1,
         });
 
-        heap.push(charactersMap, 'd');
-        heap.push(charactersMap, 'e');
-        heap.push(charactersMap, 'f');
-        expect(heap.peek).toStrictEqual({
-            character: 'd',
-            count: 2,
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        expect(heap.chars[0]).toStrictEqual({
+            character: 'a',
+            count: 1,
         });
     });
 
@@ -180,14 +146,14 @@ describe('Behavior of the heap', () => {
     // ['g', 4],
     // ['h', 3],
     it('keeps the object with the lowest count on top when poping', () => {
-        heap.push(charactersMap, 'a');
-        heap.push(charactersMap, 'b');
-        heap.push(charactersMap, 'c');
-        heap.push(charactersMap, 'd');
-        heap.push(charactersMap, 'e');
-        heap.push(charactersMap, 'f');
-        heap.push(charactersMap, 'g');
-        heap.push(charactersMap, 'h');
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
+        heap.push(mapIterator.next().value);
 
         expect(heap.chars[0]).toStrictEqual({ character: 'a', count: 1 });
         heap.pop();

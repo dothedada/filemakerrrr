@@ -19,18 +19,6 @@ const stringChecker = (text) => {
 
 export { stringChecker };
 
-// crear el árbol de huffman
-// ingresa valores a un minHeap
-// comprueba extensión de la tabla,
-//    si la tabla tiene más de dos valores
-//      valor 1: toma el menor valor,
-//      valor 2: toma el siguiente menor valor,
-//      crea valor 3: { valor compuesto: valor 1 + valor 2, izquierda: valor 1, derecha: valor 2 }
-//      ingresa el valor 3 al minHeap
-//    si la tabla solo tiene un valo
-//      exporta el árbol
-//
-//
 // crea la tabla de decodificación
 // decofificacion= [{caracter: binario}, {...}]
 // funcion parseoNodos (nodo, valor acumulado)
@@ -43,5 +31,6 @@ export { stringChecker };
 //      si tiene hijo a la derecha, parseoNodos (nodo.derecha, "1")
 // retorna decodificacion
 //
+// remplaza cadena por binarios y tabla de decodificacion
 //
 // toma la info, la pasa a binario y la exporta
