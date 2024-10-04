@@ -3,7 +3,7 @@ import { nodeFactory } from '../nodeFactory';
 
 describe('NodeFactory behaviour', () => {
     it('returns error if no parameters are passed', () => {
-        expect(() => nodeFactory()).toThrowError('Must provide a parameter!');
+        expect(() => nodeFactory()).toThrowError('A parameter is missing!');
     });
 
     it('throws errer when data is a map and a the key is not passed or doesnt exist in the map', () => {

@@ -19,12 +19,6 @@ const stringChecker = (text) => {
 
 export { stringChecker };
 
-// evalua si vale la pena comprimir o simplemente pasar el txt a bytes
-// si log2(caracteresPresentes) + (caracteresPresentes * 8) < (caracteresTotales * 8)
-// retorna true | false
-//
-// creacion del minheap
-//
 // crear el árbol de huffman
 // ingresa valores a un minHeap
 // comprueba extensión de la tabla,
