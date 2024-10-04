@@ -6,8 +6,8 @@ class Heap {
         this.size = 0;
     }
 
-    push(data, key) {
-        const node = nodeFactory(data, key);
+    push(data) {
+        const node = nodeFactory(data);
 
         this.chars[this.size] = node;
         this.#heapifyUp(this.size);
