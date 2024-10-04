@@ -18,10 +18,6 @@ beforeEach(() => {
 });
 
 describe('Heap basic structure', () => {
-    it('is an instance of Heap', () => {
-        expect(heap instanceof Heap).toBe(true);
-    });
-
     it('stores the characters in a Array', () => {
         expect('chars' in heap).toBe(true);
         expect(Array.isArray(heap.chars)).toBe(true);
@@ -35,16 +31,6 @@ describe('Heap basic structure', () => {
 describe('Heap methods: push', () => {
     it('has a mehod called push', () => {
         expect('push' in heap).toBe(true);
-    });
-
-    it('only accepts as parameters a map and a key', () => {
-        expect(() => heap.push()).toThrowError('Provide all parameters!');
-        expect(() => heap.push('not a map', 'a')).toThrowError(
-            'The first parameter must be a map!',
-        );
-        expect(() => heap.push(charactersMap, 'x')).toThrowError(
-            'Key not found in map',
-        );
     });
 
     it('adds 1 to the size each time push is invoked', () => {
@@ -204,23 +190,15 @@ describe('Behavior of the heap', () => {
         heap.push(charactersMap, 'h');
 
         expect(heap.chars[0]).toStrictEqual({ character: 'a', count: 1 });
-        console.log(heap.chars);
         heap.pop();
-        console.log(heap.chars);
         expect(heap.chars[0]).toStrictEqual({ character: 'd', count: 2 });
         heap.pop();
-        console.log(heap.chars);
         heap.pop();
-        console.log(heap.chars);
         heap.pop();
         expect(heap.chars[0].count).toBe(3);
-        console.log(heap.chars);
         heap.pop();
         expect(heap.chars[0].count).toBe(4);
-        console.log(heap.chars);
         heap.pop();
-        console.log(heap.chars, heap.size);
         expect(heap.chars[0].count).toBe(4);
-        console.log(heap.chars);
     });
 });
