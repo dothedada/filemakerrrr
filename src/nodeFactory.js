@@ -1,7 +1,5 @@
 import { errorLib } from './errorLibrary';
-const pato = new Map();
 
-// TODO: Adaptar configuracion para extraer adecuadamente los elementos del map
 const nodeFactory = (data) => {
     if (!data) {
         errorLib.parameterIsMissing();

@@ -20,7 +20,7 @@ const treeMaker = (heap) => {
         const newNode = {
             count: firstNode.count + secondNodeCount,
             left: firstNode,
-            righ: secondNode,
+            right: secondNode,
         };
 
         allNodesParsed = heap.size === 0;

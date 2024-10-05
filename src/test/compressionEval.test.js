@@ -1,16 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { compressionForecast } from '../compresionEval';
+import { compressionForecast } from '../compressionEval';
 
-const bits = 8;
-const compressGuide = (str, chs) => {
-    const strUncompressed = str * bits;
-    const strCompressed = chs * bits + str * Math.ceil(Math.log2(chs));
-
-    return strUncompressed > strCompressed;
-};
 const isFloatBetween0And1 = (value) => {
     return typeof value === 'number' && value > 0 && !Number.isInteger(value);
 };
+
 describe('Funcionality of comrpessionEval', () => {
     it('throws error if a parameter is missing', () => {
         expect(() => compressionForecast()).toThrowError(
