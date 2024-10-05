@@ -19,7 +19,13 @@ describe('Compression table generator', () => {
         expect(() => compressionTable()).toThrowError('A parameter is missing');
     });
 
-    it('returns a map with the chars as keys', () => {
+    it('throws error if the parameter is not a heap', () => {
+        expect(() => compressionTable([1, 2, 3])).toThrowError(
+            `Expected <Heap>, instead received <${typeof [1, 2, 3]}>`,
+        );
+    });
+
+    it('returns a map with the binary route as key and char as value', () => {
         heap.push(iterator.next().value);
         heap.push(iterator.next().value);
         heap.push(iterator.next().value);
@@ -28,10 +34,11 @@ describe('Compression table generator', () => {
         heap.push(iterator.next().value);
         treeMaker(heap);
 
-        expect(typeof compressionTable(heap.chars[0])).toBe('object');
-        expect(compressionTable(heap.chars[0]) instanceof Map).toBe(true);
-        expect(compressionTable(heap.chars[0]).has(' ')).toBe(true);
-        expect(compressionTable(heap.chars[0]).has('b')).toBe(true);
-        expect(compressionTable(heap.chars[0]).has('\n')).toBe(true);
+        console.log(compressionTable(heap));
+        expect(compressionTable(heap) instanceof Map).toBe(true);
+        expect(compressionTable(heap).has('00')).toBe(true);
+        expect(compressionTable(heap).get('0100') === ' ').toBe(true);
+        expect(compressionTable(heap).has('10')).toBe(true);
+        expect(compressionTable(heap).get('0101') === '\n').toBe(true);
     });
 });
