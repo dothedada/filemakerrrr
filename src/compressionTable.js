@@ -9,14 +9,18 @@ const compressionTable = (heapTree) => {
         errorLib.dataExpected('Heap', heapTree);
     }
 
-    const table = new Map();
+    const table = {};
+    table.compression = new Map();
+    table.decompression = new Map();
+
     const nodeParser = (node, route = '') => {
         if (!node) {
             return;
         }
 
         if (node.character) {
-            table.set(route, node.character);
+            table.compression.set(node.character, route);
+            table.decompression.set(route, node.character);
         }
 
         nodeParser(node.left, `${route}0`);
