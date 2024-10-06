@@ -1,7 +1,9 @@
 import { errorLib } from './errorLibrary';
 
 const stringChecker = (text) => {
-    if (typeof text !== 'string') errorLib.dataExpected('string', text);
+    if (typeof text !== 'string') {
+        errorLib.dataExpected('string', text);
+    }
 
     const stringLength = text.length;
     const charactersUsed = new Map();
@@ -19,6 +21,6 @@ const stringChecker = (text) => {
 
 export { stringChecker };
 
-// remplaza cadena por binarios y tabla de decodificacion
+// tabla de decodificacion
 //
 // toma la info, la pasa a binario y la exporta
