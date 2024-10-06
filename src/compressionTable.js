@@ -9,9 +9,7 @@ const compressionTable = (heapTree) => {
         errorLib.dataExpected('Heap', heapTree);
     }
 
-    const table = {};
-    table.zip = new Map();
-    table.unzip = new Map();
+    const table = new Map();
 
     const nodeParser = (node, route = '') => {
         if (!node) {
@@ -19,8 +17,7 @@ const compressionTable = (heapTree) => {
         }
 
         if (node.character) {
-            table.zip.set(node.character, route);
-            table.unzip.set(route, node.character);
+            table.set(node.character, route);
         }
 
         nodeParser(node.left, `${route}0`);

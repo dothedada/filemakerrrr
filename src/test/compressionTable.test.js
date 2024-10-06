@@ -25,12 +25,9 @@ describe('Compression table generator', () => {
         );
     });
 
-    it('returns an object whith two maps as values, compression and decompression', () => {
+    it('returns a Map', () => {
         expect(typeof compressionTable(heap)).toBe('object');
-        expect('zip' in compressionTable(heap)).toBe(true);
-        expect('unzip' in compressionTable(heap)).toBe(true);
-        expect(compressionTable(heap).zip instanceof Map).toBe(true);
-        expect(compressionTable(heap).unzip instanceof Map).toBe(true);
+        expect(compressionTable(heap) instanceof Map).toBe(true);
     });
 
     it('map with the binary route as key and char as value', () => {
@@ -42,14 +39,9 @@ describe('Compression table generator', () => {
         heap.push(iterator.next().value);
         treeMaker(heap);
 
-        expect(compressionTable(heap).zip.has('b')).toBe(true);
-        expect(compressionTable(heap).zip.get('d')).toBe('10');
-        expect(compressionTable(heap).zip.has(' ')).toBe(true);
-        expect(compressionTable(heap).zip.get('\n')).toBe('0101');
-
-        expect(compressionTable(heap).unzip.has('00')).toBe(true);
-        expect(compressionTable(heap).unzip.get('0100') === ' ').toBe(true);
-        expect(compressionTable(heap).unzip.has('10')).toBe(true);
-        expect(compressionTable(heap).unzip.get('0101') === '\n').toBe(true);
+        expect(compressionTable(heap).has('b')).toBe(true);
+        expect(compressionTable(heap).get('d')).toBe('10');
+        expect(compressionTable(heap).has(' ')).toBe(true);
+        expect(compressionTable(heap).get('\n')).toBe('0101');
     });
 });
