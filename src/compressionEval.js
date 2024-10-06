@@ -1,18 +1,19 @@
 import { errorLib } from './errorLibrary';
 
-const bits = 8;
+const byteSize = 8;
+const byesForChar = 3; // 1 ascii, 1 comressed length, 1 compressed string
 
 const compressionForecast = (stringLength, charCount) => {
     if (!stringLength || !charCount) {
         errorLib.parameterIsMissing();
     }
 
-    const stringInBits = stringLength * bits;
-    const charMaxBits = Math.ceil(Math.log2(charCount));
-    const charTable = charMaxBits * charCount + charCount * bits;
-    const compressedStringInBits = charMaxBits * stringLength;
+    const stringInBits = stringLength * byteSize;
+    const compressedCharMaxBits = Math.ceil(Math.log2(charCount));
+    const compressedCharTable = charCount * byesForChar * byteSize;
+    const compressedStringInBits = compressedCharMaxBits * stringLength;
 
-    const rate = (charTable + compressedStringInBits) / stringInBits;
+    const rate = (compressedCharTable + compressedStringInBits) / stringInBits;
     const should = rate <= 1;
 
     return { should, rate };

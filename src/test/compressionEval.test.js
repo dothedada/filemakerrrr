@@ -32,12 +32,12 @@ describe('Funcionality of comrpessionEval', () => {
         const string1 = 5000;
         const chars1 = 45;
         const string2 = 500;
-        const chars2 = 40;
+        const chars2 = 35;
         const string3 = 30;
         const chars3 = 30;
-        const string4 = 120;
+        const string4 = 200;
         const chars4 = 30;
-        const string5 = 5;
+        const string5 = 24;
         const chars5 = 3;
 
         const forecast1 = compressionForecast(string1, chars1);
