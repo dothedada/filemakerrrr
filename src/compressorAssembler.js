@@ -1,10 +1,10 @@
-import { arrangeMap } from './charMapToBin.js';
+import { arrangeChars } from './charMapToBin.js';
 import { fileHeader } from './fileHeader.js';
 import { toBin } from './toBinary';
 import { errorLib } from './errorLibrary';
 import { byteSize } from './units';
 
-const decompressTableToBin = (compressionMap) => {
+const assembleHeader = (compressionMap) => {
     if (!compressionMap) {
         errorLib.parameterIsMissing;
     }
@@ -12,23 +12,21 @@ const decompressTableToBin = (compressionMap) => {
         errorLib.dataExpected('Map', compressionMap);
     }
 
-    const { ascii, asciiExt, unicode } = arrangeMap(compressionMap);
+    const { ascii, asciiExt, unicode } = arrangeChars(compressionMap);
 
     const asciiCountBin = toBin(ascii.length, byteSize.ascii);
     const asciiExtCountBin = toBin(asciiExt.length, byteSize.asciiExt);
     const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
 
-    const decompressBin = [
+    return [
         fileHeader(ascii, asciiExt, unicode, false),
         asciiCountBin,
         asciiExtCountBin,
         unicodeCountBin,
-        ascii,
-        asciiExt,
-        unicode,
+        ascii.join(''),
+        asciiExt.join(''),
+        unicode.join(''),
     ].join('');
-
-    return { decompressBin };
 };
 
-export { decompressTableToBin };
+export { assembleHeader };

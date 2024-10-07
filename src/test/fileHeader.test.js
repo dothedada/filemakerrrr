@@ -37,6 +37,6 @@ describe('Data input for the fileHeader', () => {
             ['1', '12', 123],
             [],
         );
-        expect(/[2-9]/g.test(testArrLength)).toBe(false);
+        expect(/[^0-1]/g.test(testArrLength)).toBe(false);
     });
 });
