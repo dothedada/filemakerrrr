@@ -31,73 +31,73 @@ const testMap = new Map([
 const testMapIterator = testMap.entries();
 
 describe('output for charEval', () => {
-    it('returns an object with the keys "charCode" and "standard"', () => {
+    it('returns an object with the keys "code" and "standard"', () => {
         expect(typeof charEval('a')).toBe('object');
-        expect('charCode' in charEval('a')).toBe(true);
+        expect('code' in charEval('a')).toBe(true);
         expect('standard' in charEval('a')).toBe(true);
     });
 
     it('returns the correct code of the character if it is ascii', () => {
         const test1 = charEval(testMapIterator.next().value[0]);
-        expect(test1.charCode).toBe(65);
+        expect(test1.code).toBe(65);
         expect(test1.standard).toBe('ascii');
 
         const test2 = charEval(testMapIterator.next().value[0]);
-        expect(test2.charCode).toBe(97);
+        expect(test2.code).toBe(97);
         expect(test2.standard).toBe('ascii');
 
         const test3 = charEval(testMapIterator.next().value[0]);
-        expect(test3.charCode).toBe(49);
+        expect(test3.code).toBe(49);
         expect(test3.standard).toBe('ascii');
 
         const test4 = charEval(testMapIterator.next().value[0]);
-        expect(test4.charCode).toBe(45);
+        expect(test4.code).toBe(45);
         expect(test4.standard).toBe('ascii');
 
         const test5 = charEval(testMapIterator.next().value[0]);
-        expect(test5.charCode).toBe(32);
+        expect(test5.code).toBe(32);
         expect(test5.standard).toBe('ascii');
     });
 
     it('returns the correct code of the character even if it is a special character', () => {
         const test1 = charEval(testMapIterator.next().value[0]);
-        expect(test1.charCode).toBe(10);
+        expect(test1.code).toBe(10);
         expect(test1.standard).toBe('ascii');
 
         const test2 = charEval(testMapIterator.next().value[0]);
-        expect(test2.charCode).toBe(92);
+        expect(test2.code).toBe(92);
         expect(test2.standard).toBe('ascii');
 
         const test3 = charEval(testMapIterator.next().value[0]);
-        expect(test3.charCode).toBe(9);
+        expect(test3.code).toBe(9);
         expect(test3.standard).toBe('ascii');
     });
 
     it('returns the correct code of the character if it is ascii extended', () => {
         const test1 = charEval(testMapIterator.next().value[0]);
-        expect(test1.charCode).toBe(228);
-        expect(test1.standard).toBe('ascii extended');
+        expect(test1.code).toBe(228);
+        expect(test1.standard).toBe('asciiExt');
 
         const test2 = charEval(testMapIterator.next().value[0]);
-        expect(test2.charCode).toBe(169);
-        expect(test2.standard).toBe('ascii extended');
+        expect(test2.code).toBe(169);
+        expect(test2.standard).toBe('asciiExt');
 
         const test3 = charEval(testMapIterator.next().value[0]);
-        expect(test3.charCode).toBe(231);
-        expect(test3.standard).toBe('ascii extended');
+        expect(test3.code).toBe(231);
+        expect(test3.standard).toBe('asciiExt');
     });
 
     it('returns the correct code of the character if it is unicode', () => {
         const test1 = charEval(testMapIterator.next().value[0]);
-        expect(test1.charCode).toBe(8721);
+        expect(test1.code).toBe(8721);
         expect(test1.standard).toBe('unicode');
 
         const test2 = charEval(testMapIterator.next().value[0]);
-        expect(test2.charCode).toBe(20013);
+        expect(test2.code).toBe(20013);
         expect(test2.standard).toBe('unicode');
 
         const test3 = charEval(testMapIterator.next().value[0]);
-        expect(test3.charCode).toBe(916);
+        expect(test3.code).toBe(916);
         expect(test3.standard).toBe('unicode');
     });
 });
