@@ -1,4 +1,4 @@
-import { arrangeMap } from './decompressMapArrange.js';
+import { arrangeMap } from './charMapToBin.js';
 import { fileHeader } from './fileHeader.js';
 import { toBin } from './toBinary';
 import { errorLib } from './errorLibrary';
@@ -28,7 +28,6 @@ const decompressTableToBin = (compressionMap) => {
         unicode,
     ].join('');
 
-    console.log(decompressBin);
     return { decompressBin };
 };
 
