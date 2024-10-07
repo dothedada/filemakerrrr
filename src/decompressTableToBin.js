@@ -1,5 +1,5 @@
 import { arrangeMap } from './decompressMapArrange.js';
-import { fileIndex } from './decompressTableIndex.js';
+import { fileHeader } from './fileHeader.js';
 import { toBin } from './toBinary';
 import { errorLib } from './errorLibrary';
 import { byteSize } from './units';
@@ -19,7 +19,7 @@ const decompressTableToBin = (compressionMap) => {
     const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
 
     const decompressBin = [
-        fileIndex(ascii.length, asciiExt.length, unicode.length),
+        fileHeader(ascii, asciiExt, unicode, false),
         asciiCountBin,
         asciiExtCountBin,
         unicodeCountBin,
@@ -28,6 +28,7 @@ const decompressTableToBin = (compressionMap) => {
         unicode,
     ].join('');
 
+    console.log(decompressBin);
     return { decompressBin };
 };
 

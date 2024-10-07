@@ -1,5 +1,7 @@
 import { describe, it, test, expect } from 'vitest';
 import { decompressTableToBin } from '../decompressTableToBin';
+import { toBin } from '../toBinary';
+import { version } from '../units';
 
 const testMapEmpty = new Map();
 
@@ -27,6 +29,8 @@ const testMap = new Map([
     ['Δ', '111010'], // 916
 ]);
 
+const versionBin = toBin(version, 3);
+
 const testMapIterator = testMap.entries();
 describe('decompressTableToBin takes a map...', () => {
     it('demands a parameter', () => {
@@ -42,9 +46,9 @@ describe('and returns an object...', () => {
         expect('decompressBin' in decompressTableToBin(testMap)).toBe(true);
     });
 
-    test('if the map is empty, the bin string is empty', () => {
+    test('if the map is empty, the bin string must be only the header', () => {
         expect(decompressTableToBin(testMapEmpty).decompressBin).toBe(
-            '0'.repeat(3), // 7bits + 8bits + 16bits
+            `${versionBin}00000`, // 7bits + 8bits + 16bits
         );
     });
 });
