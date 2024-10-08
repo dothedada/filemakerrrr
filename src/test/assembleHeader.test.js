@@ -1,5 +1,5 @@
 import { describe, it, test, expect } from 'vitest';
-import { assembleHeader } from '../compressorAssembler';
+import { assembleHeader } from '../assembleHeader';
 import { toBin } from '../toBinary';
 import { version } from '../units';
 

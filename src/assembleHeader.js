@@ -1,5 +1,5 @@
 import { arrangeChars } from './charMapToBin.js';
-import { fileHeader } from './fileHeader.js';
+import { fileDir } from './fileDir.js';
 import { toBin } from './toBinary';
 import { errorLib } from './errorLibrary';
 import { byteSize } from './units';
@@ -19,7 +19,7 @@ const assembleHeader = (compressionMap) => {
     const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
 
     return [
-        fileHeader(ascii, asciiExt, unicode, false),
+        fileDir(ascii, asciiExt, unicode, false),
         asciiCountBin,
         asciiExtCountBin,
         unicodeCountBin,

@@ -2,7 +2,7 @@ import { errorLib } from './errorLibrary';
 import { toBin } from './toBinary';
 import { version } from './units';
 
-export const fileHeader = (ascii, asciiExt, unicode, fixed = false) => {
+export const fileDir = (ascii, asciiExt, unicode, fixed = false) => {
     if (!ascii || !asciiExt || !unicode) {
         errorLib.parameterIsMissing();
     }
