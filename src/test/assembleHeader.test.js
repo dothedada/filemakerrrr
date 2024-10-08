@@ -1,5 +1,5 @@
 import { describe, it, test, expect } from 'vitest';
-import { assembleHeader } from '../assembleHeader';
+import { assembler } from '../assembler';
 import { toBin } from '../toBinary';
 import { version } from '../units';
 
@@ -44,39 +44,39 @@ const testMapFull = new Map([
 
 describe('decompressTableToBin takes a map...', () => {
     it('demands a parameter', () => {
-        expect(() => assembleHeader()).toThrowError();
+        expect(() => assembler()).toThrowError();
     });
 
     it('the parameter should be a string', () => {
-        expect(() => assembleHeader(123)).toThrowError();
+        expect(() => assembler(123)).toThrowError();
     });
 });
 
 describe('and returns a binary string...', () => {
     it('returns a string of 1s and 0s', () => {
-        expect(typeof assembleHeader(testMapEmpty)).toBe('string');
-        expect(typeof assembleHeader(testMapFull)).toBe('string');
-        expect(/[^0-1]/g.test(assembleHeader(testMapEmpty))).toBe(false);
-        expect(/[^0-1]/g.test(assembleHeader(testMapFull))).toBe(false);
+        expect(typeof assembler(testMapEmpty)).toBe('string');
+        expect(typeof assembler(testMapFull)).toBe('string');
+        expect(/[^0-1]/g.test(assembler(testMapEmpty))).toBe(false);
+        expect(/[^0-1]/g.test(assembler(testMapFull))).toBe(false);
     });
 
     test('if the map is empty, the bin string must be only the header', () => {
-        expect(assembleHeader(testMapEmpty)).toBe(
+        expect(assembler(testMapEmpty)).toBe(
             `${versionBin}00000`, // 7bits + 8bits + 16bits
         );
     });
 
     test('the length of the binary string from the header using the testMapAscii should be 8directory, 7 for amount, 21 for each all charcodes, 12 for all compression lengths and 6 for the compressed values', () => {
-        expect(assembleHeader(testMapAscii).length).toBe(54);
+        expect(assembler(testMapAscii).length).toBe(54);
     });
 
     test('the length of the binary string from the header using the testMapAsciiExt should be 8directory, 8 for amount, 24 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembleHeader(testMapAsciiExt).length).toBe(65);
+        expect(assembler(testMapAsciiExt).length).toBe(65);
     });
     test('the length of the binary string from the header using the testMapUnicode should be 8directory, 16 for amount, 42 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembleHeader(testMapUnicode).length).toBe(97);
+        expect(assembler(testMapUnicode).length).toBe(97);
     });
     test('the length of the binary string from the header using the testMapUnicode should be 8directory, 16 for amount, 42 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembleHeader(testMapFull).length).toBe(280);
+        expect(assembler(testMapFull).length).toBe(280);
     });
 });

@@ -4,7 +4,7 @@ import { toBin } from './toBinary';
 import { errorLib } from './errorLibrary';
 import { byteSize } from './units';
 
-const assembleHeader = (compressionMap) => {
+const assembler = (compressionMap, fileBinaryString) => {
     if (!compressionMap) {
         errorLib.parameterIsMissing;
     }
@@ -26,7 +26,8 @@ const assembleHeader = (compressionMap) => {
         ascii.join(''),
         asciiExt.join(''),
         unicode.join(''),
+        fileBinaryString,
     ].join('');
 };
 
-export { assembleHeader };
+export { assembler };
