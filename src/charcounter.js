@@ -2,33 +2,30 @@ import { charEval } from './charEval';
 import { errorLib } from './errorLibrary';
 
 // TODO:
-// 1. filemakerrrr
-// 2. integrar tabla y compresión en compressor
-// 3. exportar binario (exportBin?)
-// 4. armar archivo de parseo de binario
+// 4. parseo de archivo a binario
+// 5. extracción y construcción del mapa
+// 6. extracción de la cadena
+// 7. Montaje de la biblioteca
+// 8. Micrositio de prueba
+// 9. Readme
+// 10 . npm
 
 const stringChecker = (text) => {
     if (typeof text !== 'string') {
         errorLib.dataExpected('string', text);
     }
 
-    const stringLength = text.length;
-    const charactersUsed = new Map();
+    const charsMap = new Map();
     let charsUnicode = 0;
 
     for (const char of text) {
-        charactersUsed.set(char, (charactersUsed.get(char) || 0) + 1);
+        charsMap.set(char, (charsMap.get(char) || 0) + 1);
         if (charEval(char).standard === 'unicode') {
             charsUnicode++;
         }
     }
 
-    return {
-        stringLength,
-        charactersUsed,
-        charactersUsedLength: charactersUsed.size,
-        charsUnicode,
-    };
+    return { charsMap, charsUnicode };
 };
 
 export { stringChecker };

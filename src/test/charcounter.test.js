@@ -21,12 +21,11 @@ describe('StringChecker returns...', () => {
         expect(Array.isArray(stringEvaluation)).toBe(false);
     });
 
-    it('has 3 keys, stringLength, charactersUsed, charactersUsedLength', () => {
+    it('has 2 keys, charsMap and charsUnicode', () => {
         const stringEvaluation = stringChecker('abc');
 
-        expect('stringLength' in stringEvaluation).toBe(true);
-        expect('charactersUsedLength' in stringEvaluation).toBe(true);
-        expect('charactersUsed' in stringEvaluation).toBe(true);
+        expect('charsMap' in stringEvaluation).toBe(true);
+        expect('charsUnicode' in stringEvaluation).toBe(true);
     });
 
     const stringShort = 'The quick brown fox jumps over the lazy dog.';
@@ -40,26 +39,12 @@ to meet the requirement set.`;
     const testLongString = stringChecker(stringLong);
     const testLineJump = stringChecker(stringLineJumps);
 
-    it('Returns the number of the total characters in the string', () => {
-        expect(typeof testShortString.stringLength).toBe('number');
-        expect(testShortString.stringLength).toBe(stringShort.length);
-        expect(testLongString.stringLength).toBe(stringLong.length);
-        expect(testLineJump.stringLength).toBe(stringLineJumps.length);
-    });
-
-    it('Returns the number of diferent characters in the string, includes special characters', () => {
-        expect(typeof testShortString.charactersUsedLength).toBe('number');
-        expect(testShortString.charactersUsedLength).toBe(29);
-        expect(testLongString.charactersUsedLength).toBe(29);
-        expect(testLineJump.charactersUsedLength).toBe(28);
-    });
-
     it('Returns a map with the characters used as keys and the appearences as value', () => {
-        expect(testLineJump.charactersUsed instanceof Map).toBe(true);
+        expect(testLineJump.charsMap instanceof Map).toBe(true);
 
-        expect(testLineJump.charactersUsed.get('\n')).toBe(3);
-        expect(testLongString.charactersUsed.get('U')).toBe(1);
-        expect(testLongString.charactersUsed.get('u')).toBe(27);
-        expect(testShortString.charactersUsed.get(' ')).toBe(8);
+        expect(testLineJump.charsMap.get('\n')).toBe(3);
+        expect(testLongString.charsMap.get('U')).toBe(1);
+        expect(testLongString.charsMap.get('u')).toBe(27);
+        expect(testShortString.charsMap.get(' ')).toBe(8);
     });
 });
