@@ -6,7 +6,14 @@ import { toBin } from '../toBinary';
 const versionBin = toBin(version, 3);
 
 const emptyArrangedChars = { ascii: [], asciiExt: [], unicode: [] };
-
+const asciiArrangedChars = { ascii: [''], asciiExt: [], unicode: [] };
+const asciiExtArrangedChars = { ascii: [], asciiExt: [''], unicode: [] };
+const unicodeArrangedChars = { ascii: [], asciiExt: [], unicode: [''] };
+const testArrangedChars = {
+    ascii: [1, 2, 3, 4, 5, 6, 6],
+    asciiExt: ['1', '12', 123],
+    unicode: [],
+};
 describe('Data input for the fileHeader', () => {
     it('throws error if any parameters is missing', () => {
         expect(() => fileDir()).toThrowError();
@@ -22,23 +29,19 @@ describe('Data input for the fileHeader', () => {
     });
 
     it('should return the version and 10100 if it has a character in ascii', () => {
-        expect(fileDir([''], [], [])).toBe(`${versionBin}10100`);
+        expect(fileDir(asciiArrangedChars)).toBe(`${versionBin}10100`);
     });
 
     it('should return the version and 10010 if it has a character in ascii extended', () => {
-        expect(fileDir([], [1], [])).toBe(`${versionBin}10010`);
+        expect(fileDir(asciiExtArrangedChars)).toBe(`${versionBin}10010`);
     });
 
     it('should return the version and 0001 if it has a character in unicode', () => {
-        expect(fileDir([], [], ['a'])).toBe(`${versionBin}10001`);
+        expect(fileDir(unicodeArrangedChars)).toBe(`${versionBin}10001`);
     });
 
     it('should return a binary string, no matter how many elements has any array', () => {
-        const testArrLength = fileDir(
-            [1, 2, 3, 4, 5, 6, 6],
-            ['1', '12', 123],
-            [],
-        );
+        const testArrLength = fileDir(testArrangedChars);
         expect(/[^0-1]/g.test(testArrLength)).toBe(false);
     });
 });

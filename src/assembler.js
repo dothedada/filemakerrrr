@@ -19,7 +19,7 @@ const assembler = (compressionMap, fileBinaryString) => {
     const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
 
     return [
-        fileDir(ascii, asciiExt, unicode, false),
+        fileDir({ ascii, asciiExt, unicode }, false),
         asciiCountBin,
         asciiExtCountBin,
         unicodeCountBin,
