@@ -10,22 +10,22 @@ import { errorLib } from './errorLibrary';
 // 9. Readme
 // 10 . npm
 
-const stringChecker = (text) => {
-    if (typeof text !== 'string') {
-        errorLib.dataExpected('string', text);
-    }
-
-    const charsMap = new Map();
-    let charsUnicode = 0;
-
-    for (const char of text) {
-        charsMap.set(char, (charsMap.get(char) || 0) + 1);
-        if (charEval(char).standard === 'unicode') {
-            charsUnicode++;
+const stringChecker = async (text) =>
+    new Promise((resolve, reject) => {
+        if (typeof text !== 'string') {
+            reject(errorLib.dataExpected('string', text));
         }
-    }
 
-    return { charsMap, charsUnicode };
-};
+        const charsMap = new Map();
+        let charsUnicode = 0;
 
+        for (const char of text) {
+            charsMap.set(char, (charsMap.get(char) || 0) + 1);
+            if (charEval(char).standard === 'unicode') {
+                charsUnicode++;
+            }
+        }
+
+        resolve({ charsMap, charsUnicode });
+    });
 export { stringChecker };

@@ -6,23 +6,23 @@ describe('stringChecker only accept strings', () => {
         expect(() => stringChecker('123')).not.toThrowError();
     });
 
-    it('throws error if something different of string is pass as parameter', () => {
-        expect(() => stringChecker(123)).toThrowError(
+    it('throws error if something different of string is pass as parameter', async () => {
+        await expect(() => stringChecker(123)).rejects.toThrowError(
             `Expected <string>, instead received <${typeof 123}>`,
         );
     });
 });
 
 describe('StringChecker returns...', () => {
-    it('returns an object', () => {
-        const stringEvaluation = stringChecker('abc');
+    it('returns an object', async () => {
+        const stringEvaluation = await stringChecker('abc');
 
         expect(typeof stringEvaluation === 'object').toBe(true);
         expect(Array.isArray(stringEvaluation)).toBe(false);
     });
 
-    it('has 2 keys, charsMap and charsUnicode', () => {
-        const stringEvaluation = stringChecker('abc');
+    it('has 2 keys, charsMap and charsUnicode', async () => {
+        const stringEvaluation = await stringChecker('abc');
 
         expect('charsMap' in stringEvaluation).toBe(true);
         expect('charsUnicode' in stringEvaluation).toBe(true);
@@ -35,11 +35,11 @@ describe('StringChecker returns...', () => {
 over three different lines.
 It should have exactly 100 characters
 to meet the requirement set.`;
-    const testShortString = stringChecker(stringShort);
-    const testLongString = stringChecker(stringLong);
-    const testLineJump = stringChecker(stringLineJumps);
 
-    it('Returns a map with the characters used as keys and the appearences as value', () => {
+    it('Returns a map with the characters used as keys and the appearences as value', async () => {
+        const testShortString = await stringChecker(stringShort);
+        const testLongString = await stringChecker(stringLong);
+        const testLineJump = await stringChecker(stringLineJumps);
         expect(testLineJump.charsMap instanceof Map).toBe(true);
 
         expect(testLineJump.charsMap.get('\n')).toBe(3);
