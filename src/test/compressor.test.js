@@ -13,23 +13,24 @@ describe('Compressor input', () => {
     });
 });
 
-const zipTable = {
-    zip: new Map([
-        ['l', '00'],
-        ['H', '010'],
-        [' ', '0110'],
-        ['e', '0111'],
-        ['!', '10'],
-        ['o', '110'],
-        ['i', '111'],
-    ]),
-};
+const zipTable = new Map([
+    ['l', '00'],
+    ['H', '010'],
+    [' ', '0110'],
+    ['e', '0111'],
+    ['!', '10'],
+    ['o', '110'],
+    ['i', '111'],
+]);
+
 const stringToZip = 'Holi Hello!!!';
 const stringZipped = '01011000111011001001110000110101010';
 
 describe('Compressor output', () => {
     it('returns a string', () => {
-        expect(typeof compressor(stringToZip, zipTable)).toBe('string');
+        expect(typeof compressor(stringToZip, zipTable) === 'string').toBe(
+            true,
+        );
     });
 
     it('returns a binaty secuence that corresponds to the string passed through zipTable', () => {

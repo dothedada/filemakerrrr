@@ -4,19 +4,21 @@ import { version } from '../units';
 import { toBin } from '../toBinary';
 
 const versionBin = toBin(version, 3);
+
+const emptyArrangedChars = { ascii: [], asciiExt: [], unicode: [] };
+
 describe('Data input for the fileHeader', () => {
     it('throws error if any parameters is missing', () => {
         expect(() => fileDir()).toThrowError();
-        expect(() => fileDir([])).toThrowError();
-        expect(() => fileDir([], [])).toThrowError();
+        expect(() => fileDir({})).toThrowError();
     });
 
     it('should only return the current version if all the parameters ar empty an false', () => {
-        expect(fileDir([], [], [])).toBe(`${versionBin}00000`);
+        expect(fileDir(emptyArrangedChars)).toBe(`${versionBin}00000`);
     });
 
     it('should return the version an 1000 if it uses fixedLength compression', () => {
-        expect(fileDir([], [], [], true)).toBe(`${versionBin}01000`);
+        expect(fileDir(emptyArrangedChars, true)).toBe(`${versionBin}01000`);
     });
 
     it('should return the version and 10100 if it has a character in ascii', () => {

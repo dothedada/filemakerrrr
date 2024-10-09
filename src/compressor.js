@@ -7,14 +7,14 @@ const compressor = (stringToCompress, compressionTable) => {
     if (typeof stringToCompress !== 'string') {
         errorLib.dataExpected('string', stringToCompress);
     }
-    if (!(compressionTable.zip instanceof Map)) {
+    if (!(compressionTable instanceof Map)) {
         errorLib.dataExpected('Map', compressionTable);
     }
 
     let binaryString = '';
 
     for (const char of stringToCompress) {
-        binaryString += compressionTable.zip.get(char);
+        binaryString += compressionTable.get(char);
     }
 
     return binaryString;
