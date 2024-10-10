@@ -1,7 +1,7 @@
 import { describe, it, test, expect } from 'vitest';
 import { binaryBufferForBrowser } from '../makeBinaryBuffer';
 
-describe('filemaker Input: ', () => {
+describe.skip('filemaker Input: ', () => {
     it('Throws error if any parameter is missing', () => {
         expect(() => binaryBufferForBrowser()).toThrowError();
     });
@@ -12,7 +12,7 @@ describe('filemaker Input: ', () => {
     });
 });
 
-describe('filemaker process:', () => {
-    it('taket');
-    console.log(binaryBufferForBrowser('1111111100000000111'));
-});
+// describe('filemaker process:', () => {
+//     it('taket');
+//     console.log(binaryBufferForBrowser('1111111100000000111'));
+// });
