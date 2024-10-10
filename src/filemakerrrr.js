@@ -4,8 +4,9 @@ import { compressionForecast } from './compressionEval';
 import { Heap } from './minHeap';
 import { treeMaker } from './treeMaker';
 import { compressionTable } from './compressionTable';
-import { arrangeChars } from './charMapToBin';
 import { compressor } from './compressor';
+import { assembler } from './assembler';
+import { binaryBufferForBrowser } from './makeBinaryBuffer';
 
 export class Filemakerrrr {
     constructor(string = '', settingObject = {}) {
@@ -37,33 +38,46 @@ export class Filemakerrrr {
         this.verbose = verbose;
     }
 
-    zipIt() {
-        const { charsMap, charsUnicode } = stringChecker(this.stringToWork);
+    #gardener(charsMap) {
+        return new Promise((resolve) => {
+            const charsHeap = new Heap();
+            for (const keyValue of charsMap) {
+                charsHeap.push(keyValue);
+            }
+            treeMaker(charsHeap);
+
+            resolve(charsHeap);
+        });
+    }
+
+    async zipIt() {
+        // console.log('Parsing the string')
+        const { charsMap, charsUnicode } = await stringChecker(
+            this.stringToWork,
+        );
 
         const { should, rate } = compressionForecast(
             this.stringToWork.length,
             charsMap.size,
             charsUnicode,
         );
-
         // console.log(should, rate);
+        // console.log('There is no need to zip the string, the file will be uncopressed')
+        // console.log('The zip process started')
 
-        const charsHeap = new Heap();
-        for (const keyValue of charsMap) {
-            charsHeap.push(keyValue);
-        }
+        // console.log('Making the compression map...')
+        const charsHeap = await this.#gardener(charsMap);
+        const zippedCharMap = compressionTable(charsHeap);
 
-        // console.log(charsHeap);
+        // console.log('Zipping the string...')
+        const zippedString = await compressor(this.stringToWork, zippedCharMap);
+        const binarySecuence = assembler(zippedCharMap, zippedString);
+        const bytesArray = await binaryBufferForBrowser(binarySecuence);
 
-        treeMaker(charsHeap);
-        const zipMap = compressionTable(charsHeap);
-
+        // console.log(ready to download)
+        return bytesArray;
         // console.log(zipMap);
-        const zippedString = compressor(this.stringToWork, zipMap);
-
-        const arrangedChars = arrangeChars(zipMap);
-
-        console.log(arrangedChars);
-        console.log(zippedString);
+        // console.log('Secuencia binaria:', binarySecuence);
+        // console.log('bytes secuence:', bytesArray);
     }
 }
