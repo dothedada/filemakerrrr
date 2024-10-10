@@ -31,3 +31,11 @@ const assembler = (compressionMap, fileBinaryString) => {
 };
 
 export { assembler };
+
+const homeSlider = document.createElement('div');
+
+homeSlider.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('le copio');
+});

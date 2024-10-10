@@ -5,10 +5,12 @@
     "description": "Simple and straight forrward to compress and makes files from string in JS",
     "main": "index.js",
     "scripts": {
+        "serve": "browser-sync start --server --files *.html *.css *.js --browser 'firefox'",
         "test": "vitest watch"
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.3",
+        "browser-sync": "^3.0.3",
         "vitest": "^2.1.1"
     },
     "keywords": [
