@@ -98,14 +98,51 @@ export class Filemakerrrr {
             const arrayBuffer = e.target.result;
             const uint8Array = new Uint8Array(arrayBuffer);
             let binaryString = '';
+            const signature = ['F', '4', 'R'];
+
+            const fileSignature = uint8Array.slice(0, 3);
+
+            fileSignature.every(
+                (byte, index) => String.fromCharCode(byte) === signature[index],
+            );
 
             for (let i = 0; i < uint8Array.length; i++) {
-                binaryString += `${String(toBin(uint8Array[i], 8))} `;
+                binaryString += String(toBin(uint8Array[i], 8));
             }
 
             console.log(binaryString, uint8Array);
         };
 
         reader.readAsArrayBuffer(file);
+    }
+
+    unzipIt() {
+        //
+        // get standard count
+        // create the map,
+        // parse first charcode, convert it to char
+        // parse length of compression
+        // parse compression string
+        // inject compression string as key and char as value
+        // reduce count
+        // if the count is 0 got to next standard
+        // if no standard left retun map and the rest of the bin
+        //
+        // get the last byte, parse it
+        // trim the number of chars in the byte
+        //
+        // create an empty string
+        // create a buffer,
+        // check if any bit left
+        //      if not, return the string
+        // get a bit,
+        // push into the buffer
+        // check in the map if any char corresponds to the secuence on buffer
+        // if it is so,
+        //      take the char and inject it to the string
+        //      clean de buffer
+        //
+        //
+        //
     }
 }
