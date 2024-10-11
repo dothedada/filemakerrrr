@@ -1,15 +1,15 @@
-import { toDecimal } from './toBinary';
+import { toDecimal } from './toBinary.js';
 
 const parseHeader = (binaryString) => {
     const zipStructure = binaryString.slice(0, 8);
 
     const header = {
         version: Number.parseInt(zipStructure.slice(0, 3), 10),
-        isZipped: Boolean(zipStructure[3]),
-        fixedZip: Boolean(zipStructure[4]),
-        hasAscii: Boolean(zipStructure[5]),
-        hasAsciiExt: Boolean(zipStructure[6]),
-        hasUnicode: Boolean(zipStructure[7]),
+        isZipped: Boolean(+zipStructure[3]),
+        fixedZip: Boolean(+zipStructure[4]),
+        hasAscii: Boolean(+zipStructure[5]),
+        hasAsciiExt: Boolean(+zipStructure[6]),
+        hasUnicode: Boolean(+zipStructure[7]),
     };
 
     const asciiStart = 8;
@@ -26,7 +26,9 @@ const parseHeader = (binaryString) => {
         : 0;
 
     const mapStart = unicodeStart + (header.hasUnicode ? 16 : 0);
+    console.log(header, +zipStructure[3]);
 
+    console.log(asciiCount, asciiExtCount, unicodeCount, mapStart);
     return { asciiCount, asciiExtCount, unicodeCount, mapStart };
 };
 

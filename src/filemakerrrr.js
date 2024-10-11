@@ -10,6 +10,8 @@ import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
 import { fileDownload } from './fileDownload.js';
 import { toBin } from './toBinary.js';
 import { signature } from './units.js';
+import { mapBuilder } from './mapBuilder.js';
+import { parseHeader } from './parseHeader.js';
 
 export class Filemakerrrr {
     #alwaysZip = false;
@@ -113,7 +115,8 @@ export class Filemakerrrr {
             for (let i = 3; i < uint8Array.length; i++) {
                 binaryString += String(toBin(uint8Array[i], 8));
             }
-
+            // parseHeader(binaryString);
+            mapBuilder(parseHeader(binaryString), binaryString);
             console.log(binaryString, uint8Array);
         };
 
@@ -122,15 +125,6 @@ export class Filemakerrrr {
 
     unzipIt() {
         //
-        // get standard count
-        // create the map,
-        // parse first charcode, convert it to char
-        // parse length of compression
-        // parse compression string
-        // inject compression string as key and char as value
-        // reduce count
-        // if the count is 0 got to next standard
-        // if no standard left retun map and the rest of the bin
         //
         // get the last byte, parse it
         // trim the number of chars in the byte
