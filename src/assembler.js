@@ -17,8 +17,12 @@ const assembler = (compressionMap, fileBinaryString) => {
     const asciiCountBin = toBin(ascii.length, byteSize.ascii);
     const asciiExtCountBin = toBin(asciiExt.length, byteSize.asciiExt);
     const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
+    const magicNumber = ['F', '4', 'R']
+        .map((char) => toBin(char.charCodeAt(0), 8))
+        .join('');
 
     return [
+        magicNumber,
         fileDir({ ascii, asciiExt, unicode }, false),
         asciiCountBin,
         asciiExtCountBin,
@@ -31,11 +35,3 @@ const assembler = (compressionMap, fileBinaryString) => {
 };
 
 export { assembler };
-
-const homeSlider = document.createElement('div');
-
-homeSlider.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('le copio');
-});

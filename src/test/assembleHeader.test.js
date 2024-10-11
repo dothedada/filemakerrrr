@@ -62,21 +62,21 @@ describe('and returns a binary string...', () => {
 
     test('if the map is empty, the bin string must be only the header', () => {
         expect(assembler(testMapEmpty)).toBe(
-            `${versionBin}00000`, // 7bits + 8bits + 16bits
+            `010001100011010001010010${versionBin}00000`, // 7bits + 8bits + 16bits
         );
     });
 
     test('the length of the binary string from the header using the testMapAscii should be 8directory, 7 for amount, 21 for each all charcodes, 12 for all compression lengths and 6 for the compressed values', () => {
-        expect(assembler(testMapAscii).length).toBe(54);
+        expect(assembler(testMapAscii).length).toBe(78);
     });
 
     test('the length of the binary string from the header using the testMapAsciiExt should be 8directory, 8 for amount, 24 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembler(testMapAsciiExt).length).toBe(65);
+        expect(assembler(testMapAsciiExt).length).toBe(89);
     });
     test('the length of the binary string from the header using the testMapUnicode should be 8directory, 16 for amount, 42 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembler(testMapUnicode).length).toBe(97);
+        expect(assembler(testMapUnicode).length).toBe(121);
     });
     test('the length of the binary string from the header using the testMapUnicode should be 8directory, 16 for amount, 42 for each all charcodes, 12 for all compression lengths and 13 for the compressed values', () => {
-        expect(assembler(testMapFull).length).toBe(280);
+        expect(assembler(testMapFull).length).toBe(304);
     });
 });
