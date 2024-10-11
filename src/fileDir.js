@@ -1,6 +1,5 @@
-import { errorLib } from './errorLibrary';
-import { toBin } from './toBinary';
-import { version } from './units';
+import { toBin } from './toBinary.js';
+import { version } from './units.js';
 
 export const fileDir = ({ ascii, asciiExt, unicode }, fixed = false) => {
     const compressed = !!(ascii.length + asciiExt.length + unicode.length);

@@ -1,5 +1,5 @@
-import { errorLib } from './errorLibrary';
-import { Heap } from './minHeap';
+import { errorLib } from './errorLibrary.js';
+import { Heap } from './minHeap.js';
 
 const treeMaker = (heap) => {
     if (!heap) {

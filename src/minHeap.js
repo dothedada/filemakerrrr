@@ -1,4 +1,4 @@
-import { nodeFactory } from './nodeFactory';
+import { nodeFactory } from './nodeFactory.js';
 
 class Heap {
     constructor() {

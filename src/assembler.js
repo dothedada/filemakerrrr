@@ -1,8 +1,8 @@
 import { arrangeChars } from './charMapToBin.js';
 import { fileDir } from './fileDir.js';
-import { toBin } from './toBinary';
-import { errorLib } from './errorLibrary';
-import { byteSize } from './units';
+import { toBin } from './toBinary.js';
+import { errorLib } from './errorLibrary.js';
+import { byteSize } from './units.js';
 
 const assembler = (compressionMap, fileBinaryString) => {
     if (!compressionMap) {

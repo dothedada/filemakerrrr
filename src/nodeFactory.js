@@ -1,4 +1,4 @@
-import { errorLib } from './errorLibrary';
+import { errorLib } from './errorLibrary.js';
 
 const nodeFactory = (data) => {
     if (!data) {

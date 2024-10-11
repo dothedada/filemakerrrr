@@ -1,21 +1,21 @@
-import { stringChecker } from './charcounter';
-import { errorLib } from './errorLibrary';
-import { compressionForecast } from './compressionEval';
-import { Heap } from './minHeap';
-import { treeMaker } from './treeMaker';
-import { compressionTable } from './compressionTable';
-import { compressor } from './compressor';
-import { assembler } from './assembler';
-import { binaryBufferForBrowser } from './makeBinaryBuffer';
+import { stringChecker } from './charcounter.js';
+import { errorLib } from './errorLibrary.js';
+import { compressionForecast } from './compressionEval.js';
+import { Heap } from './minHeap.js';
+import { treeMaker } from './treeMaker.js';
+import { compressionTable } from './compressionTable.js';
+import { compressor } from './compressor.js';
+import { assembler } from './assembler.js';
+import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
+import { fileDownload } from './fileDownload.js';
+import { toBin } from './toBinary.js';
 
 export class Filemakerrrr {
-    constructor(string = '', settingObject = {}) {
-        const { alwaysZip, verbose } = settingObject;
-        this.alwaysZip = alwaysZip ?? false;
-        this.verbose = verbose ?? false;
-        this.stringToWork = string;
-        this.zippedString = null;
-    }
+    #alwaysZip = false;
+    #verbose = false;
+    #stringToWork = '';
+    #zippedString = null;
+    #bytesSecuence = null;
 
     stringToZip(string) {
         if (!string) {
@@ -25,17 +25,17 @@ export class Filemakerrrr {
             errorLib.dataExpected('string', string);
         }
 
-        this.stringToWork = string;
+        this.#stringToWork = string;
         return this;
     }
 
     forceZip(alwaysZip = true) {
-        this.alwaysZip = alwaysZip;
+        this.#alwaysZip = alwaysZip;
         return this;
     }
 
     talkToMe(verbose = true) {
-        this.verbose = verbose;
+        this.#verbose = verbose;
     }
 
     #gardener(charsMap) {
@@ -53,11 +53,11 @@ export class Filemakerrrr {
     async zipIt() {
         // console.log('Parsing the string')
         const { charsMap, charsUnicode } = await stringChecker(
-            this.stringToWork,
+            this.#stringToWork,
         );
 
         const { should, rate } = compressionForecast(
-            this.stringToWork.length,
+            this.#stringToWork.length,
             charsMap.size,
             charsUnicode,
         );
@@ -70,14 +70,42 @@ export class Filemakerrrr {
         const zippedCharMap = compressionTable(charsHeap);
 
         // console.log('Zipping the string...')
-        const zippedString = await compressor(this.stringToWork, zippedCharMap);
+        const zippedString = await compressor(
+            this.#stringToWork,
+            zippedCharMap,
+        );
         const binarySecuence = assembler(zippedCharMap, zippedString);
         const bytesArray = await binaryBufferForBrowser(binarySecuence);
 
         // console.log(ready to download)
-        return bytesArray;
+        this.#bytesSecuence = bytesArray;
+
+        return this;
         // console.log(zipMap);
         // console.log('Secuencia binaria:', binarySecuence);
         // console.log('bytes secuence:', bytesArray);
+    }
+
+    download(name) {
+        fileDownload(name, this.#bytesSecuence);
+    }
+
+    parseFile(uploadedFile) {
+        const file = uploadedFile;
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const arrayBuffer = e.target.result;
+            const uint8Array = new Uint8Array(arrayBuffer);
+            let binaryString = '';
+
+            for (let i = 0; i < uint8Array.length; i++) {
+                binaryString += `${String(toBin(uint8Array[i], 8))} `;
+            }
+
+            console.log(binaryString, uint8Array);
+        };
+
+        reader.readAsArrayBuffer(file);
     }
 }

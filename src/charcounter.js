@@ -1,5 +1,5 @@
-import { charEval } from './charEval';
-import { errorLib } from './errorLibrary';
+import { charEval } from './charEval.js';
+import { errorLib } from './errorLibrary.js';
 
 // TODO:
 // 8. Micrositio de prueba

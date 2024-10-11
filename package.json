@@ -5,7 +5,7 @@
     "description": "Simple and straight forrward to compress and makes files from string in JS",
     "main": "index.js",
     "scripts": {
-        "serve": "browser-sync start --server --files *.html *.css *.js --browser 'firefox'",
+        "serve": "browser-sync start --server --files *.html src/*.css playground/*.css playground/*.js --browser 'firefox'",
         "test": "vitest watch"
     },
     "devDependencies": {

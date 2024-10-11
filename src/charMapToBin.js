@@ -1,7 +1,7 @@
-import { charEval } from './charEval';
-import { errorLib } from './errorLibrary';
-import { toBin } from './toBinary';
-import { byteSize } from './units';
+import { charEval } from './charEval.js';
+import { errorLib } from './errorLibrary.js';
+import { toBin } from './toBinary.js';
+import { byteSize } from './units.js';
 
 export const arrangeChars = (compressionMap) => {
     if (!compressionMap) {

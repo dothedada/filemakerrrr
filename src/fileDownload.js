@@ -1,4 +1,5 @@
 const fileDownload = (name, binaryBuffer) => {
+    console.log(binaryBuffer);
     const blob = new Blob([binaryBuffer], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
 
@@ -9,3 +10,5 @@ const fileDownload = (name, binaryBuffer) => {
 
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
+
+export { fileDownload };

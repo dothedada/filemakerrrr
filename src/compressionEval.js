@@ -1,5 +1,5 @@
-import { errorLib } from './errorLibrary';
-import { byteSize } from './units';
+import { errorLib } from './errorLibrary.js';
+import { byteSize } from './units.js';
 
 const byesForChar = 3; // 1 ascii, 1 comressed length, 1 compressed string
 

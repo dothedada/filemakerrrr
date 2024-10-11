@@ -1,4 +1,4 @@
-import { errorLib } from './errorLibrary';
+import { errorLib } from './errorLibrary.js';
 
 const compressor = (stringToCompress, compressionTable) =>
     new Promise((resolve, reject) => {
