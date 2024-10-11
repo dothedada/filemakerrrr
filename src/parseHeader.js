@@ -1,6 +1,6 @@
-const toDecimal = (binary) => Number.parseInt(binary, 10);
+import { toDecimal } from './toBinary';
 
-const getHeader = (binaryString = '') => {
+const parseHeader = (binaryString) => {
     const zipStructure = binaryString.slice(0, 8);
 
     const header = {
@@ -29,18 +29,5 @@ const getHeader = (binaryString = '') => {
 
     return { asciiCount, asciiExtCount, unicodeCount, mapStart };
 };
-//
-// getHeader
-// confirm version
-// load data
-//      compressed
-//      fixed compression
-//      ascii
-//      asciiExt
-//      unicode
-// know length next segment
-// make counts
-//      many ascii
-//      many asciiExt
-//      many unicode
-// know map begining
+
+export { parseHeader };
