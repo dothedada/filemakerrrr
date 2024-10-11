@@ -16,6 +16,9 @@ const errorLib = {
             `Expected <${expected}>, instead received <${typeof input}>`,
         );
     },
+    wrongFileFormat: () => {
+        throw new Error('The file is not a valid F4R format');
+    },
 };
 
 export { errorLib };

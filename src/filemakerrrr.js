@@ -9,6 +9,7 @@ import { assembler } from './assembler.js';
 import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
 import { fileDownload } from './fileDownload.js';
 import { toBin } from './toBinary.js';
+import { signature } from './units.js';
 
 export class Filemakerrrr {
     #alwaysZip = false;
@@ -98,15 +99,18 @@ export class Filemakerrrr {
             const arrayBuffer = e.target.result;
             const uint8Array = new Uint8Array(arrayBuffer);
             let binaryString = '';
-            const signature = ['F', '4', 'R'];
 
             const fileSignature = uint8Array.slice(0, 3);
+            if (
+                !fileSignature.every(
+                    (byte, index) =>
+                        String.fromCharCode(byte) === signature[index],
+                )
+            ) {
+                errorLib.wrongFileFormat();
+            }
 
-            fileSignature.every(
-                (byte, index) => String.fromCharCode(byte) === signature[index],
-            );
-
-            for (let i = 0; i < uint8Array.length; i++) {
+            for (let i = 3; i < uint8Array.length; i++) {
                 binaryString += String(toBin(uint8Array[i], 8));
             }
 
