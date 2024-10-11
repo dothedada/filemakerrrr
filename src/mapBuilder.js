@@ -10,12 +10,14 @@ const pushCharInMap = (map, string, charStart, charLength) => {
     const zippedLength = toDecimal(
         stringToGet.slice(charLength, charLength + 4),
     );
-    const charBin = string.slice(charStart + charLength + 4, zippedLength);
+    const charBin = string.slice(
+        charStart + charLength + 4,
+        charStart + charLength + 4 + zippedLength,
+    );
 
     map.set(charBin, char);
 
     const charEnd = charStart + charLength + zippedLength + 4;
-    console.log(char);
 
     return charEnd;
 };

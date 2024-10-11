@@ -64,7 +64,7 @@ export class Filemakerrrr {
             charsMap.size,
             charsUnicode,
         );
-        // console.log(should, rate);
+        console.log(should, rate);
         // console.log('There is no need to zip the string, the file will be uncopressed')
         // console.log('The zip process started')
 
@@ -112,11 +112,17 @@ export class Filemakerrrr {
                 errorLib.wrongFileFormat();
             }
 
-            for (let i = 3; i < uint8Array.length; i++) {
+            for (let i = 3; i < uint8Array.length - 1; i++) {
                 binaryString += String(toBin(uint8Array[i], 8));
             }
+
+            const trimEnd = () => {
+                // const trimNumber =
+            };
+
             // parseHeader(binaryString);
             mapBuilder(parseHeader(binaryString), binaryString);
+
             console.log(binaryString, uint8Array);
         };
 

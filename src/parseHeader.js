@@ -26,9 +26,8 @@ const parseHeader = (binaryString) => {
         : 0;
 
     const mapStart = unicodeStart + (header.hasUnicode ? 16 : 0);
-    console.log(header, +zipStructure[3]);
 
-    console.log(asciiCount, asciiExtCount, unicodeCount, mapStart);
+    console.log('count:', asciiCount, asciiExtCount, unicodeCount, mapStart);
     return { asciiCount, asciiExtCount, unicodeCount, mapStart };
 };
 
