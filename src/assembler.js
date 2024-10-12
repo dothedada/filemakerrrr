@@ -14,9 +14,12 @@ const assembler = (compressionMap, fileBinaryString) => {
 
     const { ascii, asciiExt, unicode } = arrangeChars(compressionMap);
 
-    const asciiCountBin = toBin(ascii.length, byteSize.ascii);
-    const asciiExtCountBin = toBin(asciiExt.length, byteSize.asciiExt);
-    const unicodeCountBin = toBin(unicode.length, byteSize.unicode);
+    const asciiCountBin =
+        ascii.length > 0 ? toBin(ascii.length, byteSize.ascii) : '';
+    const asciiExtCountBin =
+        asciiExt.length > 0 ? toBin(asciiExt.length, byteSize.asciiExt) : '';
+    const unicodeCountBin =
+        unicode.length > 0 ? toBin(unicode.length, byteSize.unicode) : '';
     const magicNumber = ['F', '4', 'R']
         .map((char) => toBin(char.charCodeAt(0), 8))
         .join('');

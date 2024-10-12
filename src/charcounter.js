@@ -3,7 +3,6 @@ import { errorLib } from './errorLibrary.js';
 
 // TODO:
 // 0. string trimmer
-// 1. solucionar el problema de la codificacion de caracteres
 // 2. refactorizacion y ordenada del codigo
 // 3. Montaje de la biblioteca
 // 4. Readme

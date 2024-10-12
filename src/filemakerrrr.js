@@ -8,7 +8,7 @@ import { compressor } from './compressor.js';
 import { assembler } from './assembler.js';
 import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
 import { fileDownload } from './fileDownload.js';
-import { toBin } from './toBinary.js';
+import { toBin, toDecimal } from './toBinary.js';
 import { signature } from './units.js';
 import { mapBuilder } from './mapBuilder.js';
 import { parseHeader } from './parseHeader.js';
@@ -117,9 +117,10 @@ export class Filemakerrrr {
                 binaryString += toBin(uint8Array[i], 8);
             }
 
-            const trimEnd = () => {
-                // const trimNumber =
-            };
+            if (uint8Array[uint8Array.length - 1] > 0) {
+                const trim = 8 - uint8Array[uint8Array.length - 1];
+                binaryString = binaryString.slice(0, -trim);
+            }
 
             // parseHeader(binaryString);
             const { charsMap, currentPosition } = mapBuilder(

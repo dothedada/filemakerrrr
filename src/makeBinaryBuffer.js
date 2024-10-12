@@ -23,7 +23,6 @@ const binaryBufferForBrowser = (string) =>
 
             bytesArray[i] = Number.parseInt(currentByte, 2);
         }
-
         resolve(bytesArray);
     });
 
