@@ -1,5 +1,5 @@
 import { toDecimal } from './toBinary.js';
-import { byteSize } from './units.js';
+import { byteSize, zippedCharMaxLength } from './units.js';
 
 const pushCharInMap = (map, string, charStart, charLength) => {
     const stringToGet = string.slice(charStart);
@@ -8,16 +8,16 @@ const pushCharInMap = (map, string, charStart, charLength) => {
         toDecimal(stringToGet.slice(0, charLength)),
     );
     const zippedLength = toDecimal(
-        stringToGet.slice(charLength, charLength + 4),
+        stringToGet.slice(charLength, charLength + zippedCharMaxLength),
     );
     const charBin = string.slice(
-        charStart + charLength + 4,
-        charStart + charLength + 4 + zippedLength,
+        charStart + charLength + zippedCharMaxLength,
+        charStart + charLength + zippedCharMaxLength + zippedLength,
     );
 
     map.set(charBin, char);
 
-    const charEnd = charStart + charLength + zippedLength + 4;
+    const charEnd = charStart + charLength + zippedLength + zippedCharMaxLength;
 
     return charEnd;
 };

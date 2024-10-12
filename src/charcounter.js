@@ -2,7 +2,7 @@ import { charEval } from './charEval.js';
 import { errorLib } from './errorLibrary.js';
 
 // TODO:
-// 0. string trimmer
+// 1. terminar el metodo de extraccion
 // 2. refactorizacion y ordenada del codigo
 // 3. Montaje de la biblioteca
 // 4. Readme

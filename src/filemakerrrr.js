@@ -133,6 +133,8 @@ export class Filemakerrrr {
                 binaryString,
                 currentPosition,
             );
+
+            console.log(unzippedString);
         };
 
         reader.readAsArrayBuffer(file);
