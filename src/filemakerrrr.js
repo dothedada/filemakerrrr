@@ -12,6 +12,7 @@ import { toBin } from './toBinary.js';
 import { signature } from './units.js';
 import { mapBuilder } from './mapBuilder.js';
 import { parseHeader } from './parseHeader.js';
+import { decompressor } from './decompressor.js';
 
 export class Filemakerrrr {
     #alwaysZip = false;
@@ -121,9 +122,17 @@ export class Filemakerrrr {
             };
 
             // parseHeader(binaryString);
-            mapBuilder(parseHeader(binaryString), binaryString);
+            const { charsMap, currentPosition } = mapBuilder(
+                parseHeader(binaryString),
+                binaryString,
+            );
 
-            console.log(binaryString, uint8Array);
+            const unzippedString = decompressor(
+                charsMap,
+                binaryString,
+                currentPosition,
+            );
+            console.log(binaryString, unzippedString);
         };
 
         reader.readAsArrayBuffer(file);
@@ -135,16 +144,6 @@ export class Filemakerrrr {
         // get the last byte, parse it
         // trim the number of chars in the byte
         //
-        // create an empty string
-        // create a buffer,
-        // check if any bit left
-        //      if not, return the string
-        // get a bit,
-        // push into the buffer
-        // check in the map if any char corresponds to the secuence on buffer
-        // if it is so,
-        //      take the char and inject it to the string
-        //      clean de buffer
         //
         //
         //

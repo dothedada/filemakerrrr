@@ -2,13 +2,11 @@ import { charEval } from './charEval.js';
 import { errorLib } from './errorLibrary.js';
 
 // TODO:
-// 8. Micrositio de prueba
-// 4. parseo de archivo a binario
-// 5. extracción y construcción del mapa
-// 6. extracción de la cadena
-// 7. Montaje de la biblioteca
-// 9. Readme
-// 10. npm
+// 1. solucionar el problema de la codificacion de caracteres
+// 2. Montaje de la biblioteca
+// 3. refactorizacion y ordenada del codigo
+// 4. Readme
+// 5. npm
 
 const stringChecker = async (text) =>
     new Promise((resolve, reject) => {
