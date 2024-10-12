@@ -1,39 +1,48 @@
 import { stringChecker } from './charcounter.js';
 import { errorLib } from './errorLibrary.js';
-import { compressionForecast } from './compressionEval.js';
-import { Heap } from './minHeap.js';
-import { treeMaker } from './treeMaker.js';
+import { zipForecast } from './compressionEval.js';
+import { gardener } from './gardener.js';
 import { compressionTable } from './compressionTable.js';
 import { compressor } from './compressor.js';
 import { assembler } from './assembler.js';
 import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
 import { fileDownload } from './fileDownload.js';
-import { toBin, toDecimal } from './toBinary.js';
+import { toBin } from './toBinary.js';
 import { signature } from './units.js';
 import { mapBuilder } from './mapBuilder.js';
 import { parseHeader } from './parseHeader.js';
 import { decompressor } from './decompressor.js';
 
+// create object
+//      always zip
+//      fixed zip
+//      add string
+//      zip
+//      unzip
+//      download
+//      upload
+//      verbose
+
 export class Filemakerrrr {
     #alwaysZip = false;
     #verbose = false;
-    #stringToWork = '';
-    #zippedString = null;
+    #stringIn = null;
+    #stringOut = null;
     #bytesSecuence = null;
 
-    stringToZip(string) {
-        if (!string) {
-            errorLib.parameterIsMissing();
+    constructor({ verbose = false, alwaysZip = false } = {}) {
+        if (typeof verbose !== 'boolean') {
+            errorLib.dataExpected('Boolean', alwaysZip);
         }
-        if (typeof string !== 'string') {
-            errorLib.dataExpected('string', string);
+        if (typeof alwaysZip !== 'boolean') {
+            errorLib.dataExpected('Boolean', alwaysZip);
         }
 
-        this.#stringToWork = string;
-        return this;
+        this.#alwaysZip = alwaysZip;
+        this.#verbose = verbose;
     }
 
-    forceZip(alwaysZip = true) {
+    forceIt(alwaysZip = true) {
         this.#alwaysZip = alwaysZip;
         return this;
     }
@@ -42,26 +51,28 @@ export class Filemakerrrr {
         this.#verbose = verbose;
     }
 
-    #gardener(charsMap) {
-        return new Promise((resolve) => {
-            const charsHeap = new Heap();
-            for (const keyValue of charsMap) {
-                charsHeap.push(keyValue);
-            }
-            treeMaker(charsHeap);
+    useThis(string) {
+        if (!string) {
+            errorLib.parameterIsMissing();
+        }
+        if (typeof string !== 'string') {
+            errorLib.dataExpected('string', string);
+        }
 
-            resolve(charsHeap);
-        });
+        this.#stringIn = string;
+        return this;
     }
 
-    async zipIt() {
-        // console.log('Parsing the string')
-        const { charsMap, charsUnicode } = await stringChecker(
-            this.#stringToWork,
-        );
+    async zip() {
+        if (!this.#stringIn) {
+            throw new Error('Provide a string to zip before you zip it, duh!');
+        }
 
-        const { should, rate } = compressionForecast(
-            this.#stringToWork.length,
+        // console.log('Parsing the string')
+        const { charsMap, charsUnicode } = await stringChecker(this.#stringIn);
+
+        const { should, rate } = zipForecast(
+            this.#stringIn.length,
             charsMap.size,
             charsUnicode,
         );
@@ -70,28 +81,20 @@ export class Filemakerrrr {
         // console.log('The zip process started')
 
         // console.log('Making the compression map...')
-        const charsHeap = await this.#gardener(charsMap);
+        const charsHeap = await gardener(charsMap);
         const zippedCharMap = compressionTable(charsHeap);
 
         // console.log('Zipping the string...')
-        const zippedString = await compressor(
-            this.#stringToWork,
-            zippedCharMap,
-        );
+        const zippedString = await compressor(this.#stringIn, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
-        const bytesArray = await binaryBufferForBrowser(binarySecuence);
+        this.#stringOut = await binaryBufferForBrowser(binarySecuence);
 
-        // console.log(ready to download)
-        this.#bytesSecuence = bytesArray;
-
+        // console.log('Ready to download...')
         return this;
-        // console.log(zipMap);
-        // console.log('Secuencia binaria:', binarySecuence);
-        // console.log('bytes secuence:', bytesArray);
     }
 
-    download(name) {
-        fileDownload(name, this.#bytesSecuence);
+    download(name = 'myZippedString') {
+        fileDownload(name, this.#stringOut);
     }
 
     parseFile(uploadedFile) {
@@ -110,6 +113,7 @@ export class Filemakerrrr {
                         String.fromCharCode(byte) === signature[index],
                 )
             ) {
+                console.log(fileSignature);
                 errorLib.wrongFileFormat();
             }
 

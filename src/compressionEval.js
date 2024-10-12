@@ -3,7 +3,7 @@ import { byteSize } from './units.js';
 
 const byesForChar = 3; // 1 ascii, 1 comressed length, 1 compressed string
 
-const compressionForecast = (stringLength, charCount, charsUnicode = 0) => {
+const zipForecast = (stringLength, charCount, charsUnicode = 0) => {
     if (!stringLength || !charCount) {
         errorLib.parameterIsMissing();
     }
@@ -21,4 +21,4 @@ const compressionForecast = (stringLength, charCount, charsUnicode = 0) => {
     return { should, rate };
 };
 
-export { compressionForecast };
+export { zipForecast };

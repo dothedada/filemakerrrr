@@ -6,8 +6,8 @@ const btn = document.querySelector('.getTXT');
 const textToZip = document.querySelector('textarea');
 btn.addEventListener('pointerdown', () => {
     zipper
-        .stringToZip(textToZip.value)
-        .zipIt()
+        .useThis(textToZip.value)
+        .zip()
         .then(() => zipper.download('carajo'));
 });
 
