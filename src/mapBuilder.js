@@ -45,7 +45,6 @@ const mapBuilder = (headerObject, binaryString) => {
         }
     }
 
-    console.log(charsMap, currentPosition);
     return { charsMap, currentPosition };
 };
 

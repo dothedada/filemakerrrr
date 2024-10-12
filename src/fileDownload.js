@@ -1,5 +1,4 @@
 const fileDownload = (name, binaryBuffer) => {
-    console.log(binaryBuffer);
     const blob = new Blob([binaryBuffer], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
 

@@ -114,7 +114,7 @@ export class Filemakerrrr {
             }
 
             for (let i = 3; i < uint8Array.length - 1; i++) {
-                binaryString += String(toBin(uint8Array[i], 8));
+                binaryString += toBin(uint8Array[i], 8);
             }
 
             const trimEnd = () => {
@@ -132,7 +132,6 @@ export class Filemakerrrr {
                 binaryString,
                 currentPosition,
             );
-            console.log(binaryString, unzippedString);
         };
 
         reader.readAsArrayBuffer(file);
