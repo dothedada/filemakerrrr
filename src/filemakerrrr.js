@@ -14,38 +14,47 @@ import { parseBinToChar } from './parseBinToChar.js';
 import { message } from './messages.js';
 
 export class Filemakerrrr {
+    #downloadName;
     #alwaysZip;
     #verbose;
+    #listener;
     #lang;
-    #listener = console.log;
-    #downloadName = 'miFile';
-    #zipFileFormat;
 
     #zipInput = null;
     #zipOutput = null;
     #unzipFileBuffer = null;
     #unzipOutput = null;
+    #zipFileFormat;
 
     constructor(
         fileOrString = undefined,
-        { verbose = false, alwaysZip = false, downloadName, lang = 'es' } = {},
+        { downloadName, alwaysZip, verbose, talkToMeCallbak, lang } = {},
     ) {
-        if (typeof verbose !== 'boolean') {
-            errorLib.dataExpected('Boolean', alwaysZip);
-        }
-        if (typeof alwaysZip !== 'boolean') {
-            errorLib.dataExpected('Boolean', alwaysZip);
-        }
-
-        this.#alwaysZip = alwaysZip;
-        this.#verbose = verbose;
-        this.#downloadName = downloadName;
-        this.#lang = lang;
+        this.#downloadName = downloadName ?? 'miFile';
+        this.#alwaysZip = alwaysZip ?? false;
+        this.#verbose = verbose ?? false;
+        this.#listener = talkToMeCallbak ?? console.log;
+        this.#lang = lang ?? 'es';
 
         if (typeof fileOrString === 'string') {
             this.#zipInput = fileOrString;
-            this.zip().then(() => this.downloadZip('asdasdada'));
+            this.#fastZip();
         }
+    }
+
+    #fastZip() {
+        this.zip()
+            .then(() => this.downloadZip())
+            .catch((err) => {
+                throw new Error('Compression Failed');
+            });
+    }
+
+    flush() {
+        this.#zipInput = null;
+        this.#zipOutput = null;
+        this.#unzipFileBuffer = null;
+        this.#unzipOutput = null;
     }
 
     forceIt(alwaysZip = true) {
