@@ -1,17 +1,9 @@
 import { arrangeChars } from './charMapToBin.js';
 import { fileDir } from './fileDir.js';
 import { toBin } from './toBinary.js';
-import { errorLib } from './errorLibrary.js';
-import { byteSize } from './units.js';
+import { byteSize, signature } from './units.js';
 
 const assembler = (compressionMap, fileBinaryString) => {
-    if (!compressionMap) {
-        errorLib.parameterIsMissing;
-    }
-    if (!(compressionMap instanceof Map)) {
-        errorLib.dataExpected('Map', compressionMap);
-    }
-
     const { ascii, asciiExt, unicode } = arrangeChars(compressionMap);
 
     const asciiCountBin =
@@ -20,7 +12,7 @@ const assembler = (compressionMap, fileBinaryString) => {
         asciiExt.length > 0 ? toBin(asciiExt.length, byteSize.asciiExt) : '';
     const unicodeCountBin =
         unicode.length > 0 ? toBin(unicode.length, byteSize.unicode) : '';
-    const magicNumber = ['F', '4', 'R']
+    const magicNumber = signature
         .map((char) => toBin(char.charCodeAt(0), 8))
         .join('');
 
