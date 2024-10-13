@@ -21,13 +21,4 @@ const errorLib = {
     },
 };
 
-const msgLib = {
-    en: {
-        fileFormatErr: 'The file is not a valid F4R format',
-    },
-    es: {
-        fileFormatErr: 'El archivo no es un formato F4R válido.',
-    },
-};
-
-export { errorLib, msgLib };
+export { errorLib };

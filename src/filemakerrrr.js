@@ -11,6 +11,7 @@ import { fileCheck } from './fileCheck.js';
 import { fileDownload } from './fileDownload.js';
 import { parseBufferToBin } from './parseBufferToBin.js';
 import { parseBinToChar } from './parseBinToChar.js';
+import { message } from './messages.js';
 
 // create object
 //      always zip
@@ -26,13 +27,14 @@ export class Filemakerrrr {
     #alwaysZip = false;
     #verbose = false;
     #listener = console.log;
+    #lang = 'es';
 
     #zipInput = null;
     #zipOutput = null;
     #unzipFileBuffer = null;
     #unzipOutput = null;
 
-    constructor({ verbose = false, alwaysZip = false } = {}) {
+    constructor({ verbose = true, alwaysZip = false } = {}) {
         if (typeof verbose !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
         }
@@ -70,7 +72,9 @@ export class Filemakerrrr {
             throw new Error('Provide a string to zip before you zip it, duh!');
         }
 
-        // console.log('Parsing the string')
+        if (this.#verbose) {
+            this.#listener(message[this.#lang].zip.analize);
+        }
         const { charsMap, charsUnicode } = await stringChecker(this.#zipInput);
 
         const { should, rate } = zipForecast(
@@ -78,20 +82,29 @@ export class Filemakerrrr {
             charsMap.size,
             charsUnicode,
         );
-        console.log(should, rate);
-        // console.log('There is no need to zip the string, the file will be uncopressed')
-        // console.log('The zip process started')
+        console.log(rate);
 
-        // console.log('Making the compression map...')
+        if (this.#verbose) {
+            this.#listener(
+                message[this.#lang].zip[should ? 'willZip' : 'willNotZip'],
+            );
+        }
+
+        if (this.#verbose) {
+            this.#listener(message[this.#lang].zip.zipMap);
+        }
         const charsHeap = await gardener(charsMap);
         const zippedCharMap = compressionTable(charsHeap);
-
-        // console.log('Zipping the string...')
+        if (this.#verbose) {
+            this.#listener(message[this.#lang].zip.zipString);
+        }
         const zippedString = await compressor(this.#zipInput, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipOutput = await binaryBufferForBrowser(binarySecuence);
 
-        // console.log('Ready to download...')
+        if (this.#verbose) {
+            this.#listener(message[this.#lang].zip.roadyToDownload);
+        }
         return this;
     }
 
@@ -105,7 +118,7 @@ export class Filemakerrrr {
 
     async parseFile(file) {
         const fileData = await fileLoader(file);
-        this.#unzipFileBuffer = fileCheck(fileData);
+        this.#unzipFileBuffer = fileCheck(fileData, this.#listener, this.#lang);
         console.log(this.#unzipFileBuffer);
     }
 
