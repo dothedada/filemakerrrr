@@ -116,25 +116,56 @@ export class Filemakerrrr {
     }
 
     async parseFile(file) {
-        const fileData = await fileLoader(file);
-        this.#unzipFileBuffer = fileCheck(fileData, this.#listener, this.#lang);
+        try {
+            this.#talkToYou(['unzip', 'upload']);
 
-        return this.#unzipFileBuffer;
+            const fileData = await fileLoader(file);
+            this.#unzipFileBuffer = fileCheck(fileData);
+
+            if (!this.#unzipFileBuffer) {
+                this.#talkToYou(['unzip', 'fileFormarError']);
+
+                new Error('El archivo no es un formato F4R válido.');
+            }
+
+            return this.#unzipFileBuffer;
+        } catch (err) {
+            this.#talkToYou(['unzip', 'uploadError']);
+
+            new Error('hubo un error en la carga del archivo');
+        }
     }
 
     async unzip() {
-        const binaryString = await parseBufferToBin(this.#unzipFileBuffer);
-        const unzippedString = await parseBinToChar(binaryString);
+        try {
+            this.#talkToYou(['unzip', 'parsingBuffer']);
 
-        this.#unzipOutput = unzippedString;
-        return unzippedString;
+            const binaryString = await parseBufferToBin(this.#unzipFileBuffer);
+
+            this.#talkToYou(['unzip', 'unzippingString']);
+
+            const unzippedString = await parseBinToChar(binaryString);
+            this.#unzipOutput = unzippedString;
+
+            this.#talkToYou(['unzip', 'readyToDownload']);
+
+            return unzippedString;
+        } catch {
+            this.#talkToYou(['unzip', 'unzipError']);
+
+            new Error(
+                'hubo un error al descomprimir el archivo, intentalo más tarde',
+            );
+        }
     }
 
     downloadZip(name = this.#downloadName) {
+        this.#talkToYou(['download', 'start']);
         fileDownload(name, this.#zipOutput, this.#zipFileFormat);
     }
 
     downloadUnzip(name = this.#downloadName) {
+        this.#talkToYou(['download', 'start']);
         fileDownload(name, this.#unzipOutput, false);
     }
 

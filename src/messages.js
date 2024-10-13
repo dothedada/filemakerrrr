@@ -10,9 +10,21 @@ const message = {
             zipString: 'Zipping the string...',
             readyToDownload: 'Ready to download',
         },
-        unzip: {},
+        unzip: {
+            upload: 'Uploading the file...',
+            uploadError: 'Error during file upload.',
+            fileFormarError: 'The file is not a valid F4R format.',
+            parsingBuffer: 'Reading the buffer...',
+            unzippingString: 'Unzipping the string...',
+            readyToDownload: 'File ready to download.',
+            unzipError: 'An error occurred while unzipping the file.',
+        },
         err: {
             fileFormat: 'The file is not a valid F4R format',
+        },
+        download: {
+            start: 'Starting download...',
+            end: 'Download completed.',
         },
     },
     es: {
@@ -26,9 +38,21 @@ const message = {
             zipString: 'Transcribiendo la cadena de caracteres...',
             readyToDownload: 'Archivo listo para descargar.',
         },
-        unzip: {},
+        unzip: {
+            upload: 'Subiendo el archivo...',
+            uploadError: 'Error durante la carga del archivo.',
+            fileFormarError: 'El archivo no es un formato F4R válido.',
+            parsingBuffer: 'Leyendo el buffer...',
+            unzippingString: 'Descomprimiendo la cadena...',
+            readyToDownload: 'Archivo listo para descargar.',
+            unzipError: 'Sucedió un error mientras se descomprimia el archivo.',
+        },
         err: {
             fileFormat: 'El archivo no es un formato F4R válido.',
+        },
+        download: {
+            start: 'Iniciando descarga...',
+            end: 'descarga finalizada',
         },
     },
 };
