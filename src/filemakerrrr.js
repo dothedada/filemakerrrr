@@ -18,6 +18,7 @@ export class Filemakerrrr {
     #verbose = false;
     #listener = console.log;
     #lang = 'es';
+    #downloadName = 'miFile';
 
     #zipInput = null;
     #zipOutput = null;
@@ -26,7 +27,7 @@ export class Filemakerrrr {
 
     constructor(
         fileOrString = undefined,
-        { verbose = true, alwaysZip = false } = {},
+        { verbose = true, alwaysZip = false, downloadName, lang = 'es' } = {},
     ) {
         if (typeof verbose !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
@@ -34,15 +35,14 @@ export class Filemakerrrr {
         if (typeof alwaysZip !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
         }
-        if (fileOrString) {
-            if (typeof fileOrString === 'string') {
-                this.#zipInput = fileOrString;
-                this.zip();
-            }
-        }
-
         this.#alwaysZip = alwaysZip;
         this.#verbose = verbose;
+        this.#downloadName = downloadName;
+
+        if (typeof fileOrString === 'string') {
+            this.#zipInput = fileOrString;
+            this.zip().then(() => this.downloadZip('asdasdada'));
+        }
     }
 
     forceIt(alwaysZip = true) {
@@ -98,9 +98,10 @@ export class Filemakerrrr {
 
         this.#talkToYou(['zip', 'rate', rate]);
 
-        if (!should) {
-            //
+        if (!this.#alwaysZip && !should) {
             this.#talkToYou(['zip', 'willNotZip']);
+            this.#zipOutput = this.#zipInput;
+            return this;
         }
 
         this.#talkToYou(['zip', 'willZip']);
