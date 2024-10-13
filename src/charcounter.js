@@ -2,7 +2,8 @@ import { charEval } from './charEval.js';
 import { errorLib } from './errorLibrary.js';
 
 // TODO:
-// 1. terminar el metodo de extraccion
+// 1. montar los metodos opcionales (force zip, and shit)
+// 1.a. ajustar los textos del listener
 // 2. refactorizacion y ordenada del codigo
 // 3. Montaje de la biblioteca
 // 4. Readme

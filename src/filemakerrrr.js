@@ -13,16 +13,6 @@ import { parseBufferToBin } from './parseBufferToBin.js';
 import { parseBinToChar } from './parseBinToChar.js';
 import { message } from './messages.js';
 
-// create object
-//      always zip
-//      fixed zip
-//      add string
-//      zip
-//      unzip
-//      download
-//      upload
-//      verbose
-
 export class Filemakerrrr {
     #alwaysZip = false;
     #verbose = false;
@@ -53,9 +43,15 @@ export class Filemakerrrr {
 
     talkToMe(verbose = true) {
         this.#verbose = verbose;
+        return this;
     }
 
-    useThis(string) {
+    addListener(callback) {
+        this.#listener = callback;
+        return this;
+    }
+
+    stringToZip(string) {
         if (!string) {
             errorLib.parameterIsMissing();
         }
@@ -90,14 +86,19 @@ export class Filemakerrrr {
             );
         }
 
+        // TODO: comprimir o no
+
         if (this.#verbose) {
             this.#listener(message[this.#lang].zip.zipMap);
         }
+
         const charsHeap = await gardener(charsMap);
         const zippedCharMap = compressionTable(charsHeap);
+
         if (this.#verbose) {
             this.#listener(message[this.#lang].zip.zipString);
         }
+
         const zippedString = await compressor(this.#zipInput, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipOutput = await binaryBufferForBrowser(binarySecuence);
@@ -105,6 +106,7 @@ export class Filemakerrrr {
         if (this.#verbose) {
             this.#listener(message[this.#lang].zip.roadyToDownload);
         }
+
         return this;
     }
 
@@ -119,13 +121,15 @@ export class Filemakerrrr {
     async parseFile(file) {
         const fileData = await fileLoader(file);
         this.#unzipFileBuffer = fileCheck(fileData, this.#listener, this.#lang);
-        console.log(this.#unzipFileBuffer);
+
+        return this.#unzipFileBuffer;
     }
 
     async unzip() {
         const binaryString = await parseBufferToBin(this.#unzipFileBuffer);
         const unzippedString = await parseBinToChar(binaryString);
 
-        console.log(binaryString, unzippedString);
+        this.#unzipOutput = unzippedString;
+        return unzippedString;
     }
 }

@@ -5,7 +5,7 @@ const fileDownload = (name, binaryBuffer, zip) => {
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement('a');
-    downloadLink.download = `${name}.f4r.bin`;
+    downloadLink.download = `${name}${zip ? '.f4r' : '.txt'}`;
     downloadLink.href = url;
     downloadLink.click();
 

@@ -2,7 +2,6 @@ import { toDecimal } from './toBinary.js';
 
 const parseHeader = (binaryString) => {
     const zipStructure = binaryString.slice(0, 8);
-    console.log(zipStructure);
 
     const header = {
         version: Number.parseInt(zipStructure.slice(0, 3), 10),
