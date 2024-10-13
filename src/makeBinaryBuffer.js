@@ -1,17 +1,8 @@
-import { errorLib } from './errorLibrary.js';
-
 const binaryBufferForBrowser = (string) =>
     new Promise((resolve, reject) => {
-        if (typeof string !== 'string') {
-            reject(errorLib.parameterIsMissing());
-        }
-        if (/[2-9a-zA-Z]/g.test(string)) {
-            reject(errorLib.dataExpected('Binary string', string));
-        }
-
         const bytesNeeded = Math.ceil(string.length / 8);
         const bytesArray = new Uint8Array(bytesNeeded + 1);
-        // add last byte trim
+
         bytesArray[bytesArray.length - 1] = Number.parseInt(string.length % 8);
 
         for (let i = 0; i < bytesNeeded; i++) {
@@ -22,6 +13,9 @@ const binaryBufferForBrowser = (string) =>
             }
 
             bytesArray[i] = Number.parseInt(currentByte, 2);
+        }
+        if (!bytesArray) {
+            reject(new Error('Cannot create the bytes array'));
         }
         resolve(bytesArray);
     });

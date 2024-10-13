@@ -1,14 +1,4 @@
-import { errorLib } from './errorLibrary.js';
-import { Heap } from './minHeap.js';
-
 const compressionTable = (heapTree) => {
-    if (!heapTree) {
-        errorLib.parameterIsMissing();
-    }
-    if (!(heapTree instanceof Heap)) {
-        errorLib.dataExpected('Heap', heapTree);
-    }
-
     const table = new Map();
 
     const nodeParser = (node, route = '') => {

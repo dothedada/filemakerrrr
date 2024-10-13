@@ -1,17 +1,9 @@
 import { charEval } from './charEval.js';
-import { errorLib } from './errorLibrary.js';
 import { toBin } from './toBinary.js';
 import { byteSize, zippedCharMaxLength } from './units.js';
 
-export const arrangeChars = (compressionMap) => {
-    if (!compressionMap) {
-        errorLib.parameterIsMissing();
-    }
-    if (!(compressionMap instanceof Map)) {
-        errorLib.dataExpected('Map', compressionMap);
-    }
-
-    return [...compressionMap].reduce(
+export const arrangeChars = (compressionMap) =>
+    [...compressionMap].reduce(
         (arranged, [char, bin]) => {
             const { code, standard } = charEval(char);
             const charCodeBin = toBin(code, byteSize[standard]);
@@ -23,4 +15,3 @@ export const arrangeChars = (compressionMap) => {
         },
         { ascii: [], asciiExt: [], unicode: [] },
     );
-};

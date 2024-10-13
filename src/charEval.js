@@ -1,14 +1,6 @@
-import { errorLib } from './errorLibrary.js';
-
 const charEval = (char) => {
-    if (!char) {
-        errorLib.parameterIsMissing();
-    }
-    if (typeof char !== 'string') {
-        errorLib.dataExpected('string', char);
-    }
-
     const code = char.charCodeAt(0);
+
     let standard;
     if (code <= 127) {
         standard = 'ascii';

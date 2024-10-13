@@ -13,6 +13,12 @@ import { parseBufferToBin } from './parseBufferToBin.js';
 import { parseBinToChar } from './parseBinToChar.js';
 import { message } from './messages.js';
 
+// TODO:
+// 2. refactorizacion y ordenada del codigo
+// 3. Montaje de la biblioteca
+// 4. Readme
+// 5. npm
+
 export class Filemakerrrr {
     #downloadName;
     #alwaysZip;
