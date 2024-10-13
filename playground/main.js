@@ -13,4 +13,5 @@ btn.addEventListener('pointerdown', () => {
 
 document.querySelector('.fileInput').addEventListener('change', (event) => {
     zipper.parseFile(event.target.files[0]);
+    zipper.unzip();
 });

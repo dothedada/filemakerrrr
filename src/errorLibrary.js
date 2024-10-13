@@ -17,8 +17,17 @@ const errorLib = {
         );
     },
     wrongFileFormat: () => {
-        throw new Error('The file is not a valid F4R format');
+        throw new Error('');
     },
 };
 
-export { errorLib };
+const msgLib = {
+    en: {
+        fileFormatErr: 'The file is not a valid F4R format',
+    },
+    es: {
+        fileFormatErr: 'El archivo no es un formato F4R válido.',
+    },
+};
+
+export { errorLib, msgLib };
