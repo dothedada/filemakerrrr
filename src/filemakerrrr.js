@@ -82,9 +82,9 @@ export class Filemakerrrr {
             charsMap.size,
             charsUnicode,
         );
-        console.log(rate);
 
         if (this.#verbose) {
+            this.#listener(message[this.#lang].zip.rate(rate));
             this.#listener(
                 message[this.#lang].zip[should ? 'willZip' : 'willNotZip'],
             );

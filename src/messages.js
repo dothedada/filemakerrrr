@@ -2,6 +2,8 @@ const message = {
     en: {
         zip: {
             analize: 'Parsing the text...',
+            rate: (rate) =>
+                `The zipped file would be around ${rate} times the size if it was a .txt`,
             willNotZip: 'There is no need to zip the string.',
             willZip: 'The zip process has started...',
             zipMap: 'Making the zip map...',
@@ -16,6 +18,8 @@ const message = {
     es: {
         zip: {
             analize: 'Analizando el texto...',
+            rate: (rate) =>
+                `El archivo comprimido será aproximadamente ${rate}veces el tamaño de sin fuera un .txt`,
             willNotZip: 'No es necesario comprimir.',
             willZip: 'Iniciando el proceso de compresión...',
             zipMap: 'Elaborando la tabla de caracteres...',
