@@ -4,6 +4,7 @@ import { errorLib } from './errorLibrary.js';
 // TODO:
 // 1. montar los metodos opcionales (force zip, and shit)
 // 1.a. ajustar los textos del listener
+// 1.b. pensar la opción de encadenar/noencadenar los metodos async (tomar el arhivo pasado o default el de memoria)
 // 2. refactorizacion y ordenada del codigo
 // 3. Montaje de la biblioteca
 // 4. Readme

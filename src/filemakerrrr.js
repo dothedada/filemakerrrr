@@ -24,12 +24,21 @@ export class Filemakerrrr {
     #unzipFileBuffer = null;
     #unzipOutput = null;
 
-    constructor({ verbose = true, alwaysZip = false } = {}) {
+    constructor(
+        fileOrString = undefined,
+        { verbose = true, alwaysZip = false } = {},
+    ) {
         if (typeof verbose !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
         }
         if (typeof alwaysZip !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
+        }
+        if (fileOrString) {
+            if (typeof fileOrString === 'string') {
+                this.#zipInput = fileOrString;
+                this.zip();
+            }
         }
 
         this.#alwaysZip = alwaysZip;
@@ -51,6 +60,16 @@ export class Filemakerrrr {
         return this;
     }
 
+    #talkToYou([process, key, args], always = false) {
+        if (!always && !this.#verbose) {
+            return;
+        }
+
+        const baseOutput = message[this.#lang][process][key];
+        const finalOutput = args ? baseOutput(args) : baseOutput;
+        this.#listener(finalOutput);
+    }
+
     stringToZip(string) {
         if (!string) {
             errorLib.parameterIsMissing();
@@ -68,44 +87,35 @@ export class Filemakerrrr {
             throw new Error('Provide a string to zip before you zip it, duh!');
         }
 
-        if (this.#verbose) {
-            this.#listener(message[this.#lang].zip.analize);
-        }
-        const { charsMap, charsUnicode } = await stringChecker(this.#zipInput);
+        this.#talkToYou(['zip', 'analize']);
 
+        const { charsMap, charsUnicode } = await stringChecker(this.#zipInput);
         const { should, rate } = zipForecast(
             this.#zipInput.length,
             charsMap.size,
             charsUnicode,
         );
 
-        if (this.#verbose) {
-            this.#listener(message[this.#lang].zip.rate(rate));
-            this.#listener(
-                message[this.#lang].zip[should ? 'willZip' : 'willNotZip'],
-            );
+        this.#talkToYou(['zip', 'rate', rate]);
+
+        if (!should) {
+            //
+            this.#talkToYou(['zip', 'willNotZip']);
         }
 
-        // TODO: comprimir o no
-
-        if (this.#verbose) {
-            this.#listener(message[this.#lang].zip.zipMap);
-        }
+        this.#talkToYou(['zip', 'willZip']);
+        this.#talkToYou(['zip', 'zipMap']);
 
         const charsHeap = await gardener(charsMap);
         const zippedCharMap = compressionTable(charsHeap);
 
-        if (this.#verbose) {
-            this.#listener(message[this.#lang].zip.zipString);
-        }
+        this.#talkToYou(['zip', 'zipString']);
 
         const zippedString = await compressor(this.#zipInput, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipOutput = await binaryBufferForBrowser(binarySecuence);
 
-        if (this.#verbose) {
-            this.#listener(message[this.#lang].zip.roadyToDownload);
-        }
+        this.#talkToYou(['zip', 'readyToDownload']);
 
         return this;
     }
