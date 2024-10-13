@@ -1,5 +1,7 @@
-const fileDownload = (name, binaryBuffer) => {
-    const blob = new Blob([binaryBuffer], { type: 'application/octet-stream' });
+const fileDownload = (name, binaryBuffer, zip) => {
+    const blob = new Blob([binaryBuffer], {
+        type: zip ? 'application/octet-stream' : 'text/plain',
+    });
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement('a');

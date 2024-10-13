@@ -26,9 +26,10 @@ import { decompressor } from './decompressor.js';
 export class Filemakerrrr {
     #alwaysZip = false;
     #verbose = false;
-    #stringIn = null;
-    #stringOut = null;
-    #bytesSecuence = null;
+    #zipIn = null;
+    #zipOut = null;
+    #unzipIn = null;
+    #unzipOut = null;
 
     constructor({ verbose = false, alwaysZip = false } = {}) {
         if (typeof verbose !== 'boolean') {
@@ -59,20 +60,20 @@ export class Filemakerrrr {
             errorLib.dataExpected('string', string);
         }
 
-        this.#stringIn = string;
+        this.#zipIn = string;
         return this;
     }
 
     async zip() {
-        if (!this.#stringIn) {
+        if (!this.#zipIn) {
             throw new Error('Provide a string to zip before you zip it, duh!');
         }
 
         // console.log('Parsing the string')
-        const { charsMap, charsUnicode } = await stringChecker(this.#stringIn);
+        const { charsMap, charsUnicode } = await stringChecker(this.#zipIn);
 
         const { should, rate } = zipForecast(
-            this.#stringIn.length,
+            this.#zipIn.length,
             charsMap.size,
             charsUnicode,
         );
@@ -85,73 +86,107 @@ export class Filemakerrrr {
         const zippedCharMap = compressionTable(charsHeap);
 
         // console.log('Zipping the string...')
-        const zippedString = await compressor(this.#stringIn, zippedCharMap);
+        const zippedString = await compressor(this.#zipIn, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
-        this.#stringOut = await binaryBufferForBrowser(binarySecuence);
+        this.#zipOut = await binaryBufferForBrowser(binarySecuence);
 
         // console.log('Ready to download...')
         return this;
     }
 
-    download(name = 'myZippedString') {
-        fileDownload(name, this.#stringOut);
+    downloadZip(name = 'myZippedString') {
+        fileDownload(name, this.#zipOut, true);
     }
 
-    parseFile(uploadedFile) {
-        const file = uploadedFile;
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            const arrayBuffer = e.target.result;
-            const uint8Array = new Uint8Array(arrayBuffer);
-            let binaryString = '';
-
-            const fileSignature = uint8Array.slice(0, 3);
-            if (
-                !fileSignature.every(
-                    (byte, index) =>
-                        String.fromCharCode(byte) === signature[index],
-                )
-            ) {
-                console.log(fileSignature);
-                errorLib.wrongFileFormat();
-            }
-
-            for (let i = 3; i < uint8Array.length - 1; i++) {
-                binaryString += toBin(uint8Array[i], 8);
-            }
-
-            if (uint8Array[uint8Array.length - 1] > 0) {
-                const trim = 8 - uint8Array[uint8Array.length - 1];
-                binaryString = binaryString.slice(0, -trim);
-            }
-
-            // parseHeader(binaryString);
-            const { charsMap, currentPosition } = mapBuilder(
-                parseHeader(binaryString),
-                binaryString,
-            );
-
-            const unzippedString = decompressor(
-                charsMap,
-                binaryString,
-                currentPosition,
-            );
-
-            console.log(unzippedString);
-        };
-
-        reader.readAsArrayBuffer(file);
+    downloadUnzip(name = 'myUnzippedString') {
+        fileDownload(name, this.#unzipOut, false);
     }
 
-    unzipIt() {
+    async parseFile(file) {
+        this.#unzipIn = await this.#fileLoader(file).then((arrayBuffer) =>
+            this.#fileCheck(arrayBuffer),
+        );
+
+        console.log(this.#unzipIn);
+        // const file = uploadedFile;
+        // const reader = new FileReader();
         //
+        // reader.onload = (e) => {
+        //     const arrayBuffer = e.target.result;
+        //     const uint8Array = new Uint8Array(arrayBuffer);
+        //     this.#unzipIn = '';
         //
-        // get the last byte, parse it
-        // trim the number of chars in the byte
+        //     for (let i = 3; i < uint8Array.length - 1; i++) {
+        //         this.#unzipIn += toBin(uint8Array[i], 8);
+        //     }
         //
+        //     if (uint8Array[uint8Array.length - 1] > 0) {
+        //         const trim = 8 - uint8Array[uint8Array.length - 1];
+        //         this.#unzipIn = this.#unzipIn.slice(0, -trim);
+        //     }
+        //     console.log(arrayBuffer, uint8Array);
         //
+        //     return this;
+        // };
         //
-        //
+        // reader.readAsArrayBuffer(file);
+    }
+
+    #fileLoader(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = (e) =>
+                reject(new Error('Error while uploading the file'));
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    #fileCheck(arrayBuffer) {
+        const fileArray = new Uint8Array(arrayBuffer);
+        console.log(fileArray);
+        const isf4r = fileArray
+            .slice(0, 3)
+            .every((byte, i) => String.fromCharCode(byte) === signature[i]);
+        if (!isf4r) {
+            errorLib.wrongFileFormat();
+        }
+
+        return fileArray.slice(3);
+    }
+
+    #parseDataToBin(fileArray) {
+        return new Promise((resolve, reject) => {
+            let stringBin = '';
+
+            for (let i = 0; i < fileArray.length - 1; i++) {
+                stringBin += toBin(fileArray[i], 8);
+            }
+
+            if (fileArray[fileArray.length - 1] > 0) {
+                const trim = 8 - fileArray[fileArray.length - 1];
+                stringBin = stringBin.slice(0, -trim);
+            }
+
+            if (!stringBin.length) {
+                reject(new Error('An error ocur while parsing the binary'));
+            }
+
+            resolve(stringBin);
+        });
+    }
+
+    unzip(stringBin) {
+        return new Promise((resolve, reject) => {
+            const header = parseHeader(stringBin);
+            const { charsMap, currentPosition } = mapBuilder(header, stringBin);
+            const string = decompressor(charsMap, stringBin, currentPosition);
+
+            if (typeof string === 'string' && string.length) {
+                reject(new Error('An error ocur while unzipping the string'));
+            }
+
+            resolve(string);
+        });
     }
 }

@@ -8,7 +8,7 @@ btn.addEventListener('pointerdown', () => {
     zipper
         .useThis(textToZip.value)
         .zip()
-        .then(() => zipper.download('carajo'));
+        .then(() => zipper.downloadZip('carajo'));
 });
 
 document.querySelector('.fileInput').addEventListener('change', (event) => {
