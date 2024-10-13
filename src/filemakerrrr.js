@@ -14,11 +14,12 @@ import { parseBinToChar } from './parseBinToChar.js';
 import { message } from './messages.js';
 
 export class Filemakerrrr {
-    #alwaysZip = false;
-    #verbose = false;
+    #alwaysZip;
+    #verbose;
+    #lang;
     #listener = console.log;
-    #lang = 'es';
     #downloadName = 'miFile';
+    #zipFileFormat;
 
     #zipInput = null;
     #zipOutput = null;
@@ -27,7 +28,7 @@ export class Filemakerrrr {
 
     constructor(
         fileOrString = undefined,
-        { verbose = true, alwaysZip = false, downloadName, lang = 'es' } = {},
+        { verbose = false, alwaysZip = false, downloadName, lang = 'es' } = {},
     ) {
         if (typeof verbose !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
@@ -35,9 +36,11 @@ export class Filemakerrrr {
         if (typeof alwaysZip !== 'boolean') {
             errorLib.dataExpected('Boolean', alwaysZip);
         }
+
         this.#alwaysZip = alwaysZip;
         this.#verbose = verbose;
         this.#downloadName = downloadName;
+        this.#lang = lang;
 
         if (typeof fileOrString === 'string') {
             this.#zipInput = fileOrString;
@@ -48,26 +51,6 @@ export class Filemakerrrr {
     forceIt(alwaysZip = true) {
         this.#alwaysZip = alwaysZip;
         return this;
-    }
-
-    talkToMe(verbose = true) {
-        this.#verbose = verbose;
-        return this;
-    }
-
-    addListener(callback) {
-        this.#listener = callback;
-        return this;
-    }
-
-    #talkToYou([process, key, args], always = false) {
-        if (!always && !this.#verbose) {
-            return;
-        }
-
-        const baseOutput = message[this.#lang][process][key];
-        const finalOutput = args ? baseOutput(args) : baseOutput;
-        this.#listener(finalOutput);
     }
 
     stringToZip(string) {
@@ -101,6 +84,7 @@ export class Filemakerrrr {
         if (!this.#alwaysZip && !should) {
             this.#talkToYou(['zip', 'willNotZip']);
             this.#zipOutput = this.#zipInput;
+            this.#zipFileFormat = false;
             return this;
         }
 
@@ -115,18 +99,11 @@ export class Filemakerrrr {
         const zippedString = await compressor(this.#zipInput, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipOutput = await binaryBufferForBrowser(binarySecuence);
+        this.#zipFileFormat = true;
 
         this.#talkToYou(['zip', 'readyToDownload']);
 
         return this;
-    }
-
-    downloadZip(name = 'myZippedString') {
-        fileDownload(name, this.#zipOutput, true);
-    }
-
-    downloadUnzip(name = 'myUnzippedString') {
-        fileDownload(name, this.#unzipOutput, false);
     }
 
     async parseFile(file) {
@@ -142,5 +119,33 @@ export class Filemakerrrr {
 
         this.#unzipOutput = unzippedString;
         return unzippedString;
+    }
+
+    downloadZip(name = this.#downloadName) {
+        fileDownload(name, this.#zipOutput, this.#zipFileFormat);
+    }
+
+    downloadUnzip(name = this.#downloadName) {
+        fileDownload(name, this.#unzipOutput, false);
+    }
+
+    talkToMe(verbose = true) {
+        this.#verbose = verbose;
+        return this;
+    }
+
+    addListener(callback) {
+        this.#listener = callback;
+        return this;
+    }
+
+    #talkToYou([process, key, args], always = false) {
+        if (!always && !this.#verbose) {
+            return;
+        }
+
+        const baseOutput = message[this.#lang][process][key];
+        const finalOutput = args ? baseOutput(args) : baseOutput;
+        this.#listener(finalOutput);
     }
 }
