@@ -13,7 +13,7 @@ import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
 
 // TODO:
-// 1. evaluar error handling.
+// 1. stats
 // 2. página demo
 // 4. Readme
 // 3. Montaje de la biblioteca
@@ -32,6 +32,18 @@ export class Filemakerrrr {
     #unzipOutput = null;
     #zipFileFormat;
 
+    #stats = {
+        action: null, // "zip"/"unzip"
+        zipped: null, // true/false
+        timeStart: null, // new Date().now()
+        timeEnd: null, // new Date().now()
+        chars: null, // chars in string
+        textLength: null, // length of string
+        bytesStart: null, // number of bytes
+        bytesEnd: null, // number of bytes
+        compressionRate: null, // float
+    };
+
     constructor(
         fileOrString = undefined,
         { downloadName, alwaysZip, verbose, talkToMeCallbak, lang } = {},
@@ -46,6 +58,10 @@ export class Filemakerrrr {
             this.#zipInput = fileOrString;
             this.#fastZip();
         }
+    }
+
+    get zipStats() {
+        return this.#stats;
     }
 
     #fastZip() {
