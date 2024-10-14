@@ -1,5 +1,5 @@
-import { toBin } from './toBinary.js';
-import { version } from './units.js';
+import { toBin } from '../utils/conversion.js';
+import { version } from '../utils/units.js';
 
 const fileDir = ({ ascii, asciiExt, unicode }, fixed = false) => {
     const compressed = !!(ascii.length + asciiExt.length + unicode.length);

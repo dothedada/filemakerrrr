@@ -1,4 +1,4 @@
-import { toBin } from './toBinary.js';
+import { toBin } from '../utils/conversion.js';
 
 const parseBufferToBin = (fileArray) => {
     return new Promise((resolve, reject) => {

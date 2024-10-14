@@ -1,6 +1,6 @@
-import { charEval } from './charEval.js';
-import { toBin } from './toBinary.js';
-import { byteSize, zippedCharMaxLength } from './units.js';
+import { charEval } from '../io/charEval.js';
+import { toBin } from '../utils/conversion.js';
+import { byteSize, zippedCharMaxLength } from '../utils/units.js';
 
 export const arrangeChars = (compressionMap) =>
     [...compressionMap].reduce(

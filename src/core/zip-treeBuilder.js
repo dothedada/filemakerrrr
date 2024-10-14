@@ -1,14 +1,4 @@
-import { errorLib } from './errorLibrary.js';
-import { Heap } from './minHeap.js';
-
-const treeMaker = (heap) => {
-    if (!heap) {
-        errorLib.parameterIsMissing();
-    }
-    if (!(heap instanceof Heap)) {
-        errorLib.dataExpected('Heap', heap);
-    }
-
+const treeBuilder = (heap) => {
     let allNodesParsed = false;
 
     while (!allNodesParsed) {
@@ -29,4 +19,4 @@ const treeMaker = (heap) => {
     }
 };
 
-export { treeMaker };
+export { treeBuilder };

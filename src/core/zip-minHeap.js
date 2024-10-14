@@ -1,5 +1,3 @@
-import { nodeFactory } from './nodeFactory.js';
-
 class Heap {
     constructor() {
         this.chars = [];
@@ -7,7 +5,7 @@ class Heap {
     }
 
     push(data) {
-        const node = nodeFactory(data);
+        const node = this.#nodeAdapter(data);
 
         this.chars[this.size] = node;
         this.#heapifyUp(this.size);
@@ -34,6 +32,16 @@ class Heap {
         this.#heapifyDown();
 
         return topOfTheHeap;
+    }
+
+    #nodeAdapter(data) {
+        if (Array.isArray(data)) {
+            const [character, count] = data;
+            return { character, count };
+        }
+        if (typeof data === 'object' && 'count' in data) {
+            return data;
+        }
     }
 
     #heapifyDown(index = 0) {

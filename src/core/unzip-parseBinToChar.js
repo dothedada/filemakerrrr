@@ -1,6 +1,6 @@
-import { mapBuilder } from './mapBuilder.js';
-import { parseHeader } from './parseHeader.js';
-import { decompressor } from './decompressor.js';
+import { mapBuilder } from './unzip-mapBuilder.js';
+import { parseHeader } from './unzip-parseHeader.js';
+import { decompressor } from './unzip-decompressor.js';
 
 const parseBinToChar = (stringBin) => {
     const header = parseHeader(stringBin);

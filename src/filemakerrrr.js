@@ -1,20 +1,20 @@
-import { stringChecker } from './charcounter.js';
 import { errorLib } from './errorLibrary.js';
-import { zipForecast } from './compressionEval.js';
-import { gardener } from './gardener.js';
-import { compressionTable } from './compressionTable.js';
-import { compressor } from './compressor.js';
-import { assembler } from './assembler.js';
-import { binaryBufferForBrowser } from './makeBinaryBuffer.js';
-import { fileLoader } from './fileLoader.js';
-import { fileCheck } from './fileCheck.js';
-import { fileDownload } from './fileDownload.js';
-import { parseBufferToBin } from './parseBufferToBin.js';
-import { parseBinToChar } from './parseBinToChar.js';
-import { message } from './messages.js';
+
+import { stringChecker } from './io/charCounter.js';
+import { zipForecast } from './io/zipForecast.js';
+import { binaryBufferForBrowser } from './io/parseBinToBuffer.js';
+import { fileLoader } from './io/fileLoader.js';
+import { fileCheck } from './io/fileTypeCheck.js';
+import { fileDownload } from './io/fileDownload.js';
+import { parseBufferToBin } from './io/parseBufferToBin.js';
+import { gardener } from './core/zip-gardener.js';
+import { compressionTable } from './core/zip-compressionTable.js';
+import { compressor } from './core/zip-compressor.js';
+import { assembler } from './core/zip-assembler.js';
+import { parseBinToChar } from './core/unzip-parseBinToChar.js';
+import { message } from './utils/messages.js';
 
 // TODO:
-// 2. refactorizacion y ordenada del codigo
 // 3. Montaje de la biblioteca
 // 4. Readme
 // 5. npm

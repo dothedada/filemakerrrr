@@ -1,3 +1,5 @@
+import { fileExt } from '../utils/units.js';
+
 const fileDownload = (name, binaryBuffer, zip) => {
     const blob = new Blob([binaryBuffer], {
         type: zip ? 'application/octet-stream' : 'text/plain',
@@ -5,7 +7,7 @@ const fileDownload = (name, binaryBuffer, zip) => {
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement('a');
-    downloadLink.download = `${name}${zip ? '.f4r' : '.txt'}`;
+    downloadLink.download = `${name}${zip ? fileExt.zipped : fileExt.plain}`;
     downloadLink.href = url;
     downloadLink.click();
 

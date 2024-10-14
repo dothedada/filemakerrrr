@@ -1,7 +1,7 @@
-import { arrangeChars } from './charMapToBin.js';
-import { fileDir } from './fileDir.js';
-import { toBin } from './toBinary.js';
-import { byteSize, signature } from './units.js';
+import { arrangeChars } from './zip-charMapToBin.js';
+import { fileDir } from './zip-fileDir.js';
+import { toBin } from '../utils/conversion.js';
+import { byteSize, signature } from '../utils/units.js';
 
 const assembler = (compressionMap, fileBinaryString) => {
     const { ascii, asciiExt, unicode } = arrangeChars(compressionMap);

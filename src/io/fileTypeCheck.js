@@ -1,5 +1,4 @@
-import { signature } from './units.js';
-import { message } from './messages.js';
+import { signature } from '../utils/units.js';
 
 const fileCheck = (file) => {
     const fileArray = new Uint8Array(file);

@@ -1,5 +1,5 @@
-import { Heap } from './minHeap.js';
-import { treeMaker } from './treeMaker.js';
+import { Heap } from './zip-minHeap.js';
+import { treeBuilder } from './zip-treeBuilder.js';
 
 const gardener = (charsMap) =>
     new Promise((resolve) => {
@@ -7,7 +7,7 @@ const gardener = (charsMap) =>
         for (const keyValue of charsMap) {
             charsHeap.push(keyValue);
         }
-        treeMaker(charsHeap);
+        treeBuilder(charsHeap);
 
         resolve(charsHeap);
     });

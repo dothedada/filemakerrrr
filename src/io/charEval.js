@@ -6,8 +6,10 @@ const charEval = (char) => {
         standard = 'ascii';
     } else if (code <= 255) {
         standard = 'asciiExt';
-    } else {
+    } else if (code <= 65536) {
         standard = 'unicode';
+    } else {
+        standard = 'outOfBMP';
     }
 
     return { code, standard };
