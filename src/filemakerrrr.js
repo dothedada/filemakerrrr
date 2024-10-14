@@ -11,6 +11,7 @@ import { compressor } from './core/zip-compressor.js';
 import { assembler } from './core/zip-assembler.js';
 import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
+import { aw } from 'vitest/dist/chunks/reporters.WnPwkmgA.js';
 
 // TODO:
 // 1. stats
@@ -20,11 +21,8 @@ import { message } from './utils/messages.js';
 // 5. npm
 
 export class Filemakerrrr {
-    #downloadName;
-    #alwaysZip;
-    #verbose;
-    #listener;
-    #lang;
+    #stats;
+    #settings;
 
     #zipInput = null;
     #zipOutput = null;
@@ -32,27 +30,29 @@ export class Filemakerrrr {
     #unzipOutput = null;
     #zipFileFormat;
 
-    #stats = {
-        action: null, // "zip"/"unzip"
-        zipped: null, // true/false
-        timeStart: null, // new Date().now()
-        timeEnd: null, // new Date().now()
-        chars: null, // chars in string
-        textLength: null, // length of string
-        bytesStart: null, // number of bytes
-        bytesEnd: null, // number of bytes
-        compressionRate: null, // float
-    };
-
     constructor(
         fileOrString = undefined,
         { downloadName, alwaysZip, verbose, talkToMeCallbak, lang } = {},
     ) {
-        this.#downloadName = downloadName ?? 'miFile';
-        this.#alwaysZip = alwaysZip ?? false;
-        this.#verbose = verbose ?? false;
-        this.#listener = talkToMeCallbak ?? console.log;
-        this.#lang = lang ?? 'es';
+        this.#settings = {
+            downloadName: downloadName ?? 'miFile',
+            alwaysZip: alwaysZip ?? false,
+            verbose: verbose ?? false,
+            listener: talkToMeCallbak ?? console.log,
+            lang: lang ?? 'es',
+        };
+
+        this.#stats = {
+            action: null, // "zip"/"unzip"
+            zipped: null, // true/false
+            timeStart: null, // new Date().now()
+            timeEnd: null, // new Date().now()
+            chars: null, // chars in string
+            textLength: null, // length of string
+            bytesStart: null, // number of bytes
+            bytesEnd: null, // number of bytes
+            compressionRate: null, // float
+        };
 
         if (typeof fileOrString === 'string') {
             this.#zipInput = fileOrString;
@@ -73,18 +73,19 @@ export class Filemakerrrr {
         }
 
         if (!statsAvailable) {
-            return message[this.#lang].stats.notAvailable;
+            return message[this.#settings.lang].stats.notAvailable;
         }
 
         return publicStats;
     }
 
-    #fastZip() {
-        this.zip()
-            .then(() => this.downloadZip())
-            .catch(() => {
-                throw new Error(message.runtimeErr.zipping);
-            });
+    async #fastZip() {
+        try {
+            await this.zip();
+            await this.downloadZip();
+        } catch (error) {
+            throw new Error(message.runtimeErr.zipping);
+        }
     }
 
     flush() {
@@ -95,7 +96,7 @@ export class Filemakerrrr {
     }
 
     forceIt(alwaysZip = true) {
-        this.#alwaysZip = alwaysZip;
+        this.#settings.alwaysZip = alwaysZip;
         return this;
     }
 
@@ -127,7 +128,7 @@ export class Filemakerrrr {
 
         this.#talkToYou(['zip', 'rate', rate]);
 
-        if (!this.#alwaysZip && !should) {
+        if (!this.#settings.alwaysZip && !should) {
             this.#talkToYou(['zip', 'willNotZip']);
             this.#zipOutput = this.#zipInput;
             this.#zipFileFormat = false;
@@ -158,7 +159,6 @@ export class Filemakerrrr {
 
             const fileData = await fileLoader(file);
             this.#unzipFileBuffer = await fileCheck(fileData);
-            // this.#unzipFileBuffer = fileCheck(fileData);
 
             if (!this.#unzipFileBuffer) {
                 this.#talkToYou(['unzip', 'fileFormarError']);
@@ -201,7 +201,7 @@ export class Filemakerrrr {
         }
     }
 
-    downloadZip(name = this.#downloadName) {
+    downloadZip(name = this.#settings.downloadName) {
         if (!this.#zipOutput) {
             this.#talkToYou(['download', 'nothing']);
             return;
@@ -210,7 +210,7 @@ export class Filemakerrrr {
         fileDownload(name, this.#zipOutput, this.#zipFileFormat);
     }
 
-    downloadUnzip(name = this.#downloadName) {
+    downloadUnzip(name = this.#settings.downloadName) {
         if (!this.#unzipOutput) {
             this.#talkToYou(['download', 'nothing']);
             return;
@@ -220,22 +220,22 @@ export class Filemakerrrr {
     }
 
     talkToMe(verbose = true) {
-        this.#verbose = verbose;
+        this.#settings.verbose = verbose;
         return this;
     }
 
     addListener(callback) {
-        this.#listener = callback;
+        this.#settings.listener = callback;
         return this;
     }
 
     #talkToYou([process, key, args], always = false) {
-        if (!always && !this.#verbose) {
+        if (!always && !this.#settings.verbose) {
             return;
         }
 
-        const baseOutput = message[this.#lang][process][key];
+        const baseOutput = message[this.#settings.lang][process][key];
         const finalOutput = args ? baseOutput(args) : baseOutput;
-        this.#listener(finalOutput);
+        this.#settings.listener(finalOutput);
     }
 }
