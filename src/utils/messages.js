@@ -27,6 +27,9 @@ const message = {
             start: 'Starting download...',
             end: 'Download completed.',
         },
+        stats: {
+            notAvailable: 'Todavía no hay estadísticas disponibles.',
+        },
     },
     es: {
         zip: {
@@ -55,6 +58,9 @@ const message = {
             nothing: 'No hay informacion para descargar.',
             start: 'Iniciando descarga...',
             end: 'descarga finalizada',
+        },
+        stats: {
+            notAvailable: 'Todavía no hay estadísticas disponibles.',
         },
     },
     runtimeErr: {

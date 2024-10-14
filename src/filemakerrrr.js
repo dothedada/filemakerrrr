@@ -61,7 +61,22 @@ export class Filemakerrrr {
     }
 
     get zipStats() {
-        return this.#stats;
+        const publicStats = {};
+        let statsAvailable = 0;
+
+        for (const [key, value] of Object.entries(this.#stats)) {
+            if (!value) {
+                continue;
+            }
+            publicStats[key] = value;
+            statsAvailable++;
+        }
+
+        if (!statsAvailable) {
+            return message[this.#lang].stats.notAvailable;
+        }
+
+        return publicStats;
     }
 
     #fastZip() {
