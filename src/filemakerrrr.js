@@ -1,5 +1,3 @@
-import { errorLib } from './utils/errorLibrary.js';
-
 import { stringChecker } from './io/charCounter.js';
 import { zipForecast } from './io/zipForecast.js';
 import { binaryBufferForBrowser } from './io/parseBinToBuffer.js';
@@ -15,7 +13,6 @@ import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
 
 // TODO:
-// 0. parsear .txt
 // 1. evaluar error handling.
 // 2. página demo
 // 4. Readme
@@ -54,8 +51,8 @@ export class Filemakerrrr {
     #fastZip() {
         this.zip()
             .then(() => this.downloadZip())
-            .catch((err) => {
-                throw new Error('Compression Failed');
+            .catch(() => {
+                throw new Error(message.runtimeErr.zipping);
             });
     }
 
@@ -73,10 +70,10 @@ export class Filemakerrrr {
 
     stringToZip(string) {
         if (!string) {
-            errorLib.parameterIsMissing();
+            throw new Error(message.runtimeErr.noParameter);
         }
         if (typeof string !== 'string') {
-            errorLib.dataExpected('string', string);
+            throw new Error(message.runtimeErr.stringExpected);
         }
 
         this.#zipInput = string;
@@ -85,7 +82,7 @@ export class Filemakerrrr {
 
     async zip() {
         if (!this.#zipInput) {
-            throw new Error('Provide a string to zip before you zip it, duh!');
+            throw new Error(message.runtimeErr.stringExpected);
         }
 
         this.#talkToYou(['zip', 'analize']);
@@ -135,21 +132,19 @@ export class Filemakerrrr {
             if (!this.#unzipFileBuffer) {
                 this.#talkToYou(['unzip', 'fileFormarError']);
 
-                new Error('El archivo no es un formato F4R válido.');
+                new Error(message.runtimeErr.fileFormat);
             }
 
             return this.#unzipFileBuffer;
         } catch (err) {
             this.#talkToYou(['unzip', 'uploadError'], true);
 
-            new Error('hubo un error en la carga del archivo');
+            new Error(message.runtimeErr.onParse);
         }
     }
 
     async unzip() {
         try {
-            console.log(this.#unzipFileBuffer);
-
             if (this.#unzipFileBuffer.type === '.f4r') {
                 this.#talkToYou(['unzip', 'parsingBuffer']);
 
@@ -171,9 +166,7 @@ export class Filemakerrrr {
         } catch {
             this.#talkToYou(['unzip', 'unzipError'], true);
 
-            new Error(
-                'hubo un error al descomprimir el archivo, intentalo más tarde',
-            );
+            new Error(message.runtimeErr.unzipping);
         }
     }
 

@@ -1,3 +1,4 @@
+import { message } from '../utils/messages.js';
 import { charEval } from './charEval.js';
 
 const stringChecker = async (text) =>
@@ -17,7 +18,7 @@ const stringChecker = async (text) =>
         }
 
         if (!charsMap.size) {
-            reject(new Error('Could not create the charsMap'));
+            reject(new Error(message.runtimeErr.charsMap));
         }
 
         resolve({ charsMap, charsUnicode });

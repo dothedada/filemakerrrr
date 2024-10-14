@@ -1,3 +1,5 @@
+import { message } from '../utils/messages';
+
 const binaryBufferForBrowser = (string) =>
     new Promise((resolve, reject) => {
         const bytesNeeded = Math.ceil(string.length / 8);
@@ -15,7 +17,7 @@ const binaryBufferForBrowser = (string) =>
             bytesArray[i] = Number.parseInt(currentByte, 2);
         }
         if (!bytesArray) {
-            reject(new Error('Cannot create the bytes array'));
+            reject(new Error(message.runtimeErr.bytesArr));
         }
         resolve(bytesArray);
     });

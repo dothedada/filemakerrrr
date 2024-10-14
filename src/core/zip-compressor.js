@@ -1,3 +1,5 @@
+import { message } from '../utils/messages';
+
 const compressor = (stringToCompress, compressionTable) =>
     new Promise((resolve, reject) => {
         let binaryString = '';
@@ -7,7 +9,7 @@ const compressor = (stringToCompress, compressionTable) =>
         }
 
         if (typeof binaryString !== 'string' || !binaryString.length) {
-            reject(new Error('The string cannot be compressed'));
+            reject(new Error(message.runtimeErr.zipString));
         }
         resolve(binaryString);
     });

@@ -1,4 +1,5 @@
 import { toBin } from '../utils/conversion.js';
+import { message } from '../utils/messages.js';
 
 const parseBufferToBin = (fileArray) => {
     return new Promise((resolve, reject) => {
@@ -14,7 +15,7 @@ const parseBufferToBin = (fileArray) => {
         }
 
         if (!stringBin.length) {
-            reject(new Error('An error ocur while parsing the binary'));
+            reject(new Error(message.runtimeErr.buffToBin));
         }
 
         resolve(stringBin);
