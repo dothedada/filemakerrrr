@@ -129,7 +129,8 @@ export class Filemakerrrr {
             this.#talkToYou(['unzip', 'upload']);
 
             const fileData = await fileLoader(file);
-            this.#unzipFileBuffer = fileCheck(fileData);
+            this.#unzipFileBuffer = await fileCheck(fileData);
+            // this.#unzipFileBuffer = fileCheck(fileData);
 
             if (!this.#unzipFileBuffer) {
                 this.#talkToYou(['unzip', 'fileFormarError']);
@@ -147,16 +148,22 @@ export class Filemakerrrr {
 
     async unzip() {
         try {
-            this.#talkToYou(['unzip', 'parsingBuffer']);
+            if (this.#unzipFileBuffer.type === '.f4r') {
+                this.#talkToYou(['unzip', 'parsingBuffer']);
 
-            const binaryString = await parseBufferToBin(this.#unzipFileBuffer);
+                const binaryString = await parseBufferToBin(
+                    this.#unzipFileBuffer.file,
+                );
 
-            this.#talkToYou(['unzip', 'unzippingString']);
+                this.#talkToYou(['unzip', 'unzippingString']);
 
-            const unzippedString = await parseBinToChar(binaryString);
-            this.#unzipOutput = unzippedString;
+                const unzippedString = await parseBinToChar(binaryString);
+                this.#unzipOutput = unzippedString;
 
-            this.#talkToYou(['unzip', 'readyToDownload']);
+                this.#talkToYou(['unzip', 'readyToDownload']);
+            } else {
+                this.#unzipOutput = this.#unzipFileBuffer.file;
+            }
 
             return unzippedString;
         } catch {
