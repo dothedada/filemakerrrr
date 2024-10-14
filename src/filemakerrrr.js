@@ -140,7 +140,7 @@ export class Filemakerrrr {
 
             return this.#unzipFileBuffer;
         } catch (err) {
-            this.#talkToYou(['unzip', 'uploadError']);
+            this.#talkToYou(['unzip', 'uploadError'], true);
 
             new Error('hubo un error en la carga del archivo');
         }
@@ -148,6 +148,8 @@ export class Filemakerrrr {
 
     async unzip() {
         try {
+            console.log(this.#unzipFileBuffer);
+
             if (this.#unzipFileBuffer.type === '.f4r') {
                 this.#talkToYou(['unzip', 'parsingBuffer']);
 
@@ -167,7 +169,7 @@ export class Filemakerrrr {
 
             return unzippedString;
         } catch {
-            this.#talkToYou(['unzip', 'unzipError']);
+            this.#talkToYou(['unzip', 'unzipError'], true);
 
             new Error(
                 'hubo un error al descomprimir el archivo, intentalo más tarde',
@@ -176,11 +178,19 @@ export class Filemakerrrr {
     }
 
     downloadZip(name = this.#downloadName) {
+        if (!this.#zipOutput) {
+            this.#talkToYou(['download', 'nothing']);
+            return;
+        }
         this.#talkToYou(['download', 'start']);
         fileDownload(name, this.#zipOutput, this.#zipFileFormat);
     }
 
     downloadUnzip(name = this.#downloadName) {
+        if (!this.#unzipOutput) {
+            this.#talkToYou(['download', 'nothing']);
+            return;
+        }
         this.#talkToYou(['download', 'start']);
         fileDownload(name, this.#unzipOutput, false);
     }

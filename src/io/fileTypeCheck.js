@@ -3,7 +3,7 @@ import { signature } from '../utils/units.js';
 const fileCheck = (file) => {
     const fileArray = new Uint8Array(file);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const isf4r = fileArray
             .slice(0, 3)
             .every(
@@ -27,7 +27,7 @@ const fileCheck = (file) => {
             }
         }
 
-        const isTxt = nullCount > 0 || nonPrintable / sample > 0.1;
+        const isTxt = nullCount === 0 || nonPrintable / sample <= 0.1;
         if (isTxt) {
             resolve({ file: fileArray, type: '.txt' });
         }

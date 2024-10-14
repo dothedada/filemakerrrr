@@ -2,10 +2,6 @@ import { charEval } from './charEval.js';
 
 const stringChecker = async (text) =>
     new Promise((resolve, reject) => {
-        if (typeof text !== 'string') {
-            reject(errorLib.dataExpected('string', text));
-        }
-
         const charsMap = new Map();
         let charsUnicode = 0;
 

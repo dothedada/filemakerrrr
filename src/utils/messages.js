@@ -23,6 +23,7 @@ const message = {
             fileFormat: 'The file is not a valid F4R format',
         },
         download: {
+            nothing: 'There is no info to download',
             start: 'Starting download...',
             end: 'Download completed.',
         },
@@ -51,6 +52,7 @@ const message = {
             fileFormat: 'El archivo no es un formato F4R válido.',
         },
         download: {
+            nothing: 'No hay informacion para descargar.',
             start: 'Iniciando descarga...',
             end: 'descarga finalizada',
         },
