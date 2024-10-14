@@ -1,4 +1,4 @@
-import { byteSize, byesForCharInZipMap } from '../utils/units';
+import { byteSize, byesForCharInZipMap } from '../utils/units.js';
 
 const zipForecast = (stringLength, charCount, charsUnicode = 0) => {
     const stringInBits = stringLength * byteSize.asciiExt;

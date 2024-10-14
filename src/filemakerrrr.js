@@ -1,4 +1,4 @@
-import { errorLib } from './errorLibrary.js';
+import { errorLib } from './utils/errorLibrary.js';
 
 import { stringChecker } from './io/charCounter.js';
 import { zipForecast } from './io/zipForecast.js';
@@ -15,8 +15,11 @@ import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
 
 // TODO:
-// 3. Montaje de la biblioteca
+// 0. parsear .txt
+// 1. evaluar error handling.
+// 2. página demo
 // 4. Readme
+// 3. Montaje de la biblioteca
 // 5. npm
 
 export class Filemakerrrr {
