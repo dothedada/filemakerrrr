@@ -50,11 +50,31 @@
         <link rel="stylesheet" href="playground/styles.css" />
     </head>
     <body>
-        <form>
-            <textarea name="" id=""></textarea>
-            <button class="getTXT" type="button">Zip && download</button>
-            <input class="fileInput" type="file" />
-        </form>
+        <header>
+            <h1>Filemakerrrr</h1>
+        </header>
+        <div class="demo">
+            <div class="zip">
+                <h2>Zip && Download</h2>
+                <textarea
+                    name=""
+                    id=""
+                    placeholder="write or paste somethig looooooong..."
+                ></textarea>
+                <button class="getTXT" type="button">Zip</button>
+
+                <div class="stats">statssssss</div>
+
+                <button class="getTXT" type="button" disabled>download</button>
+            </div>
+            <div class="unzip">
+                <h2>Upload && Unzip</h2>
+                <input class="fileInput" type="file" />
+                <button class="getTXT" type="button">Unzip</button>
+                <div class="preview">preview</div>
+                <button class="getTXT" type="button">download</button>
+            </div>
+        </div>
     </body>
     <script type="module" src="playground/main.js"></script>
 </html>

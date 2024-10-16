@@ -11,7 +11,6 @@ import { compressor } from './core/zip-compressor.js';
 import { assembler } from './core/zip-assembler.js';
 import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
-import { aw } from 'vitest/dist/chunks/reporters.WnPwkmgA.js';
 
 // TODO:
 // 1. stats
@@ -31,8 +30,8 @@ export class Filemakerrrr {
     #zipFileFormat;
 
     constructor(
-        fileOrString = undefined,
         { downloadName, alwaysZip, verbose, talkToMeCallbak, lang } = {},
+        stringForFastZip = undefined,
     ) {
         this.#settings = {
             downloadName: downloadName ?? 'miFile',
@@ -51,11 +50,12 @@ export class Filemakerrrr {
             textLength: null, // length of string
             bytesStart: null, // number of bytes
             bytesEnd: null, // number of bytes
-            compressionRate: null, // float
+            zipRateEst: null, // float
+            zipRateReal: null, // float
         };
 
-        if (typeof fileOrString === 'string') {
-            this.#zipInput = fileOrString;
+        if (typeof stringForFastZip === 'string') {
+            this.#zipInput = stringForFastZip;
             this.#fastZip();
         }
     }
@@ -82,7 +82,7 @@ export class Filemakerrrr {
     async #fastZip() {
         try {
             await this.zip();
-            await this.downloadZip();
+            this.downloadZip();
         } catch (error) {
             throw new Error(message.runtimeErr.zipping);
         }
