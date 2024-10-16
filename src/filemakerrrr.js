@@ -95,6 +95,10 @@ export class Filemakerrrr {
         this.#unzipOutput = null;
     }
 
+    flushStats() {
+        this.#stats = {};
+    }
+
     forceIt(alwaysZip = true) {
         this.#settings.alwaysZip = alwaysZip;
         return this;
@@ -116,15 +120,25 @@ export class Filemakerrrr {
         if (!this.#zipInput) {
             throw new Error(message.runtimeErr.stringExpected);
         }
+        this.flushStats();
 
+        this.#stats.action = 'zip';
+        this.#stats.timeStart = new Date().getTime();
         this.#talkToYou(['zip', 'analize']);
 
         const { charsMap, charsUnicode } = await stringChecker(this.#zipInput);
+
+        this.#stats.chars = charsMap.size;
+        this.#stats.textLength = this.#zipInput.length;
+        this.#stats.bytesStart = this.#zipInput.length + charsUnicode;
+
         const { should, rate } = zipForecast(
             this.#zipInput.length,
             charsMap.size,
             charsUnicode,
         );
+
+        this.#stats.zipRateEst = rate;
 
         this.#talkToYou(['zip', 'rate', rate]);
 
@@ -132,8 +146,10 @@ export class Filemakerrrr {
             this.#talkToYou(['zip', 'willNotZip']);
             this.#zipOutput = this.#zipInput;
             this.#zipFileFormat = false;
+            this.#stats.zipped = false;
             return this;
         }
+        this.#stats.zipped = true;
 
         this.#talkToYou(['zip', 'willZip']);
         this.#talkToYou(['zip', 'zipMap']);
@@ -146,15 +162,22 @@ export class Filemakerrrr {
         const zippedString = await compressor(this.#zipInput, zippedCharMap);
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipOutput = await binaryBufferForBrowser(binarySecuence);
+
+        this.#stats.timeEnd = new Date().getTime();
+        this.#stats.bytesEnd = this.#zipOutput.length;
+        this.#stats.zipRateReal = this.#stats.bytesEnd / this.#stats.bytesStart;
+
         this.#zipFileFormat = true;
 
         this.#talkToYou(['zip', 'readyToDownload']);
 
+        console.table(this.#stats);
         return this;
     }
 
     async parseFile(file) {
         try {
+            this.#stats.action = 'unzip';
             this.#talkToYou(['unzip', 'upload']);
 
             const fileData = await fileLoader(file);
@@ -166,6 +189,9 @@ export class Filemakerrrr {
                 new Error(message.runtimeErr.fileFormat);
             }
 
+            this.#stats.zipped = this.#unzipFileBuffer.type === '.f4r';
+            this.#stats.bytesStart = this.#unzipFileBuffer.file.length;
+
             return this.#unzipFileBuffer;
         } catch (err) {
             this.#talkToYou(['unzip', 'uploadError'], true);
@@ -176,6 +202,7 @@ export class Filemakerrrr {
 
     async unzip() {
         try {
+            this.#stats.timeStart = new Date().getTime();
             if (this.#unzipFileBuffer.type === '.f4r') {
                 this.#talkToYou(['unzip', 'parsingBuffer']);
 
@@ -193,6 +220,7 @@ export class Filemakerrrr {
                 this.#unzipOutput = this.#unzipFileBuffer.file;
             }
 
+            this.#stats.timeEnd = new Date().getTime();
             return unzippedString;
         } catch {
             this.#talkToYou(['unzip', 'unzipError'], true);
