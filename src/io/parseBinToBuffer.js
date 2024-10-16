@@ -1,4 +1,4 @@
-import { message } from '../utils/messages';
+import { message } from '../utils/messages.js';
 
 const binaryBufferForBrowser = (string) =>
     new Promise((resolve, reject) => {

@@ -1,11 +1,11 @@
 {
-    "type": "module",
     "name": "filemakerrrr",
     "version": "1.0.0",
     "description": "Simple and straight forrward to compress and makes files from string in JS",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "serve": "browser-sync start --server --files '*.html, **/*.css, **/*.js' --browser 'firefox'",
+        "serve": "browser-sync start --server --files '*.html, **/*.css, playground/*.js' --browser 'firefox'",
         "test": "vitest watch"
     },
     "devDependencies": {
