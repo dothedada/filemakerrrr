@@ -11,10 +11,10 @@ const stringChecker = async (text) =>
             if (charStandard === 'outOfBMP') {
                 continue;
             }
-            if (charStandard === 'unicode') {
+            charsMap.set(char, (charsMap.get(char) || 0) + 1);
+            if (charStandard === 'unicode' && charsMap.get(char) === 1) {
                 charsUnicode++;
             }
-            charsMap.set(char, (charsMap.get(char) || 0) + 1);
         }
 
         if (!charsMap.size) {

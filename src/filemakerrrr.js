@@ -143,6 +143,7 @@ export class Filemakerrrr {
         );
 
         this.#stats.zipRateEst = rate;
+        console.log(rate);
 
         this.#talkToYou(['zip', 'rate', rate]);
 
@@ -151,6 +152,13 @@ export class Filemakerrrr {
             this.#zipOutput = this.#zipInput;
             this.#zipFileFormat = false;
             this.#stats.zipped = false;
+            this.#stats.timeEnd = new Date().getTime();
+
+            this.#stats.bytesEnd = this.#zipOutput.length;
+            this.#stats.zipRateReal =
+                this.#stats.bytesEnd / this.#stats.bytesStart;
+            console.log(this.#stats);
+
             return this;
         }
         this.#stats.zipped = true;

@@ -1,7 +1,7 @@
 import { Filemakerrrr } from '../index.js';
 
-document.querySelectorAll('button').forEach((buton) => {
-    buton.disabled = true;
+document.querySelectorAll('button').forEach((btn) => {
+    btn.disabled = true;
 });
 // if (unzipFile.value) {
 //     unzipBtn.disabled = false;
@@ -22,6 +22,7 @@ const zipStats = document.querySelector('.zip .stats');
 const unzipStats = document.querySelector('.unzip .stats');
 
 const zipper = new Filemakerrrr();
+// zipper.forceIt(true);
 zipBtn.addEventListener('click', async () => {
     try {
         zipper.stringToZip(zipTxt.value);
