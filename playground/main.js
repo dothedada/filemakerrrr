@@ -3,6 +3,13 @@ import { Filemakerrrr } from '../index.js';
 document.querySelectorAll('button').forEach((buton) => {
     buton.disabled = true;
 });
+// if (unzipFile.value) {
+//     unzipBtn.disabled = false;
+// }
+// if (zipTxt.value.length) {
+//     zipBtn.disabled = false;
+// }
+
 const zipBtn = document.querySelector('#zipBtn');
 const unzipBtn = document.querySelector('#unzipBtn');
 const downZipBtn = document.querySelector('#downloadZipBtn');
@@ -15,25 +22,46 @@ const zipStats = document.querySelector('.zip .stats');
 const unzipStats = document.querySelector('.unzip .stats');
 
 const zipper = new Filemakerrrr();
-zipBtn.addEventListener('click', () => {
-    zipper.stringToZip(zipTxt.value).zip();
-    downZipBtn.disabled = false;
-    console.log('zip');
-});
-unzipBtn.addEventListener('click', () => {
-    console.log('unzip');
-});
-downZipBtn.addEventListener('click', () => {
-    zipper.downloadZip('testealo-zip');
-    console.log('download Zip');
-});
-downUnzipBtn.addEventListener('click', () => {
-    console.log('download Unzip');
+zipBtn.addEventListener('click', async () => {
+    try {
+        zipper.stringToZip(zipTxt.value);
+        await zipper.zip();
+
+        const stats = zipper.zipStats;
+        zipStats.innerHTML = `
+<div>Extensión del texto: ${stats.textLength} caracteres</div>
+<div>Letras y caracteres en el texto: ${stats.chars}</div>
+<div>Bytes antes de comprimir: ${stats.bytesStart}</div>
+<div>Compresion estimada: ${stats.zipRateEst.toFixed(4)}</div>
+<div>---<div/>
+<div>Tiempo transcurrido: ${stats.timeEnd - stats.timeStart} milisegundos</div>
+<div>Bytes luego de comprimir: ${stats.bytesEnd}</div>
+<div>Compresion real: ${stats.zipRateReal.toFixed(4)}</div>
+`;
+        downZipBtn.disabled = false;
+    } catch (err) {
+        zipStats.textContent = 'Ocurrio un error durante la compresión';
+    }
 });
 
-if (zipTxt.value.length) {
-    zipBtn.disabled = false;
-}
+downZipBtn.addEventListener('click', () => {
+    zipper.downloadZip('zipDePrueba');
+});
+
+unzipFile.addEventListener('change', (e) => {
+    if (!e.target.files[0]) {
+        return;
+    }
+    unzipBtn.disabled = false;
+});
+unzipBtn.addEventListener('click', async () => {
+    await zipper.parseFile(unzipFile.files[0]);
+    await zipper.unzip();
+    downUnzipBtn.disabled = false;
+});
+downUnzipBtn.addEventListener('click', () => {
+    zipper.downloadUnzip();
+});
 
 zipTxt.addEventListener('input', (e) => {
     const txt = e.target.value;

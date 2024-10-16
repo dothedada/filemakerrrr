@@ -42,16 +42,16 @@ export class Filemakerrrr {
         };
 
         this.#stats = {
-            action: null, // "zip"/"unzip"
-            zipped: null, // true/false
-            timeStart: null, // new Date().now()
-            timeEnd: null, // new Date().now()
-            chars: null, // chars in string
-            textLength: null, // length of string
-            bytesStart: null, // number of bytes
-            bytesEnd: null, // number of bytes
-            zipRateEst: null, // float
-            zipRateReal: null, // float
+            // action: null, // "zip"/"unzip"
+            // zipped: null, // true/false
+            // timeStart: null, // new Date().now()
+            // timeEnd: null, // new Date().now()
+            // chars: null, // chars in string
+            // textLength: null, // length of string
+            // bytesStart: null, // number of bytes
+            // bytesEnd: null, // number of bytes
+            // zipRateEst: null, // float
+            // zipRateReal: null, // float
         };
 
         if (typeof stringForFastZip === 'string') {
@@ -65,9 +65,9 @@ export class Filemakerrrr {
         let statsAvailable = 0;
 
         for (const [key, value] of Object.entries(this.#stats)) {
-            if (!value) {
-                continue;
-            }
+            // if (!value) {
+            //     continue;
+            // }
             publicStats[key] = value;
             statsAvailable++;
         }
@@ -77,6 +77,10 @@ export class Filemakerrrr {
         }
 
         return publicStats;
+    }
+
+    get output() {
+        return this.#unzipOutput;
     }
 
     async #fastZip() {
@@ -171,7 +175,6 @@ export class Filemakerrrr {
 
         this.#talkToYou(['zip', 'readyToDownload']);
 
-        console.table(this.#stats);
         return this;
     }
 
@@ -205,7 +208,6 @@ export class Filemakerrrr {
             this.#stats.timeStart = new Date().getTime();
             if (this.#unzipFileBuffer.type === '.f4r') {
                 this.#talkToYou(['unzip', 'parsingBuffer']);
-
                 const binaryString = await parseBufferToBin(
                     this.#unzipFileBuffer.file,
                 );
@@ -221,7 +223,7 @@ export class Filemakerrrr {
             }
 
             this.#stats.timeEnd = new Date().getTime();
-            return unzippedString;
+            return this.#unzipOutput;
         } catch {
             this.#talkToYou(['unzip', 'unzipError'], true);
 
