@@ -17,24 +17,26 @@ const downUnzipBtn = document.querySelector('#downloadUnzipBtn');
 
 const zipTxt = document.querySelector('textarea');
 const unzipFile = document.querySelector('[type="file"]');
+const unzipPreview = document.querySelector('.preview');
 
 const zipStats = document.querySelector('.zip .stats');
 const unzipStats = document.querySelector('.unzip .stats');
 
 const zipper = new Filemakerrrr();
-// zipper.forceIt(true);
 zipBtn.addEventListener('click', async () => {
     try {
         zipper.stringToZip(zipTxt.value);
         await zipper.zip();
 
         const stats = zipper.zipStats;
+        console.log(stats);
         zipStats.innerHTML = `
 <div>Extensión del texto: ${stats.textLength} caracteres</div>
 <div>Letras y caracteres en el texto: ${stats.chars}</div>
 <div>Bytes antes de comprimir: ${stats.bytesStart}</div>
 <div>Compresion estimada: ${stats.zipRateEst.toFixed(4)}</div>
 <div>---<div/>
+<div>${!stats.zipped ? 'El archivo no fue comprimido' : ''}</div>
 <div>Tiempo transcurrido: ${stats.timeEnd - stats.timeStart} milisegundos</div>
 <div>Bytes luego de comprimir: ${stats.bytesEnd}</div>
 <div>Compresion real: ${stats.zipRateReal.toFixed(4)}</div>
@@ -58,6 +60,9 @@ unzipFile.addEventListener('change', (e) => {
 unzipBtn.addEventListener('click', async () => {
     await zipper.parseFile(unzipFile.files[0]);
     await zipper.unzip();
+    unzipPreview.textContent = zipper.output;
+
+    console.table(zipper.zipStats);
     downUnzipBtn.disabled = false;
 });
 downUnzipBtn.addEventListener('click', () => {

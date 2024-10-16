@@ -57,6 +57,9 @@ hr {
     color: var(--warn);
 }
 
+.previewContainer {
+    width: 100%;
+}
 .preview,
 textarea {
     width: 100%;

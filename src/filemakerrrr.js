@@ -65,9 +65,6 @@ export class Filemakerrrr {
         let statsAvailable = 0;
 
         for (const [key, value] of Object.entries(this.#stats)) {
-            // if (!value) {
-            //     continue;
-            // }
             publicStats[key] = value;
             statsAvailable++;
         }
@@ -143,7 +140,6 @@ export class Filemakerrrr {
         );
 
         this.#stats.zipRateEst = rate;
-        console.log(rate);
 
         this.#talkToYou(['zip', 'rate', rate]);
 
@@ -157,7 +153,6 @@ export class Filemakerrrr {
             this.#stats.bytesEnd = this.#zipOutput.length;
             this.#stats.zipRateReal =
                 this.#stats.bytesEnd / this.#stats.bytesStart;
-            console.log(this.#stats);
 
             return this;
         }
@@ -231,6 +226,9 @@ export class Filemakerrrr {
             }
 
             this.#stats.timeEnd = new Date().getTime();
+            const { charsUnicode } = await stringChecker(this.#unzipOutput);
+            this.#stats.bytesEnd = this.#unzipOutput.length + charsUnicode;
+
             return this.#unzipOutput;
         } catch {
             this.#talkToYou(['unzip', 'unzipError'], true);
