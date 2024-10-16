@@ -62,7 +62,16 @@ unzipBtn.addEventListener('click', async () => {
     await zipper.unzip();
     unzipPreview.textContent = zipper.output;
 
-    console.table(zipper.zipStats);
+    const stats = zipper.zipStats;
+
+    unzipStats.innerHTML = `
+<div>Extensión del texto: ${stats.textLength} caracteres</div>
+<div>Bytes antes de descomprimir: ${stats.bytesStart}</div>
+<div>---<div/>
+<div>${!stats.zipped ? 'El archivo no fue comprimido' : ''}</div>
+<div>Tiempo transcurrido: ${stats.timeEnd - stats.timeStart} milisegundos</div>
+<div>Bytes luego de descomprimir: ${stats.bytesEnd}</div>
+`;
     downUnzipBtn.disabled = false;
 });
 downUnzipBtn.addEventListener('click', () => {

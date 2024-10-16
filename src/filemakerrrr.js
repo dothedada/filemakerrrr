@@ -183,6 +183,7 @@ export class Filemakerrrr {
 
     async parseFile(file) {
         try {
+            this.flushStats();
             this.#stats.action = 'unzip';
             this.#talkToYou(['unzip', 'upload']);
 
@@ -227,6 +228,7 @@ export class Filemakerrrr {
 
             this.#stats.timeEnd = new Date().getTime();
             const { charsUnicode } = await stringChecker(this.#unzipOutput);
+            this.#stats.textLength = this.#unzipOutput.length;
             this.#stats.bytesEnd = this.#unzipOutput.length + charsUnicode;
 
             return this.#unzipOutput;
