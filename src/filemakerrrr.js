@@ -11,10 +11,11 @@ import { compressor } from './core/zip-compressor.js';
 import { assembler } from './core/zip-assembler.js';
 import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
+import { runtimeErr } from '../utils/errors.js';
 
 // TODO:
-// 2. separar msg y errores / implementacion metodo propio para verboso
 // 3. ajustar constructor input
+// 2.  implementacion metodo propio para verboso
 // 4. Readme
 // 3. Montaje de la biblioteca
 // 5. npm
@@ -48,7 +49,7 @@ export class Filemakerrrr {
             await this.zip();
             this.download();
         } catch (error) {
-            throw new Error(message.runtimeErr.zipping);
+            throw new Error(runtimeErr.zipping);
         }
     }
 
@@ -77,10 +78,10 @@ export class Filemakerrrr {
 
     stringToZip(string) {
         if (!string) {
-            throw new Error(message.runtimeErr.noParameter);
+            throw new Error(runtimeErr.noParameter);
         }
         if (typeof string !== 'string') {
-            throw new Error(message.runtimeErr.stringExpected);
+            throw new Error(runtimeErr.stringExpected);
         }
 
         this.flush();
@@ -91,20 +92,18 @@ export class Filemakerrrr {
 
     async zip() {
         if (!this.#zipInfo.in) {
-            throw new Error(message.runtimeErr.stringExpected);
+            throw new Error(runtimeErr.stringExpected);
         }
 
         if (this.#zipInfo.zippedInput) {
-            // el archivo ya esta comprimido
+            this.#talkToYou(['zip', 'alreadyZipped'], true);
             return;
         }
-
-        this.flushStats();
-
         this.#stats.action = 'zip';
         this.#stats.timeStart = new Date().getTime();
         this.#talkToYou(['zip', 'analize']);
 
+        this.flushStats();
         const { charsMap, charsUnicode } = await stringChecker(
             this.#zipInfo.in,
         );
@@ -120,23 +119,20 @@ export class Filemakerrrr {
         );
 
         this.#stats.zipRateEst = rate;
-
         this.#talkToYou(['zip', 'rate', rate]);
 
         if (!this.#settings.alwaysZip && !should) {
-            this.#talkToYou(['zip', 'willNotZip']);
             this.#zipInfo.out = this.#zipInfo.in;
             this.#stats.zipped = false;
             this.#stats.timeEnd = new Date().getTime();
-
             this.#stats.bytesEnd = this.#zipInfo.out.length;
             this.#stats.zipRateReal =
                 this.#stats.bytesEnd / this.#stats.bytesStart;
+            this.#talkToYou(['zip', 'willNotZip']);
 
             return this;
         }
         this.#stats.zipped = true;
-
         this.#talkToYou(['zip', 'willZip']);
         this.#talkToYou(['zip', 'zipMap']);
 
@@ -152,7 +148,6 @@ export class Filemakerrrr {
         this.#stats.timeEnd = new Date().getTime();
         this.#stats.bytesEnd = this.#zipInfo.out.length;
         this.#stats.zipRateReal = this.#stats.bytesEnd / this.#stats.bytesStart;
-
         this.#talkToYou(['zip', 'readyToDownload']);
 
         return this;
@@ -163,9 +158,6 @@ export class Filemakerrrr {
         this.flushStats();
 
         try {
-            this.#stats.action = 'unzip';
-            this.#talkToYou(['unzip', 'upload']);
-
             const fileData = await fileLoader(file);
             const [data, type] = await fileCheck(fileData);
             this.#zipInfo.in = data;
@@ -173,51 +165,52 @@ export class Filemakerrrr {
             if (!this.#zipInfo.in) {
                 this.#talkToYou(['unzip', 'fileFormarError']);
 
-                new Error(message.runtimeErr.fileFormat);
+                new Error(runtimeErr.fileFormat);
             }
-
             this.#zipInfo.zippedInput = type === '.f4r';
 
+            this.#stats.action = 'unzip';
             this.#stats.zipped = this.#zipInfo.zippedInput;
             this.#stats.bytesStart =
                 this.#zipInfo.in.length + (type === '.f4r' ? 3 : 0);
+            this.#talkToYou(['unzip', 'upload']);
 
             return this.#zipInfo.in;
         } catch (err) {
             this.#talkToYou(['unzip', 'uploadError'], true);
 
-            new Error(message.runtimeErr.onParse);
+            new Error(runtimeErr.onParse);
         }
     }
 
     async unzip() {
         if (!this.#zipInfo.zippedInput) {
-            // el archivo ya esta descomprimido
+            this.#talkToYou(['unzip', 'alreadyUnzipped'], true);
             return;
         }
         try {
             this.#stats.timeStart = new Date().getTime();
-
             this.#talkToYou(['unzip', 'parsingBuffer']);
+
             const binaryString = await parseBufferToBin(this.#zipInfo.in);
 
             this.#talkToYou(['unzip', 'unzippingString']);
 
             const unzippedString = await parseBinToChar(binaryString);
+
             this.#zipInfo.out = unzippedString;
 
             this.#talkToYou(['unzip', 'readyToDownload']);
-
             this.#stats.timeEnd = new Date().getTime();
-            const { charsUnicode } = await stringChecker(this.#zipInfo.out);
             this.#stats.textLength = this.#zipInfo.out.length;
+            const { charsUnicode } = await stringChecker(this.#zipInfo.out);
             this.#stats.bytesEnd = this.#zipInfo.out.length + charsUnicode;
 
             return this.#zipInfo.out;
         } catch {
             this.#talkToYou(['unzip', 'unzipError'], true);
 
-            new Error(message.runtimeErr.unzipping);
+            new Error(runtimeErr.unzipping);
         }
     }
 
@@ -227,6 +220,7 @@ export class Filemakerrrr {
             return;
         }
         this.#talkToYou(['download', 'start']);
+
         fileDownload(name, this.#zipInfo.out, !this.#zipInfo.zippedInput);
     }
 

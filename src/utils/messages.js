@@ -1,6 +1,7 @@
-const message = {
+export const message = {
     en: {
         zip: {
+            alreadyZipped: 'The file is already zipped',
             analize: 'Parsing the text...',
             rate: (rate) =>
                 `The zipped file would be around ${rate.toFixed(2)} the size if it was a .txt`,
@@ -13,6 +14,7 @@ const message = {
         unzip: {
             upload: 'Uploading the file...',
             uploadError: 'Error during file upload.',
+            alreadyUnzipped: 'The file is already unzipped',
             fileFormarError: 'The file is not a valid F4R format.',
             parsingBuffer: 'Reading the buffer...',
             unzippingString: 'Unzipping the string...',
@@ -33,6 +35,7 @@ const message = {
     },
     es: {
         zip: {
+            alreadyZipped: 'El archivo ya se encuentra comprimido',
             analize: 'Analizando el texto...',
             rate: (rate) =>
                 `El archivo comprimido será aproximadamente ${rate.toFixed(2)} del tamaño de sin fuera un .txt`,
@@ -45,6 +48,7 @@ const message = {
         unzip: {
             upload: 'Subiendo el archivo...',
             uploadError: 'Error durante la carga del archivo.',
+            alreadyUnzipped: 'El archivo ya está descomprimido',
             fileFormarError: 'El archivo no es un formato F4R válido.',
             parsingBuffer: 'Leyendo el buffer...',
             unzippingString: 'Descomprimiendo la cadena...',
@@ -63,20 +67,4 @@ const message = {
             notAvailable: 'Todavía no hay estadísticas disponibles.',
         },
     },
-    runtimeErr: {
-        onParse: "The file couldn't be parsed",
-        onUpload: "The file couldn't be uploaded.",
-        charsMap: "Couldn't create the charsmap.",
-        bytesArr: 'The bytesArray is empty.',
-        buffToBin: 'The parsed string is empty.',
-        binToChar: "Couldn't create a string from the binary",
-        zipString: 'The zipped string is empty.',
-        zipping: 'Compression failed.',
-        unzipping: "Couldn't unzip the file",
-        noParameter: 'A parameter is missing.',
-        stringExpected: 'A string as parameter is expected.',
-        fileFormat: 'The file is not a valid F4R format',
-    },
 };
-
-export { message };

@@ -1,4 +1,4 @@
-import { message } from '../utils/messages.js';
+import { runtimeErr } from '../utils/errors.js';
 
 const compressor = (stringToCompress, compressionTable) =>
     new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ const compressor = (stringToCompress, compressionTable) =>
         }
 
         if (typeof binaryString !== 'string' || !binaryString.length) {
-            reject(new Error(message.runtimeErr.zipString));
+            reject(new Error(runtimeErr.zipString));
         }
         resolve(binaryString);
     });

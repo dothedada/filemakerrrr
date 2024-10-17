@@ -1,5 +1,5 @@
 import { toBin } from '../utils/conversion.js';
-import { message } from '../utils/messages.js';
+import { runtimeErr } from '../utils/errors.js';
 
 const parseBufferToBin = (fileArray) => {
     return new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ const parseBufferToBin = (fileArray) => {
         }
 
         if (!stringBin.length) {
-            reject(new Error(message.runtimeErr.buffToBin));
+            reject(new Error(runtimeErr.buffToBin));
         }
 
         resolve(stringBin);

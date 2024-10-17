@@ -1,4 +1,4 @@
-import { message } from '../utils/messages.js';
+import { runtimeErr } from '../utils/errors.js';
 
 const binaryBufferForBrowser = (string) =>
     new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ const binaryBufferForBrowser = (string) =>
             bytesArray[i] = Number.parseInt(currentByte, 2);
         }
         if (!bytesArray) {
-            reject(new Error(message.runtimeErr.bytesArr));
+            reject(new Error(runtimeErr.bytesArr));
         }
         resolve(bytesArray);
     });

@@ -1,5 +1,5 @@
-import { message } from '../utils/messages.js';
 import { charEval } from './charEval.js';
+import { runtimeErr } from '../utils/errors.js';
 
 const stringChecker = async (text) =>
     new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ const stringChecker = async (text) =>
         }
 
         if (!charsMap.size) {
-            reject(new Error(message.runtimeErr.charsMap));
+            reject(new Error(runtimeErr.charsMap));
         }
 
         resolve({ charsMap, charsUnicode });
