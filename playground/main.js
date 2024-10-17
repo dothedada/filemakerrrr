@@ -21,9 +21,28 @@ const zipper = new Filemakerrrr({ verbose: true });
 uploadToZip.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     await zipper.parseFile(file);
-    zipTxt.textContent = zipper.input;
+    zipTxt.value = zipper.input;
+    zipBtn.disabled = false;
 });
 
+zipTxt.addEventListener('input', () => {
+    zipBtn.disabled = !zipTxt.value.length;
+});
+
+zipBtn.addEventListener('pointerdown', async () => {
+    if (!zipTxt.value && !zipper.input) {
+        return;
+    }
+
+    zipper.stringToZip(zipTxt.value);
+    await zipper.zip();
+
+    downZipBtn.disabled = false;
+});
+
+downZipBtn.addEventListener('pointerdown', () => {
+    zipper.download('myTestFile');
+});
 // <!-- <div>Extensión del texto: ${stats.textLength} caracteres</div> -->
 // <!-- <div>Letras y caracteres en el texto: ${stats.chars}</div> -->
 // <!-- <div>Bytes antes de comprimir: ${stats.bytesStart}</div> -->
