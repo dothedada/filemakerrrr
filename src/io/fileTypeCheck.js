@@ -2,6 +2,7 @@ import { signature } from '../utils/units.js';
 
 const fileCheck = (file) => {
     const fileArray = new Uint8Array(file);
+    console.log(file, file.type, fileArray);
 
     return new Promise((resolve) => {
         const isf4r = fileArray
@@ -29,7 +30,9 @@ const fileCheck = (file) => {
 
         const isTxt = nullCount === 0 || nonPrintable / sample <= 0.1;
         if (isTxt) {
-            resolve([fileArray, '.txt']);
+            const decoder = new TextDecoder('utf-8');
+            const text = decoder.decode(fileArray);
+            resolve([text, '.txt']);
         }
 
         resolve(null);

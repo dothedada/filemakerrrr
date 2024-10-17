@@ -170,11 +170,12 @@ export class Filemakerrrr {
     }
 
     async parseFile(file) {
-        this.flush();
+        this.#talkToYou(['upload', 'upload']);
 
         try {
             const fileData = await fileLoader(file);
             const [data, type] = await fileCheck(fileData);
+            this.flush();
             this.#zipInfo.in = data;
 
             if (!this.#zipInfo.in) {
@@ -184,8 +185,7 @@ export class Filemakerrrr {
             }
             this.#zipInfo.zippedInput = type === '.f4r';
 
-            this.#talkToYou(['upload', 'upload']);
-
+            this.#talkToYou(['upload', 'uploaded']);
             return this.#zipInfo.in;
         } catch (err) {
             this.#talkToYou(['upload', 'uploadError'], true);
@@ -276,6 +276,10 @@ export class Filemakerrrr {
         }
 
         return publicStats;
+    }
+
+    get input() {
+        return this.#zipInfo.in;
     }
 
     get output() {

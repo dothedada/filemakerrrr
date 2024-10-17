@@ -14,6 +14,7 @@ export const message = {
         upload: {
             fileFormarError: 'The file is not a valid F4R format.',
             upload: 'Uploading the file...',
+            uploaded: 'The file was uploaded correctly.',
             uploadError: 'Error during file upload.',
         },
         unzip: {
@@ -50,6 +51,7 @@ export const message = {
         upload: {
             fileFormarError: 'El archivo no es un formato F4R válido.',
             upload: 'Subiendo el archivo...',
+            uploaded: 'El archivo se cargó correctamente.',
             uploadError: 'Error durante la carga del archivo.',
         },
         unzip: {
