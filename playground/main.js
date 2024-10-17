@@ -18,13 +18,13 @@ const zipStats = document.querySelector('.zip .stats');
 const unzipStats = document.querySelector('.unzip .stats');
 
 const zipper = new Filemakerrrr();
+zipper.talkToMe();
 zipBtn.addEventListener('click', async () => {
     try {
         zipper.stringToZip(zipTxt.value);
         await zipper.zip();
 
         const stats = zipper.zipStats;
-        console.log(stats);
         zipStats.innerHTML = `
 <div>Extensión del texto: ${stats.textLength} caracteres</div>
 <div>Letras y caracteres en el texto: ${stats.chars}</div>
@@ -65,6 +65,7 @@ unzipBtn.addEventListener('click', async () => {
 
     const stats = zipper.zipStats;
 
+    console.log(stats);
     unzipStats.innerHTML = `
 <div>Extensión del texto: ${stats.textLength} caracteres</div>
 <div>Bytes antes de descomprimir: ${stats.bytesStart}</div>

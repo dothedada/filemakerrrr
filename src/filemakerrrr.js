@@ -11,11 +11,10 @@ import { compressor } from './core/zip-compressor.js';
 import { assembler } from './core/zip-assembler.js';
 import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
-import { runtimeErr } from '../utils/errors.js';
+import { runtimeErr } from './utils/errors.js';
 
 // TODO:
-// 3. ajustar constructor input
-// 2.  implementacion metodo propio para verboso
+// 2. implementacion metodo propio para verboso
 // 4. Readme
 // 3. Montaje de la biblioteca
 // 5. npm
@@ -94,23 +93,18 @@ export class Filemakerrrr {
         if (!this.#zipInfo.in) {
             throw new Error(runtimeErr.stringExpected);
         }
-
         if (this.#zipInfo.zippedInput) {
             this.#talkToYou(['zip', 'alreadyZipped'], true);
             return;
         }
-        this.#stats.action = 'zip';
+
+        this.flushStats();
         this.#stats.timeStart = new Date().getTime();
         this.#talkToYou(['zip', 'analize']);
 
-        this.flushStats();
         const { charsMap, charsUnicode } = await stringChecker(
             this.#zipInfo.in,
         );
-
-        this.#stats.chars = charsMap.size;
-        this.#stats.textLength = this.#zipInfo.in.length;
-        this.#stats.bytesStart = this.#zipInfo.in.length + charsUnicode;
 
         const { should, rate } = zipForecast(
             this.#zipInfo.in.length,
@@ -118,21 +112,34 @@ export class Filemakerrrr {
             charsUnicode,
         );
 
-        this.#stats.zipRateEst = rate;
+        this.#stats = {
+            ...this.#stats,
+            action: 'zip',
+            chars: charsMap.size,
+            textLength: this.#zipInfo.in.length,
+            bytesStart: this.#zipInfo.in.length + charsUnicode,
+            zipRateEst: rate,
+        };
         this.#talkToYou(['zip', 'rate', rate]);
 
         if (!this.#settings.alwaysZip && !should) {
             this.#zipInfo.out = this.#zipInfo.in;
-            this.#stats.zipped = false;
-            this.#stats.timeEnd = new Date().getTime();
-            this.#stats.bytesEnd = this.#zipInfo.out.length;
-            this.#stats.zipRateReal =
-                this.#stats.bytesEnd / this.#stats.bytesStart;
+            this.#stats = {
+                ...this.#stats,
+                zipped: false,
+                timeEnd: new Date().getTime(),
+                bytesEnd: this.#zipInfo.out.length,
+                get totalTimeMs() {
+                    return this.timeEnd - this.timeStart;
+                },
+                get zipRateReal() {
+                    return this.bytesEnd / this.bytesStart;
+                },
+            };
             this.#talkToYou(['zip', 'willNotZip']);
 
             return this;
         }
-        this.#stats.zipped = true;
         this.#talkToYou(['zip', 'willZip']);
         this.#talkToYou(['zip', 'zipMap']);
 
@@ -145,9 +152,18 @@ export class Filemakerrrr {
         const binarySecuence = assembler(zippedCharMap, zippedString);
         this.#zipInfo.out = await binaryBufferForBrowser(binarySecuence);
 
-        this.#stats.timeEnd = new Date().getTime();
-        this.#stats.bytesEnd = this.#zipInfo.out.length;
-        this.#stats.zipRateReal = this.#stats.bytesEnd / this.#stats.bytesStart;
+        this.#stats = {
+            ...this.#stats,
+            zipped: true,
+            timeEnd: new Date().getTime(),
+            bytesEnd: this.#zipInfo.out.length,
+            get totalTimeMs() {
+                return this.timeEnd - this.timeStart;
+            },
+            get zipRateReal() {
+                return this.bytesEnd / this.bytesStart;
+            },
+        };
         this.#talkToYou(['zip', 'readyToDownload']);
 
         return this;
@@ -155,7 +171,6 @@ export class Filemakerrrr {
 
     async parseFile(file) {
         this.flush();
-        this.flushStats();
 
         try {
             const fileData = await fileLoader(file);
@@ -163,21 +178,17 @@ export class Filemakerrrr {
             this.#zipInfo.in = data;
 
             if (!this.#zipInfo.in) {
-                this.#talkToYou(['unzip', 'fileFormarError']);
+                this.#talkToYou(['upload', 'fileFormarError']);
 
                 new Error(runtimeErr.fileFormat);
             }
             this.#zipInfo.zippedInput = type === '.f4r';
 
-            this.#stats.action = 'unzip';
-            this.#stats.zipped = this.#zipInfo.zippedInput;
-            this.#stats.bytesStart =
-                this.#zipInfo.in.length + (type === '.f4r' ? 3 : 0);
-            this.#talkToYou(['unzip', 'upload']);
+            this.#talkToYou(['upload', 'upload']);
 
             return this.#zipInfo.in;
         } catch (err) {
-            this.#talkToYou(['unzip', 'uploadError'], true);
+            this.#talkToYou(['upload', 'uploadError'], true);
 
             new Error(runtimeErr.onParse);
         }
@@ -189,7 +200,16 @@ export class Filemakerrrr {
             return;
         }
         try {
-            this.#stats.timeStart = new Date().getTime();
+            this.flushStats();
+            this.#stats = {
+                action: 'unzip',
+                zipped: this.#zipInfo.zippedInput,
+                timeStart: new Date().getTime(),
+                initialBytes: this.#zipInfo.in.length,
+                get bytesStart() {
+                    return this.initialBytes + (this.zipped ? 3 : 0);
+                },
+            };
             this.#talkToYou(['unzip', 'parsingBuffer']);
 
             const binaryString = await parseBufferToBin(this.#zipInfo.in);
@@ -201,10 +221,18 @@ export class Filemakerrrr {
             this.#zipInfo.out = unzippedString;
 
             this.#talkToYou(['unzip', 'readyToDownload']);
-            this.#stats.timeEnd = new Date().getTime();
-            this.#stats.textLength = this.#zipInfo.out.length;
             const { charsUnicode } = await stringChecker(this.#zipInfo.out);
-            this.#stats.bytesEnd = this.#zipInfo.out.length + charsUnicode;
+            this.#stats = {
+                ...this.#stats,
+                timeEnd: new Date().getTime(),
+                textLength: this.#zipInfo.out.length,
+                get bytesEnd() {
+                    return this.textLength + charsUnicode;
+                },
+                get totalTimeMs() {
+                    return this.timeEnd - this.timeStart;
+                },
+            };
 
             return this.#zipInfo.out;
         } catch {

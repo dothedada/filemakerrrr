@@ -11,11 +11,13 @@ export const message = {
             zipString: 'Zipping the string...',
             readyToDownload: 'Ready to download',
         },
-        unzip: {
+        upload: {
+            fileFormarError: 'The file is not a valid F4R format.',
             upload: 'Uploading the file...',
             uploadError: 'Error during file upload.',
+        },
+        unzip: {
             alreadyUnzipped: 'The file is already unzipped',
-            fileFormarError: 'The file is not a valid F4R format.',
             parsingBuffer: 'Reading the buffer...',
             unzippingString: 'Unzipping the string...',
             readyToDownload: 'File ready to download.',
@@ -45,11 +47,13 @@ export const message = {
             zipString: 'Transcribiendo la cadena de caracteres...',
             readyToDownload: 'Archivo listo para descargar.',
         },
-        unzip: {
+        upload: {
+            fileFormarError: 'El archivo no es un formato F4R válido.',
             upload: 'Subiendo el archivo...',
             uploadError: 'Error durante la carga del archivo.',
+        },
+        unzip: {
             alreadyUnzipped: 'El archivo ya está descomprimido',
-            fileFormarError: 'El archivo no es un formato F4R válido.',
             parsingBuffer: 'Leyendo el buffer...',
             unzippingString: 'Descomprimiendo la cadena...',
             readyToDownload: 'Archivo listo para descargar.',
