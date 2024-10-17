@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "serve": "browser-sync start --server --files '*.html, **/*.css, playground/*.js' --browser 'firefox'",
+        "serve": "browser-sync start --server --files '*.html, **/*.css, demo/*.js' --browser 'firefox'",
         "test": "vitest watch"
     },
     "devDependencies": {

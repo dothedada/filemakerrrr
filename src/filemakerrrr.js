@@ -262,7 +262,7 @@ export class Filemakerrrr {
         this.#settings.listener(finalOutput);
     }
 
-    get zipStats() {
+    get viewStats() {
         const publicStats = {};
         let statsAvailable = 0;
 
