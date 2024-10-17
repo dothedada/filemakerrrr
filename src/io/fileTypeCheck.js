@@ -11,7 +11,7 @@ const fileCheck = (file) => {
             );
 
         if (isf4r) {
-            resolve({ file: fileArray.slice(3), type: '.f4r' });
+            resolve([fileArray.slice(3), '.f4r']);
         }
 
         const sample = Math.min(1024, fileArray.length);
@@ -29,7 +29,7 @@ const fileCheck = (file) => {
 
         const isTxt = nullCount === 0 || nonPrintable / sample <= 0.1;
         if (isTxt) {
-            resolve({ file: fileArray, type: '.txt' });
+            resolve([fileArray, '.txt']);
         }
 
         resolve(null);

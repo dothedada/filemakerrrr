@@ -3,12 +3,6 @@ import { Filemakerrrr } from '../index.js';
 document.querySelectorAll('button').forEach((btn) => {
     btn.disabled = true;
 });
-// if (unzipFile.value) {
-//     unzipBtn.disabled = false;
-// }
-// if (zipTxt.value.length) {
-//     zipBtn.disabled = false;
-// }
 
 const zipBtn = document.querySelector('#zipBtn');
 const unzipBtn = document.querySelector('#unzipBtn');
@@ -16,7 +10,8 @@ const downZipBtn = document.querySelector('#downloadZipBtn');
 const downUnzipBtn = document.querySelector('#downloadUnzipBtn');
 
 const zipTxt = document.querySelector('textarea');
-const unzipFile = document.querySelector('[type="file"]');
+const zipFile = document.querySelector('.fileZip');
+const unzipFile = document.querySelector('.fileUnzip');
 const unzipPreview = document.querySelector('.preview');
 
 const zipStats = document.querySelector('.zip .stats');
@@ -48,9 +43,15 @@ zipBtn.addEventListener('click', async () => {
 });
 
 downZipBtn.addEventListener('click', () => {
-    zipper.downloadZip('zipDePrueba');
+    zipper.download('zipDePrueba');
 });
 
+zipFile.addEventListener('change', (e) => {
+    if (!e.target.files[0]) {
+        return;
+    }
+    console.log(e.target.files[0]);
+});
 unzipFile.addEventListener('change', (e) => {
     if (!e.target.files[0]) {
         return;
@@ -75,7 +76,7 @@ unzipBtn.addEventListener('click', async () => {
     downUnzipBtn.disabled = false;
 });
 downUnzipBtn.addEventListener('click', () => {
-    zipper.downloadUnzip();
+    zipper.download();
 });
 
 zipTxt.addEventListener('input', (e) => {
