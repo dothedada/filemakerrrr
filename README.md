@@ -158,12 +158,15 @@ flowchart TD
 
     F --> G{Contains ASCII?}
     G -- Yes --> O[Set offsets for ASCII characters count]
+    G -- No --> P[Add 0]
 
     F --> H{Contains extended ASCII?}
     H -- Yes --> O[Set offsets for extended ASCII characters count]
+    H -- No --> P[Add 0]
 
     F --> I{Contains Unicode?}
     I -- Yes --> O[Set offsets for Unicode characters count]
+    I -- No --> P[Add 0]
 
     O --> P[Go to character, get standard code, compressed length, compressed binary code]
     P --> Q[Place into unzip map, update count, repeat]
