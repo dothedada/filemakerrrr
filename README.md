@@ -156,15 +156,17 @@ flowchart TD
     D --> F[Parse directory]
     F --> G{Contains ASCII?}
     G -- Yes --> H[Set offsets for ASCII characters count]
-    G -- No --> I[Continue]
+    G -- No --> I[Add 0]
+    H --> P[Get characters count by standard and set it]
 
     F --> J{Contains extended ASCII?}
     J -- Yes --> K[Set offsets for extended ASCII characters count]
-    J -- No --> L[Continue]
+    J -- No --> L[Add 0]
+    K --> P[Get characters count by standard and set it]
 
     F --> M{Contains Unicode?}
     M -- Yes --> N[Set offsets for Unicode characters count]
-    M -- No --> O[Continue]
+    M -- No --> O[Add 0]
     N --> P[Get characters count by standard and set it]
 
     P --> Q[Go to character, get standard code, compressed length, compressed binary code]
