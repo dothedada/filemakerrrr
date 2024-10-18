@@ -299,28 +299,31 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[memoria de entrada] --> B[Verificar firma]
-    B --> C{Firma válida (f4r)}
+    B --> C{¿Firma válida?}
     C -- Sí --> D[Descomprimir]
-    C -- No --> E[Devolver]
+    C -- No --> E[Retornar]
 
     D --> F[Analizar directorio]
-    F --> G{ASCII}
-    G -- Sí --> H[Establecer desplazamientos para conteo de caracteres ASCII]
-    G -- No --> I
+    F --> G{¿Contiene ASCII?}
+    G -- Sí --> H[Establecer offsets para el conteo de caracteres ASCII]
+    G -- No --> I[Añadir 0]
+    H --> P[Obtener el conteo de caracteres por estándar y configurarlo]
 
-    F --> J{ASCII extendido}
-    J -- Sí --> K[Establecer desplazamientos para conteo de caracteres ASCII extendidos]
-    J -- No --> L
+    F --> J{¿Contiene ASCII extendido?}
+    J -- Sí --> K[Establecer offsets para el conteo de caracteres ASCII extendido]
+    J -- No --> L[Añadir 0]
+    K --> P[Obtener el conteo de caracteres por estándar y configurarlo]
 
-    F --> M{Unicode}
-    M -- Sí --> N[Establecer desplazamientos para conteo de caracteres Unicode]
-    N --> O[Obtener cantidad de caracteres por estándar y configurarlos]
+    F --> M{¿Contiene Unicode?}
+    M -- Sí --> N[Establecer offsets para el conteo de caracteres Unicode]
+    M -- No --> O[Añadir 0]
+    N --> P[Obtener el conteo de caracteres por estándar y configurarlo]
 
-    O --> P[Ir al carácter, obtener código estándar, longitud comprimida, código binario comprimido]
-    P --> Q[Colocar en el mapa de descompresión, actualizar conteo, repetir]
-    Q --> R[Obtener punto de inicio de la cadena y recortar bits no utilizados del último byte]
-    R --> S[Analizar y descomprimir la cadena]
-    S --> T[memoria de salida]
+    P --> Q[Ir al carácter, obtener el código estándar, longitud comprimida, código binario comprimido]
+    Q --> R[Colocar en el mapa de descompresión, actualizar conteo, repetir]
+    R --> S[Obtener el punto de inicio de la cadena y recortar los bits no utilizados del último byte]
+    S --> T[Analizar y descomprimir la cadena]
+    T --> U[memoria de salida]
 ```
 
 #### Pronóstico de compresión
