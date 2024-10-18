@@ -4,6 +4,7 @@
     "description": "Simple and straight forrward to compress and makes files from string in JS",
     "main": "index.js",
     "type": "module",
+    "homepage": "https://dothedada.github.io/filemakerrrr/",
     "scripts": {
         "serve": "browser-sync start --server --files '*.html, **/*.css, demo/*.js' --browser 'firefox'",
         "publish": "git subtree push --prefix demo origin gh-pages",
@@ -14,10 +15,17 @@
         "browser-sync": "^3.0.3",
         "vitest": "^2.1.1"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dothedada/filemakerrrr"
+    },
     "keywords": [
         "js",
         "compress",
-        "file"
+        "zip",
+        "file",
+        "text",
+        "no dependecies"
     ],
     "author": "Miguel Mejía",
     "license": "MIT"

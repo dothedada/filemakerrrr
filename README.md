@@ -8,7 +8,7 @@
 
 ### EN
 
-Comprime y descomprime rápidamente cadenas y archivos de texto desde el navegador. Emplea la codificacion Huffman, con una interfase sencilla y soporte de para Unicode BMP(Basic Multilingual Plane). Descarga desde NPM y listo.
+Quickly create files, compress and decompress text strings directly from the browser. It uses Huffman encoding in asynchronous operations that don't block runtime, with a simple interface and support for Unicode BMP (Basic Multilingual Plane). Download from NPM and you’re ready to go, no dependencies.
 
 #### Quick Start
 
@@ -21,7 +21,7 @@ const zipper = new Filemakerrrr({}, myString);
 
 ### ES
 
-Crea archivos, comprime y descomprime rápidamente cadenas de texto desde el navegador. Emplea la codificacion Huffman en operaciones asíncronas que no bloquean el tiempo de ejecución, con una interfase sencilla y soporte de para Unicode BMP(Basic Multilingual Plane). Descarga desde NPM y listo.
+Crea archivos, comprime y descomprime rápidamente cadenas de texto desde el navegador. Emplea la codificacion Huffman en operaciones asíncronas que no bloquean el tiempo de ejecución, con una interfase sencilla y soporte de para Unicode BMP(Basic Multilingual Plane). Descarga desde NPM y listo, sin dependencias.
 
 #### Inicio Rápido
 
