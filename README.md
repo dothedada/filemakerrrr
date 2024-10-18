@@ -153,19 +153,20 @@ flowchart TD
     C -- Yes --> D[Unzip]
     C -- No --> E[Return]
 
-    D --> F[Parse directory]
-    F --> G[Get characters count by standard and set it]
-    G --> H{Contains ASCII?}
-    H -- Yes --> O[Set offsets for ASCII characters count]
-    H -- No --> I[Continue]
+    D --> E[Parse directory]
+    E --> F[Get characters count by standard and set it]
 
-    G --> I{Contains extended ASCII?}
-    I -- Yes --> O[Set offsets for extended ASCII characters count]
-    I -- No --> L[Continue]
+    F --> G{Contains ASCII?}
+    G -- Yes --> O[Set offsets for ASCII characters count]
+    G -- No --> P[Continue]
 
-    G --> J{Contains Unicode?}
-    J -- Yes --> O[Set offsets for Unicode characters count]
-    J -- No --> M[Continue]
+    F --> H{Contains extended ASCII?}
+    H -- Yes --> O[Set offsets for extended ASCII characters count]
+    H -- No --> P[Continue]
+
+    F --> I{Contains Unicode?}
+    I -- Yes --> O[Set offsets for Unicode characters count]
+    I -- No --> P[Continue]
 
     O --> P[Go to character, get standard code, compressed length, compressed binary code]
     P --> Q[Place into unzip map, update count, repeat]
