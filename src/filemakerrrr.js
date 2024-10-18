@@ -14,9 +14,6 @@ import { message } from './utils/messages.js';
 import { runtimeErr } from './utils/errors.js';
 
 // TODO:
-// 2. implementacion metodo propio para verboso
-// 4. Readme
-// 3. Montaje de la biblioteca
 // 5. npm
 
 export class Filemakerrrr {
