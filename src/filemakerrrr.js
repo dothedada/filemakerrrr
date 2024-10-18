@@ -63,6 +63,9 @@ export class Filemakerrrr {
     }
 
     addListener(callback) {
+        if (!callback) {
+            new Error(runtimeErr.noParameter);
+        }
         this.#settings.listener = callback;
         return this;
     }
