@@ -149,20 +149,20 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[input memory] --> B[Check signature]
-    B --> C{Signature valid (f4r)}
+    B --> C{Is signature valid?}
     C -- Yes --> D[Unzip]
     C -- No --> E[Return]
 
     D --> F[Parse directory]
-    F --> G{ASCII}
+    F --> G{Contains ASCII?}
     G -- Yes --> H[Set offsets for ASCII characters count]
-    G -- No --> I
+    G -- No --> I[Continue]
 
-    F --> J{Extended ASCII}
+    F --> J{Contains extended ASCII?}
     J -- Yes --> K[Set offsets for extended ASCII characters count]
-    J -- No --> L
+    J -- No --> L[Continue]
 
-    F --> M{Unicode}
+    F --> M{Contains Unicode?}
     M -- Yes --> N[Set offsets for Unicode characters count]
     N --> O[Get characters count by standard and set it]
 
