@@ -76,6 +76,8 @@ const zipper = new Filemakerrrr({
 });
 ```
 
+Always the first parameter sould be the config object
+
 Default configuration: FAST(But not SUPA-F\*CKING-FAST)
 
 ```javascript
@@ -225,6 +227,8 @@ const zipper = new Filemakerrrr({
     lang: 'es', // String con el código internacional del idioma
 });
 ```
+
+Siempre el objeto de configuración debe ir como primer parámetro
 
 Configuración predeterminada:
 

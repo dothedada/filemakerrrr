@@ -6,6 +6,7 @@
     "type": "module",
     "scripts": {
         "serve": "browser-sync start --server --files '*.html, **/*.css, demo/*.js' --browser 'firefox'",
+        "publish": "git subtree push --prefix demo origin gh-pages",
         "test": "vitest watch"
     },
     "devDependencies": {
