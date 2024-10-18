@@ -1,4 +1,4 @@
-import { Filemakerrrr } from '../index.js';
+import { Filemakerrrr } from './filemakerrrrDemo/filemakerrrr.js';
 
 document.querySelectorAll('button').forEach((btn) => {
     btn.disabled = true;
