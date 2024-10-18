@@ -114,7 +114,7 @@ Filemakerrrr uses Huffman coding to compress strings efficiently. It evaluates t
 flowchart TD
     A[input memory] --> B[Evaluate string]
     B --> C[Compression forecast]
-    C --> D{Compression forecast rate < 1?}
+    C --> D{Compression forecast rate < 1}
     D -- Yes --> E[Zip]
     D -- No --> F[Return]
 
@@ -149,20 +149,20 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[input memory] --> B[Check signature]
-    B --> C{Signature valid (f4r)?}
+    B --> C{Signature valid (f4r)}
     C -- Yes --> D[Unzip]
     C -- No --> E[Return]
 
     D --> F[Parse directory]
-    F --> G{ASCII?}
+    F --> G{ASCII}
     G -- Yes --> H[Set offsets for ASCII characters count]
     G -- No --> I
 
-    F --> J{Extended ASCII?}
+    F --> J{Extended ASCII}
     J -- Yes --> K[Set offsets for extended ASCII characters count]
     J -- No --> L
 
-    F --> M{Unicode?}
+    F --> M{Unicode}
     M -- Yes --> N[Set offsets for Unicode characters count]
     N --> O[Get characters count by standard and set it]
 
@@ -261,7 +261,7 @@ Filemakerrrr es un proyecto rápido con el que quiero facilitar la creación y c
 flowchart TD
     A[memoria de entrada] --> B[Evaluar cadena]
     B --> C[Pronóstico de compresión]
-    C --> D{¿Pronóstico de compresión < 1?}
+    C --> D{Pronóstico de compresión < 1}
     D -- Sí --> E[Comprimir]
     D -- No --> F[Devolver]
 
@@ -296,20 +296,20 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[memoria de entrada] --> B[Verificar firma]
-    B --> C{¿Firma válida (f4r)?}
+    B --> C{Firma válida (f4r)}
     C -- Sí --> D[Descomprimir]
     C -- No --> E[Devolver]
 
     D --> F[Analizar directorio]
-    F --> G{¿ASCII?}
+    F --> G{ASCII}
     G -- Sí --> H[Establecer desplazamientos para conteo de caracteres ASCII]
     G -- No --> I
 
-    F --> J{¿ASCII extendido?}
+    F --> J{ASCII extendido}
     J -- Sí --> K[Establecer desplazamientos para conteo de caracteres ASCII extendidos]
     J -- No --> L
 
-    F --> M{¿Unicode?}
+    F --> M{Unicode}
     M -- Sí --> N[Establecer desplazamientos para conteo de caracteres Unicode]
     N --> O[Obtener cantidad de caracteres por estándar y configurarlos]
 
