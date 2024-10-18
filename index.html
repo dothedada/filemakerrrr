@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Filemakerrrr playground</title>
+
+        <!-- Meta Tags -->
+        <meta name="title" content="" />
+        <meta name="description" content="" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Miguel Mejía" />
+        <meta name="copyright" content="Miguel Mejía, 2024" />
+
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="assets/img/ico/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="assets/img/ico/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="assets/img/ico/favicon-16x16.png"
+        />
+        <link rel="manifest" href="assets/img/ico/site.webmanifest" />
+        <link
+            rel="mask-icon"
+            href="assets/img/ico/safari-pinned-tab.svg"
+            color="#2a2927"
+        />
+        <link rel="shortcut icon" href="assets/img/ico/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="msapplication-config" content="img/ico/browserconfig.xml" />
+        <meta name="theme-color" content="#ffffff" />
+
+        <!-- OG / facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="" />
+        <meta property="og:title" content="" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="" />
+
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Filemakerrrr //</h1>
+        </header>
+        <div class="demo">
+            <div class="zip">
+                <h2>> Zip && Download</h2>
+                <input class="fileZip" type="file" accept="text/plain" />
+                <textarea
+                    placeholder="write or paste somethig looooooong..."
+                ></textarea>
+                <button id="zipBtn" type="button">Zip</button>
+
+                <div class="stats">...</div>
+
+                <button id="downloadZipBtn" type="button">download</button>
+            </div>
+            <div class="unzip">
+                <h2>> Upload && Unzip</h2>
+                <input class="fileUnzip" type="file" accept=".f4r,text/plain" />
+                <button id="unzipBtn" type="button">Unzip</button>
+
+                <div class="stats">...</div>
+
+                <div class="previewContainer">
+                    <div>Preview:</div>
+                    <div class="preview"></div>
+                </div>
+                <button id="downloadUnzipBtn" type="button">download</button>
+            </div>
+        </div>
+        <button type="button" class="reset">restart</button>
+        <div>
+            Miguel Mejía * 2024 -
+            <a href="https://github.com/dothedada/filemakerrrr">F4R Github</a> -
+            <a href="https://github.com/dothedada">My github</a> -
+            <a href="https://cv.mmejia.com">CV</a> -
+            <a href="https://mmejia.com">Portfolio</a>
+        </div>
+    </body>
+    <script type="module" src="main.js"></script>
+</html>

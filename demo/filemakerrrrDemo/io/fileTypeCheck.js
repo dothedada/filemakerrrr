@@ -2,7 +2,6 @@ import { signature } from '../utils/units.js';
 
 const fileCheck = (file) => {
     const fileArray = new Uint8Array(file);
-    console.log(file, file.type, fileArray);
 
     return new Promise((resolve) => {
         const isf4r = fileArray
