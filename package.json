@@ -1,6 +1,6 @@
 {
     "name": "filemakerrrr",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Simple and straight forrward to compress and makes files from string in JS",
     "main": "index.js",
     "type": "module",
