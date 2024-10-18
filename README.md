@@ -57,9 +57,33 @@ npm install filemakerrrr
 import { Filemakerrrr } from 'filemakerrrr';
 const zipper = new Filemakerrrr();
 
+zipper.stringToZip(myString)
+    .then(() => zipper.zip());
+    .then(() => zipper.download('MyFileName'));
+```
+
+or handle it with async functions:
+
+```javascript
+zipper.stringToZip(myString);
+myFuntion = async () => {
+    try {
+        // ...
+        await zipper.zip()
+    } // ...
+}
+```
+
+or, or, or, handle the methods that follows the zip() outside the runtime as events listeners:
+
+```javascript
+// ...
 zipper.stringToZip(myString);
 zipper.zip();
-zipper.download('MyFileName');
+
+someButton.addEventListener('pointerdown', () => {
+    zipper.download('MyFileName');
+});
 ```
 
 ### Configuration
@@ -95,10 +119,10 @@ Default configuration: FAST(But not SUPA-F\*CKING-FAST)
 #### Methods
 
 -   `stringToZip(string)`: Takes the string to be zipped and stores it in the input memory of the class
--   `parseFile(file)`: Takes the file from the input field, parses it, and stores it in the input memory of the class
--   `zip()`: Zips the string stored in the input memory and stores the result in the output memory of the class
+-   `parseFile(file)`: async. Takes the file from the input field, parses it, and stores it in the input memory of the class
+-   `zip()`: async. Zips the string stored in the input memory and stores the result in the output memory of the class
 -   `forceIt(alwaysZip)`: Takes a boolean; if true, forces the compression even if Filemakerrrr doesn't recommend it. If no parameter is provided, it defaults to true
--   `unzip()`: Unzips the data stored in the input memory and stores the result in the output memory of the class
+-   `unzip()`: async. Unzips the data stored in the input memory and stores the result in the output memory of the class
 -   `download(fileName)`: Downloads the data stored in the output memory of the class. Takes a string as a parameter and uses it to name the file. The file extension is '.txt' if the file is not zipped or '.f4r' if it is
 -   `talkToMe(verbose)`: Takes a boolean; if true, all messages are available for the callback. If no parameter is provided, it defaults to true
 -   `addListener(callback)`: Takes a callback to execute every time Filemakerrrr has a message for the user. The callback must accept a string as a parameter
@@ -209,9 +233,34 @@ Uso estándar: FAST(But not SUPA-F\*CKING-FAST)
 import { Filemakerrrr } from 'filemakerrrr';
 const zipper = new Filemakerrrr();
 
-zipper.stringToZip(miCadena);
+zipper.stringToZip(myString)
+    .then(() => zipper.zip());
+    .then(() => zipper.download('MiNombreDeArchivo'));
+```
+
+O úsala dentro de funciones asíncronas:
+
+```javascript
+zipper.stringToZip(myString);
+myFuntion = async () => {
+    try {
+        // ...
+        await zipper.zip()
+        zipper.download('MiNombreDeArchivo')
+    } // ...
+}
+```
+
+o, o, o, usa los métodos que dependen de las funciones asíncronas fuera del runtime como event listeners
+
+```javascript
+// ...
+zipper.stringToZip(myString);
 zipper.zip();
-zipper.download('MiNombreDeArchivo');
+
+someButton.addEventListener('pointerdown', () => {
+    zipper.download('MiNombreDeArchivo');
+});
 ```
 
 ### Configuración
@@ -247,10 +296,10 @@ Configuración predeterminada:
 #### Métodos
 
 -   `stringToZip(string)`: Toma la cadena a comprimir y la almacena en la memoria de entrada de la clase
--   `parseFile(file)`: Toma el archivo del campo de entrada, lo analiza y lo almacena en la memoria de entrada de la clase
--   `zip()`: Comprime la cadena almacenada en la memoria de entrada y guarda el resultado en la memoria de salida de la clase
+-   `parseFile(file)`: async. Toma el archivo del campo de entrada, lo analiza y lo almacena en la memoria de entrada de la clase
+-   `zip()`: async. Comprime la cadena almacenada en la memoria de entrada y guarda el resultado en la memoria de salida de la clase
 -   `forceIt(alwaysZip)`: Recibe un booleano; si es verdadero, fuerza la compresión incluso si Filemakerrrr no lo recomienda. Si no se proporciona un parámetro, se establece como verdadero
--   `unzip()`: Descomprime los datos almacenados en la memoria de entrada y guarda el resultado en la memoria de salida de la clase
+-   `unzip()`: async. Descomprime los datos almacenados en la memoria de entrada y guarda el resultado en la memoria de salida de la clase
 -   `download(fileName)`: Descarga los datos almacenados en la memoria de salida de la clase. Recibe una cadena como parámetro y la utiliza para nombrar el archivo. La extensión del archivo es '.txt' si no está comprimido o '.f4r' si lo está
 -   `talkToMe(verbose)`: Recibe un booleano; si es verdadero, todos los mensajes están disponibles para el callback. Si no se proporciona un parámetro, se establece como verdadero
 -   `addListener(callback)`: Recibe un callback para ejecutar cada vez que Filemakerrrr tiene un mensaje para el usuario. El callback debe aceptar una cadena como parámetro
