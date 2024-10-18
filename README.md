@@ -114,7 +114,7 @@ Filemakerrrr uses Huffman coding to compress strings efficiently. It evaluates t
 flowchart TD
     A[input memory] --> B[Evaluate string]
     B --> C[Compression forecast]
-    C --> D{Compression forecast rate < 1}
+    C --> D{Compression forecast rate < 1?}
     D -- Yes --> E[Zip]
     D -- No --> F[Return]
 
@@ -145,6 +145,10 @@ flowchart TD
 ```
 
 #### unzipping
+
+```mermaid
+  info
+```
 
 ```mermaid
 flowchart TD
