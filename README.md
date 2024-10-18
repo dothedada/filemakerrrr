@@ -164,13 +164,14 @@ flowchart TD
 
     F --> M{Contains Unicode?}
     M -- Yes --> N[Set offsets for Unicode characters count]
-    N --> O[Get characters count by standard and set it]
+    M -- No --> O[Continue]
+    N --> P[Get characters count by standard and set it]
 
-    O --> P[Go to character, get standard code, compressed length, compressed binary code]
-    P --> Q[Place into unzip map, update count, repeat]
-    Q --> R[Get starting point of string and trim unused bits from last byte]
-    R --> S[Parse and unzip the string]
-    S --> T[output memory]
+    P --> Q[Go to character, get standard code, compressed length, compressed binary code]
+    Q --> R[Place into unzip map, update count, repeat]
+    R --> S[Get starting point of string and trim unused bits from last byte]
+    S --> T[Parse and unzip the string]
+    T --> U[output memory]
 ```
 
 #### Zip forecast
