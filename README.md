@@ -147,10 +147,6 @@ flowchart TD
 #### unzipping
 
 ```mermaid
-  info
-```
-
-```mermaid
 flowchart TD
     A[input memory] --> B[Check signature]
     B --> C{Is signature valid?}
@@ -158,17 +154,18 @@ flowchart TD
     C -- No --> E[Return]
 
     D --> F[Parse directory]
-    F --> G{Contains ASCII?}
-    G -- Yes --> H[Set offsets for ASCII characters count]
-    G -- No --> I[Continue]
+    F --> G[Get characters count by standard and set it]
+    G --> H{Contains ASCII?}
+    H -- Yes --> O[Set offsets for ASCII characters count]
+    H -- No --> I[Continue]
 
-    F --> J{Contains extended ASCII?}
-    J -- Yes --> K[Set offsets for extended ASCII characters count]
-    J -- No --> L[Continue]
+    G --> I{Contains extended ASCII?}
+    I -- Yes --> O[Set offsets for extended ASCII characters count]
+    I -- No --> L[Continue]
 
-    F --> M{Contains Unicode?}
-    M -- Yes --> N[Set offsets for Unicode characters count]
-    N --> O[Get characters count by standard and set it]
+    G --> J{Contains Unicode?}
+    J -- Yes --> O[Set offsets for Unicode characters count]
+    J -- No --> M[Continue]
 
     O --> P[Go to character, get standard code, compressed length, compressed binary code]
     P --> Q[Place into unzip map, update count, repeat]
