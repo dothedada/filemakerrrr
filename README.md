@@ -158,7 +158,7 @@ flowchart TD
 
     F --> G{Contains ASCII?}
     G -- Yes --> O[Set offsets for ASCII characters count]
-    G -- No --> K
+    G -- No --> K[Add 0]
 
     F --> H{Contains extended ASCII?}
     H -- Yes --> O[Set offsets for extended ASCII characters count]
@@ -169,7 +169,7 @@ flowchart TD
     I -- No --> K
 
     J --> K[Add 0]
-    K --> Q
+    K --> P
 
 
     O --> P[Go to character, get standard code, compressed length, compressed binary code]
