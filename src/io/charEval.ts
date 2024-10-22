@@ -1,7 +1,9 @@
-const charEval = (char) => {
+type Standard = 'ascii' | 'asciiExt' | 'unicode' | 'outOfBMP';
+
+const charEval = (char: string): { code: number; standard: Standard } => {
     const code = char.charCodeAt(0);
 
-    let standard;
+    let standard: Standard;
     if (code <= 127) {
         standard = 'ascii';
     } else if (code <= 255) {

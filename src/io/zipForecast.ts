@@ -1,6 +1,10 @@
 import { byteSize, byesForCharInZipMap, signature } from '../utils/units.js';
 
-const zipForecast = (stringLength, charCount, charsUnicode = 0) => {
+const zipForecast = (
+    stringLength: number,
+    charCount: number,
+    charsUnicode = 0,
+): { should: boolean; rate: number } => {
     const treeHeight = Math.ceil(Math.log2(charCount));
     const head = signature.length * byteSize.asciiExt;
     const dirSize = byteSize.asciiExt;

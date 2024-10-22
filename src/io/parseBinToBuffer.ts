@@ -1,14 +1,16 @@
 import { runtimeErr } from '../utils/errors.js';
 
-const binaryBufferForBrowser = (string) =>
+const binaryBufferForBrowser = (
+    binarySecuence: string,
+): Promise<Uint8Array | Error> =>
     new Promise((resolve, reject) => {
-        const bytesNeeded = Math.ceil(string.length / 8);
+        const bytesNeeded = Math.ceil(binarySecuence.length / 8);
         const bytesArray = new Uint8Array(bytesNeeded + 1);
 
-        bytesArray[bytesArray.length - 1] = Number.parseInt(string.length % 8);
+        bytesArray[bytesArray.length - 1] = binarySecuence.length % 8;
 
         for (let i = 0; i < bytesNeeded; i++) {
-            let currentByte = string.slice(8 * i, 8 * i + 8);
+            let currentByte = binarySecuence.slice(8 * i, 8 * i + 8);
 
             if (currentByte.length < 8) {
                 currentByte = currentByte.padEnd(8, '0');

@@ -1,9 +1,11 @@
 import { charEval } from './charEval.js';
 import { runtimeErr } from '../utils/errors.js';
 
-const stringChecker = async (text) =>
+const stringChecker = async (
+    text: string,
+): Promise<{ charsMap: Map<string, number>; charsUnicode: number } | Error> =>
     new Promise((resolve, reject) => {
-        const charsMap = new Map();
+        const charsMap: Map<string, number> = new Map();
         let charsUnicode = 0;
 
         for (const char of text) {

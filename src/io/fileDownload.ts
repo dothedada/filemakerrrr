@@ -1,6 +1,10 @@
 import { fileExt } from '../utils/units.js';
 
-const fileDownload = (name, binaryBuffer, zip) => {
+const fileDownload = (
+    name: 'string',
+    binaryBuffer: string,
+    zip: 'application/octet-stream' | 'text/plain',
+): void => {
     const blob = new Blob([binaryBuffer], {
         type: zip ? 'application/octet-stream' : 'text/plain',
     });

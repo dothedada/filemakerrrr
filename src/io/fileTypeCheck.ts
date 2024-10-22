@@ -1,6 +1,8 @@
-import { signature } from '../utils/units.js';
+import { fileExt, signature } from '../utils/units.js';
 
-const fileCheck = (file) => {
+const fileCheck = (
+    file: ArrayBuffer,
+): Promise<[Uint8Array | string, string] | null> => {
     const fileArray = new Uint8Array(file);
 
     return new Promise((resolve) => {
@@ -11,7 +13,7 @@ const fileCheck = (file) => {
             );
 
         if (isf4r) {
-            resolve([fileArray.slice(3), '.f4r']);
+            resolve([fileArray.slice(3), fileExt.zipped]);
         }
 
         const sample = Math.min(1024, fileArray.length);
@@ -31,7 +33,7 @@ const fileCheck = (file) => {
         if (isTxt) {
             const decoder = new TextDecoder('utf-8');
             const text = decoder.decode(fileArray);
-            resolve([text, '.txt']);
+            resolve([text, fileExt.plain]);
         }
 
         resolve(null);

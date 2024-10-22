@@ -15,6 +15,7 @@ const runtimeErr: ErrorMsgs = {
     noParameter: 'A parameter is missing.',
     stringExpected: 'A string as parameter is expected.',
     fileFormat: 'The file is not a valid F4R format',
+    fileParse: "Couldn't recognize the file format",
 };
 
 export { runtimeErr };
