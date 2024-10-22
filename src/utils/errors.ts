@@ -1,4 +1,8 @@
-const runtimeErr = {
+interface ErrorMsgs {
+    [key: string]: string;
+}
+
+const runtimeErr: ErrorMsgs = {
     onParse: "The file couldn't be parsed",
     onUpload: "The file couldn't be uploaded.",
     charsMap: "Couldn't create the charsmap.",

@@ -3,7 +3,7 @@ export const message = {
         zip: {
             alreadyZipped: 'The file is already zipped',
             analize: 'Parsing the text...',
-            rate: (rate) =>
+            rate: (rate: number) =>
                 `The zipped file would be around ${rate.toFixed(2)} the size if it was a .txt`,
             willNotZip: 'There is no need to zip the string.',
             willZip: 'The zip process has started...',
@@ -40,7 +40,7 @@ export const message = {
         zip: {
             alreadyZipped: 'El archivo ya se encuentra comprimido',
             analize: 'Analizando el texto...',
-            rate: (rate) =>
+            rate: (rate: number) =>
                 `El archivo comprimido será aproximadamente ${rate.toFixed(2)} del tamaño de sin fuera un .txt`,
             willNotZip: 'No es necesario comprimir.',
             willZip: 'Iniciando el proceso de compresión...',

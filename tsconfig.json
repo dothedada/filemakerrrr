@@ -7,11 +7,12 @@
         "skipLibCheck": true,
 
         /* Emit */
+        "rootDir": "./src" /* Carpeta raíz de los archivos originales */,
+        "outDir": "./dist",
         "isolatedModules": true,
         "moduleDetection": "force",
         "declaration": true,
         "declarationMap": true,
-        "outDir": "dist",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
 
