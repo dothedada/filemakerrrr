@@ -14,7 +14,8 @@ import { message } from './utils/messages.js';
 import { runtimeErr } from './utils/errors.js';
 
 // TODO:
-// 5. npm
+// 1. usar 0b010101010101 para binarios, no pasar a cadenas
+// 2. portear a typescrip
 
 export class Filemakerrrr {
     #stats = {};
