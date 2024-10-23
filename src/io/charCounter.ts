@@ -1,9 +1,10 @@
 import { charEval } from './charEval.js';
 import { runtimeErr } from '../utils/errors.js';
+import type { ZipMap } from '../core/types.js';
 
 const stringChecker = async (
     text: string,
-): Promise<{ charsMap: Map<string, number>; charsUnicode: number } | Error> =>
+): Promise<{ charsMap: ZipMap; charsUnicode: number } | Error> =>
     new Promise((resolve, reject) => {
         const charsMap: Map<string, number> = new Map();
         let charsUnicode = 0;

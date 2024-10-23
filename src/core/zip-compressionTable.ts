@@ -1,7 +1,8 @@
-import type { ZipMap } from './types';
-import type { HuffmanTree, HuffmanNode } from './types';
+import type { ZipMapBin } from './types';
+import type { HuffmanNode } from './types';
+import type { Heap } from './zip-minHeap';
 
-const compressionTable = (heapTree: HuffmanTree): ZipMap => {
+const compressionTable = (heapTree: Heap): ZipMapBin => {
     const table = new Map();
 
     const nodeParser = (node: HuffmanNode, route = '') => {

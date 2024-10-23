@@ -1,10 +1,10 @@
 import { charEval } from '../io/charEval.js';
 import { toBin } from '../utils/conversion.js';
 import { byteSize, zippedCharMaxLength } from '../utils/units.js';
-import type { ZipMap } from './types.js';
+import type { ZipMapBin } from './types.js';
 import type { StandardsArranged } from './types.js';
 
-export const arrangeChars = (compressionMap: ZipMap): StandardsArranged =>
+export const arrangeChars = (compressionMap: ZipMapBin): StandardsArranged =>
     [...compressionMap].reduce<StandardsArranged>(
         (arranged, [char, bin]) => {
             const { code, standard } = charEval(char);

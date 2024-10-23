@@ -8,16 +8,8 @@ export interface StandardsArranged {
 export interface HuffmanNode {
     character?: string;
     count: number;
-    left?: HuffmanNode | null;
-    right?: HuffmanNode | null;
-}
-export interface HuffmanTree {
-    chars: HuffmanNode[];
-    size: number;
-    pop: () => HuffmanNode;
-    push: (
-        data: HuffmanNode | [string, number],
-    ) => Omit<HuffmanNode, 'left' | 'right'>;
+    left: HuffmanNode | null;
+    right: HuffmanNode | null;
 }
 
 export interface HeaderBin {
