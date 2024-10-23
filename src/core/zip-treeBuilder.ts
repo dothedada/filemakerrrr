@@ -1,4 +1,6 @@
-const treeBuilder = (heap) => {
+import type { HuffmanTree } from './types';
+
+const treeBuilder = (heap: HuffmanTree) => {
     let allNodesParsed = false;
 
     while (!allNodesParsed) {

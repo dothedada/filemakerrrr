@@ -1,4 +1,4 @@
-type Standard = 'ascii' | 'asciiExt' | 'unicode' | 'outOfBMP';
+export type Standard = 'ascii' | 'asciiExt' | 'unicode' | 'outOfBMP';
 
 const charEval = (char: string): { code: number; standard: Standard } => {
     const code = char.charCodeAt(0);

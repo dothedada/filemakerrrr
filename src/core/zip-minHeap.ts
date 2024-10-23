@@ -1,10 +1,17 @@
+import type { HuffmanNode } from './types';
+
 class Heap {
+    chars: Omit<HuffmanNode, 'left' | 'right'>[] | [];
+    size: number;
+
     constructor() {
         this.chars = [];
         this.size = 0;
     }
 
-    push(data) {
+    push(
+        data: [string, number] | HuffmanNode,
+    ): Omit<HuffmanNode, 'left' | 'right'> {
         const node = this.#nodeAdapter(data);
 
         this.chars[this.size] = node;
@@ -34,14 +41,14 @@ class Heap {
         return topOfTheHeap;
     }
 
-    #nodeAdapter(data) {
-        if (Array.isArray(data)) {
-            const [character, count] = data;
-            return { character, count };
-        }
+    #nodeAdapter(
+        data: [string, number] | HuffmanNode,
+    ): Omit<HuffmanNode, 'left' | 'right'> {
         if (typeof data === 'object' && 'count' in data) {
             return data;
         }
+        const [character, count] = data;
+        return { character, count };
     }
 
     #heapifyDown(index = 0) {
@@ -71,7 +78,7 @@ class Heap {
         }
     }
 
-    #heapifyUp(index) {
+    #heapifyUp(index: number): void {
         if (index === 0) {
             return;
         }
@@ -86,15 +93,15 @@ class Heap {
         }
     }
 
-    #parent(index) {
+    #parent(index: number): number {
         return Math.ceil((index - 1) / 2);
     }
 
-    #childLeftIndex(index) {
+    #childLeftIndex(index: number): number {
         return index * 2 + 1;
     }
 
-    #childRightIndex(index) {
+    #childRightIndex(index: number): number {
         return index * 2 + 2;
     }
 }
