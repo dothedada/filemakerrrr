@@ -1,10 +1,14 @@
 import { byteSize } from '../utils/units.js';
 import { unzipCharInMap } from './unzip-charInMap.js';
+import type { HeaderBin, UnzipMap } from './types.js';
 
-const mapBuilder = (headerObject, binaryString) => {
+const mapBuilder = (
+    headerObject: HeaderBin,
+    binaryString: string,
+): { charsMap: UnzipMap; currentPosition: number } => {
     const { asciiCount, asciiExtCount, unicodeCount, mapStart } = headerObject;
 
-    const charsMap = new Map();
+    const charsMap: UnzipMap = new Map();
     let currentPosition = mapStart;
 
     const standards = [

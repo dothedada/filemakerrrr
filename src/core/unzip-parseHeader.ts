@@ -1,6 +1,7 @@
 import { toDecimal } from '../utils/conversion.js';
+import type { HeaderBin } from './types.js';
 
-const parseHeader = (binaryString) => {
+const parseHeader = (binaryString: string): HeaderBin => {
     const zipStructure = binaryString.slice(0, 8);
 
     const header = {

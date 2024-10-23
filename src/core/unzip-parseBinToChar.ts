@@ -3,13 +3,13 @@ import { parseHeader } from './unzip-parseHeader.js';
 import { decompressor } from './unzip-decompressor.js';
 import { runtimeErr } from '../utils/errors.js';
 
-const parseBinToChar = (stringBin) => {
+const parseBinToChar = (stringBin: string): Promise<string | Error> => {
     const header = parseHeader(stringBin);
     const { charsMap, currentPosition } = mapBuilder(header, stringBin);
     const string = decompressor(charsMap, stringBin, currentPosition);
 
     return new Promise((resolve, reject) => {
-        if (typeof string !== 'string' && !string.length) {
+        if (typeof string !== 'string') {
             reject(new Error(runtimeErr.binToChar));
         }
 
