@@ -300,10 +300,8 @@ export class Filemakerrrr {
         for (const [key, value] of Object.entries(this.#stats)) {
             const typedKey = key as keyof F4rStats;
 
-            if (typeof value === typeof publicStats[typedKey]) {
-                publicStats[typedKey] = value;
-                statsAvailable++;
-            }
+            publicStats[typedKey] = value;
+            statsAvailable++;
         }
 
         if (!statsAvailable) {
