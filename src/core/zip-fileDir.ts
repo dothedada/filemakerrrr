@@ -1,7 +1,9 @@
 import { toBin } from '../utils/conversion.js';
 import { version } from '../utils/units.js';
+import type { StandardsArranged } from './types.js';
 
-const fileDir = ({ ascii, asciiExt, unicode }, fixed = false) => {
+const fileDir = (arrangedChars: StandardsArranged, fixed = false): string => {
+    const { ascii, asciiExt, unicode } = arrangedChars;
     const compressed = !!(ascii.length + asciiExt.length + unicode.length);
 
     const versionBin = toBin(version, 3);

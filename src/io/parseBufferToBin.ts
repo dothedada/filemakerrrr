@@ -1,7 +1,7 @@
 import { toBin } from '../utils/conversion.js';
 import { runtimeErr } from '../utils/errors.js';
 
-const parseBufferToBin = (fileArray) => {
+const parseBufferToBin = (fileArray: Uint8Array): Promise<string> => {
     return new Promise((resolve, reject) => {
         let stringBin = '';
 

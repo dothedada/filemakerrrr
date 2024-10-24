@@ -2,8 +2,12 @@ import { arrangeChars } from './zip-charMapToBin.js';
 import { fileDir } from './zip-fileDir.js';
 import { toBin } from '../utils/conversion.js';
 import { byteSize, signature } from '../utils/units.js';
+import type { ZipMapBin } from './types.js';
 
-const assembler = (compressionMap, fileBinaryString) => {
+const assembler = (
+    compressionMap: ZipMapBin,
+    fileBinaryString: string,
+): string => {
     const { ascii, asciiExt, unicode } = arrangeChars(compressionMap);
 
     const asciiCountBin =

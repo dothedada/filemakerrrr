@@ -1,6 +1,10 @@
 import { runtimeErr } from '../utils/errors.js';
+import type { ZipMapBin } from './types.js';
 
-const compressor = (stringToCompress, compressionTable) =>
+const compressor = (
+    stringToCompress: string,
+    compressionTable: ZipMapBin,
+): Promise<string> =>
     new Promise((resolve, reject) => {
         let binaryString = '';
 

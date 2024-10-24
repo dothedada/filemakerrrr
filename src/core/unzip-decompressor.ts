@@ -1,4 +1,10 @@
-const decompressor = (charMap, binaryString, startingChar) => {
+import type { UnzipMap } from './types';
+
+const decompressor = (
+    charMap: UnzipMap,
+    binaryString: string,
+    startingChar: number,
+): string => {
     let decompressedString = '';
     let buffer = '';
     let pointer = startingChar;
