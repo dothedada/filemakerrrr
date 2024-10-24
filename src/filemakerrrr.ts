@@ -12,29 +12,35 @@ import { assembler } from './core/zip-assembler.js';
 import { parseBinToChar } from './core/unzip-parseBinToChar.js';
 import { message } from './utils/messages.js';
 import { runtimeErr } from './utils/errors.js';
+import type { F4rSettings, F4rIO, F4rStats } from './types.js';
 
 // TODO:
 // 1. usar 0b010101010101 para binarios, no pasar a cadenas
-// 2. portear a typescrip
 
 export class Filemakerrrr {
-    #stats = {};
-    #settings;
-    #zipInfo = { in: null, out: null, zippedInput: null };
+    #stats: F4rStats = {};
+    #settings: F4rSettings;
+    #zipInfo: F4rIO = { in: null, out: null, zippedInput: null };
 
     constructor(
-        { downloadName, alwaysZip, verbose, talkToMeCallbak, lang } = {},
-        stringForFastZip = undefined,
+        {
+            downloadName = 'miFile',
+            alwaysZip = false,
+            verbose = false,
+            talkToMeCallbak = console.log,
+            lang = 'es',
+        }: Partial<F4rSettings> = {},
+        stringForFastZip?: string,
     ) {
         this.#settings = {
-            downloadName: downloadName ?? 'miFile',
-            alwaysZip: alwaysZip ?? false,
-            verbose: verbose ?? false,
-            listener: talkToMeCallbak ?? console.log,
-            lang: lang ?? 'es',
+            downloadName: downloadName,
+            alwaysZip: alwaysZip,
+            verbose: verbose,
+            talkToMeCallbak: talkToMeCallbak,
+            lang: lang,
         };
 
-        if (typeof stringForFastZip === 'string') {
+        if (stringForFastZip) {
             this.#zipInfo.in = stringForFastZip;
 
             this.#fastZip();
@@ -60,11 +66,11 @@ export class Filemakerrrr {
         return this;
     }
 
-    addListener(callback) {
+    addListener(callback: (input: string) => void) {
         if (!callback) {
             new Error(runtimeErr.noParameter);
         }
-        this.#settings.listener = callback;
+        this.#settings.talkToMeCallbak = callback;
         return this;
     }
 
@@ -76,7 +82,7 @@ export class Filemakerrrr {
         this.#stats = {};
     }
 
-    stringToZip(string) {
+    stringToZip(string: string) {
         if (!string) {
             throw new Error(runtimeErr.noParameter);
         }
@@ -91,7 +97,7 @@ export class Filemakerrrr {
     }
 
     async zip() {
-        if (!this.#zipInfo.in) {
+        if (!this.#zipInfo.in || typeof this.#zipInfo.in !== 'string') {
             throw new Error(runtimeErr.stringExpected);
         }
         if (this.#zipInfo.zippedInput) {
@@ -131,9 +137,15 @@ export class Filemakerrrr {
                 timeEnd: new Date().getTime(),
                 bytesEnd: this.#zipInfo.out.length,
                 get totalTimeMs() {
+                    if (!this.timeEnd || !this.timeStart) {
+                        return 0;
+                    }
                     return this.timeEnd - this.timeStart;
                 },
                 get zipRateReal() {
+                    if (!this.bytesEnd || !this.bytesStart) {
+                        return 0;
+                    }
                     return this.bytesEnd / this.bytesStart;
                 },
             };
@@ -159,9 +171,15 @@ export class Filemakerrrr {
             timeEnd: new Date().getTime(),
             bytesEnd: this.#zipInfo.out.length,
             get totalTimeMs() {
+                if (!this.timeEnd || !this.timeStart) {
+                    return 0;
+                }
                 return this.timeEnd - this.timeStart;
             },
             get zipRateReal() {
+                if (!this.bytesEnd || !this.bytesStart) {
+                    return 0;
+                }
                 return this.bytesEnd / this.bytesStart;
             },
         };
@@ -170,20 +188,22 @@ export class Filemakerrrr {
         return this;
     }
 
-    async parseFile(file) {
+    async parseFile(file: File) {
         this.#talkToYou(['upload', 'upload']);
 
         try {
             const fileData = await fileLoader(file);
-            const [data, type] = await fileCheck(fileData);
+            const checkType = await fileCheck(fileData);
+
+            if (checkType[0] === null) {
+                this.#talkToYou(['upload', 'fileFormarError']);
+                new Error(runtimeErr.fileFormat);
+            }
+
+            const [data, type] = checkType;
             this.flush();
             this.#zipInfo.in = data;
 
-            if (!this.#zipInfo.in) {
-                this.#talkToYou(['upload', 'fileFormarError']);
-
-                new Error(runtimeErr.fileFormat);
-            }
             this.#zipInfo.zippedInput = type === '.f4r';
 
             this.#talkToYou(['upload', 'uploaded']);
@@ -196,7 +216,11 @@ export class Filemakerrrr {
     }
 
     async unzip() {
-        if (!this.#zipInfo.zippedInput) {
+        if (this.#zipInfo.in === null) {
+            this.#talkToYou(['unzip', 'alreadyUnzipped'], true);
+            return;
+        }
+        if (typeof this.#zipInfo.in === 'string') {
             this.#talkToYou(['unzip', 'alreadyUnzipped'], true);
             return;
         }
@@ -204,11 +228,11 @@ export class Filemakerrrr {
             this.flushStats();
             this.#stats = {
                 action: 'unzip',
-                zipped: this.#zipInfo.zippedInput,
+                zipped: this.#zipInfo.zippedInput ?? false,
                 timeStart: new Date().getTime(),
                 initialBytes: this.#zipInfo.in.length,
                 get bytesStart() {
-                    return this.initialBytes + (this.zipped ? 3 : 0);
+                    return (this.initialBytes ?? 0) + (this.zipped ? 3 : 0);
                 },
             };
             this.#talkToYou(['unzip', 'parsingBuffer']);
@@ -228,10 +252,10 @@ export class Filemakerrrr {
                 timeEnd: new Date().getTime(),
                 textLength: this.#zipInfo.out.length,
                 get bytesEnd() {
-                    return this.textLength + charsUnicode;
+                    return (this.textLength ?? 0) + charsUnicode;
                 },
                 get totalTimeMs() {
-                    return this.timeEnd - this.timeStart;
+                    return (this.timeEnd ?? 0) - (this.timeStart ?? 0);
                 },
             };
 
@@ -243,7 +267,7 @@ export class Filemakerrrr {
         }
     }
 
-    download(name = this.#settings.downloadName) {
+    download(name: string = this.#settings.downloadName) {
         if (!this.#zipInfo.out) {
             this.#talkToYou(['download', 'nothing']);
             return;
@@ -253,27 +277,37 @@ export class Filemakerrrr {
         fileDownload(name, this.#zipInfo.out, !this.#zipInfo.zippedInput);
     }
 
-    #talkToYou([process, key, args], always = false) {
+    #talkToYou(
+        [process, key, args]: [process: string, key: string, args?: number],
+        always = false,
+    ) {
         if (!always && !this.#settings.verbose) {
             return;
         }
 
         const baseOutput = message[this.#settings.lang][process][key];
-        const finalOutput = args ? baseOutput(args) : baseOutput;
-        this.#settings.listener(finalOutput);
+        const finalOutput =
+            typeof baseOutput === 'function' && args
+                ? baseOutput(args)
+                : (baseOutput as string);
+        this.#settings.talkToMeCallbak(finalOutput);
     }
 
-    get viewStats() {
-        const publicStats = {};
+    get viewStats(): F4rStats | string {
+        const publicStats: F4rStats = {};
         let statsAvailable = 0;
 
         for (const [key, value] of Object.entries(this.#stats)) {
-            publicStats[key] = value;
-            statsAvailable++;
+            const typedKey = key as keyof F4rStats;
+
+            if (typeof value === typeof publicStats[typedKey]) {
+                publicStats[typedKey] = value;
+                statsAvailable++;
+            }
         }
 
         if (!statsAvailable) {
-            return message[this.#settings.lang].stats.notAvailable;
+            return message[this.#settings.lang].stats.notAvailable as string;
         }
 
         return publicStats;

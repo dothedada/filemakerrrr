@@ -6,3 +6,12 @@ export interface FileExtension {
     plain: string;
 }
 export type Signature = string[];
+
+export type Message = string | ((input: number) => string);
+export interface Messages {
+    [lang: string]: {
+        [section: string]: {
+            [message: string]: Message;
+        };
+    };
+}

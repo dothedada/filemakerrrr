@@ -1,4 +1,6 @@
-export const message = {
+import type { Messages } from './types';
+
+export const message: Messages = {
     en: {
         zip: {
             alreadyZipped: 'The file is already zipped',

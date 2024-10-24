@@ -4,7 +4,7 @@ import type { ZipMap } from '../core/types.js';
 
 const stringChecker = async (
     text: string,
-): Promise<{ charsMap: ZipMap; charsUnicode: number } | Error> =>
+): Promise<{ charsMap: ZipMap; charsUnicode: number }> =>
     new Promise((resolve, reject) => {
         const charsMap: Map<string, number> = new Map();
         let charsUnicode = 0;

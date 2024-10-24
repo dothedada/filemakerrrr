@@ -2,7 +2,7 @@ import { fileExt, signature } from '../utils/units.js';
 
 const fileCheck = (
     file: ArrayBuffer,
-): Promise<[Uint8Array | string, string] | null> => {
+): Promise<[data: Uint8Array | string | null, type?: string]> => {
     const fileArray = new Uint8Array(file);
 
     return new Promise((resolve) => {
@@ -36,7 +36,7 @@ const fileCheck = (
             resolve([text, fileExt.plain]);
         }
 
-        resolve(null);
+        resolve([null]);
     });
 };
 
