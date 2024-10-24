@@ -8,11 +8,11 @@
 
 ### EN
 
-Quickly create files, compress and decompress text strings directly from the browser. It uses Huffman encoding in asynchronous operations that don't block runtime, with a simple interface and support for Unicode BMP (Basic Multilingual Plane). Download from NPM and you’re ready to go, no dependencies.
+Quickly create files, compress and decompress text strings directly from the browser. It uses Huffman encoding in asynchronous operations that don't block runtime, with a simple interface and support for Unicode BMP (Basic Multilingual Plane). Download from NPM and you’re ready to go, fully typed and no dependencies.
 
 #### Quick Start
 
-SUPA-F\*CKING-FAST!!! (Descarga automaticamente el archivo con el texto comprimido)
+SUPA-F\*CKING-FAST!!! (Automatically downloads the file with the compressed string)
 
 ```javascript
 import { Filemakerrrr } from 'filemakerrrr';
@@ -21,11 +21,11 @@ const zipper = new Filemakerrrr({}, myString);
 
 ### ES
 
-Crea archivos, comprime y descomprime rápidamente cadenas de texto desde el navegador. Emplea la codificacion Huffman en operaciones asíncronas que no bloquean el tiempo de ejecución, con una interfase sencilla y soporte de para Unicode BMP(Basic Multilingual Plane). Descarga desde NPM y listo, sin dependencias.
+Crea archivos, comprime y descomprime rápidamente cadenas de texto desde el navegador. Emplea la codificacion Huffman en operaciones asíncronas que no bloquean el tiempo de ejecución, con una interfase sencilla y soporte de para Unicode BMP(Basic Multilingual Plane). Descarga desde NPM y listo, totalmente tipado y sin dependencias.
 
 #### Inicio Rápido
 
-SUPA-F\*CKING-FAST!!! (descarga automáticamente el archivo de texto comprimido)
+SUPA-F\*CKING-FAST!!! (descarga automáticamente el archivo con la cadena comprimida)
 
 ```javascript
 import { Filemakerrrr } from 'filemakerrrr';
