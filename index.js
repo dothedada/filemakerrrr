@@ -1,1 +1,1 @@
-export { Filemakerrrr } from './src/filemakerrrr.js';
+export { Filemakerrrr } from './dist/filemakerrrr.js';

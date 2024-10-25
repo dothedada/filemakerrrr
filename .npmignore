@@ -1,2 +1,6 @@
+src/
 demo/
 tests/
+
+biome.json
+.prettierrc
